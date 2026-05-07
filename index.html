@@ -1232,7 +1232,7 @@
                     <h3>🔑 API Key</h3>
                     <p>Enter your <strong>Anthropic API key</strong> to enable AI feedback. Get one free at <strong>console.anthropic.com</strong></p>
                     <div style="position:relative;margin-bottom:10px;">
-                        <input type="password" id="apiKeyInput"
+                        <input type="hidden" type="password"  id="apiKeyInput"
                             placeholder="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"
                             style="width:100%;padding:10px 44px 10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;background:#f8fafc;"
                             oninput="saveApiKey()"
@@ -1562,15 +1562,11 @@ function endSession(increment) {
 // ==================== TIMER ====================
 function startCountdown() {
     clearInterval(timerInt);
-    timerInt = setInterval(function() {
+    timerInt = setInterval(() => {
         timeLeft--;
         updateTimer();
+        if (timeLeft <= 0) { stopRecording(); clearInterval(timerInt); }
         if (timeLeft <= 20) document.getElementById('timer').classList.add('warning');
-        if (timeLeft <= 0) {
-            clearInterval(timerInt);
-            forceStopRecording();
-            showToast('Time up! Review your answer and tap Get AI Feedback.');
-        }
     }, 1000);
 }
 
@@ -1619,103 +1615,68 @@ function toggleRecording() {
 function startRecording() {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
-        document.getElementById('micStatus').textContent = 'Speech recognition unavailable — please type below';
-        showToast('Speech recognition not supported — please type your answer');
+        showToast('Speech recognition unavailable — please type your answer');
+        document.getElementById('micStatus').textContent = 'Please type your answer below';
         return;
     }
 
-    // Stop any existing instance cleanly first
-    if (recognition) {
-        try { recognition.abort(); } catch(e) {}
-        recognition = null;
-    }
-
+    // Hide notice after first use
     document.getElementById('micNotice').style.display = 'none';
-
-    // Capture existing text so we don't lose it on restart
-    let finalT = document.getElementById('transcriptBox').value;
 
     recognition = new SR();
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = 'en-US';
-    recognition.maxAlternatives = 1;
+    let finalT = document.getElementById('transcriptBox').value;
 
-    recognition.onstart = function() {
-        // Only update UI after confirmed start
-        isRecording = true;
-        document.getElementById('micCircle').classList.add('recording');
-        document.getElementById('micSection').classList.add('recording');
-        document.getElementById('micStatus').textContent = 'Recording — speak your answer now';
-        document.getElementById('micStatus').classList.add('recording');
-        micSecs = 0;
-        clearInterval(micTimerInt);
-        micTimerInt = setInterval(function() {
-            micSecs++;
-            var m = Math.floor(micSecs/60), s = micSecs % 60;
-            document.getElementById('micTimer').textContent = m + ':' + String(s).padStart(2,'0');
-        }, 1000);
-        wavInt = setInterval(animateWave, 90);
-        startCountdown();
-    };
-
-    recognition.onresult = function(e) {
-        var interim = '';
-        for (var i = e.resultIndex; i < e.results.length; i++) {
-            if (e.results[i].isFinal) {
-                finalT += e.results[i][0].transcript + ' ';
-            } else {
-                interim = e.results[i][0].transcript;
-            }
+    recognition.onresult = e => {
+        let interim = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) finalT += e.results[i][0].transcript + ' ';
+            else interim = e.results[i][0].transcript;
         }
         document.getElementById('transcriptBox').value = finalT + interim;
         updateWordCount();
         checkAnalyseBtn();
     };
 
-    recognition.onerror = function(e) {
-        console.warn('SpeechRecognition error:', e.error);
-        if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-            showToast('Mic access denied — please allow microphone in browser settings');
-            forceStopRecording();
-        } else if (e.error === 'network') {
-            showToast('Network error — speech recognition requires internet');
-            forceStopRecording();
-        } else if (e.error === 'no-speech') {
-            // Silence is fine — don't stop, just continue
-        } else if (e.error === 'aborted') {
-            // Intentional stop — do nothing
-        } else {
-            showToast('Mic error: ' + e.error);
-            forceStopRecording();
+    recognition.onerror = e => {
+        if (e.error === 'not-allowed') {
+            showToast('Mic access denied. Please allow mic in browser settings.');
+            stopRecording();
+        } else if (e.error !== 'no-speech') {
+            showToast('Mic error: ' + e.error + '. Please type your answer.');
+            stopRecording();
         }
     };
 
-    recognition.onend = function() {
-        // Auto-restart if we're still meant to be recording
-        if (isRecording) {
-            try {
-                recognition.start();
-            } catch(err) {
-                console.warn('Could not restart recognition:', err);
-                // Don't call stopRecording — just clear the recording flag
-                isRecording = false;
-                document.getElementById('micCircle').classList.remove('recording');
-                document.getElementById('micSection').classList.remove('recording');
-                document.getElementById('micStatus').textContent = 'Recording paused — tap mic to resume';
-                document.getElementById('micStatus').classList.remove('recording');
-            }
-        }
-    };
+    recognition.onend = () => { if (isRecording) { try { recognition.start(); } catch(e){} } };
 
     try {
         recognition.start();
     } catch(e) {
-        showToast('Could not access microphone — please type your answer');
-        recognition = null;
-        console.error('recognition.start() failed:', e);
+        showToast('Could not start mic. Please type your answer.');
+        return;
     }
+
+    isRecording = true;
+    document.getElementById('micCircle').classList.add('recording');
+    document.getElementById('micSection').classList.add('recording');
+    document.getElementById('micStatus').textContent = 'Recording — speak your answer now';
+    document.getElementById('micStatus').classList.add('recording');
+
+    micSecs = 0;
+    clearInterval(micTimerInt);
+    micTimerInt = setInterval(() => {
+        micSecs++;
+        const m = Math.floor(micSecs/60), s = micSecs%60;
+        document.getElementById('micTimer').textContent = m+':'+String(s).padStart(2,'0');
+    }, 1000);
+
+    wavInt = setInterval(animateWave, 90);
+    startCountdown();
 }
+
 
 // Graceful stop — preserves transcript
 function stopRecording() {
