@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Behavioral Coach - IMG Edition</title>
+    <!-- MediaPipe Tasks Vision Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f1f5f9; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; width: 100%; max-width: 500px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+        .video-wrap { position: relative; width: 100%; background: #000; aspect-ratio: 4/3; }
+        #webcam { width: 100%; height: 100%; object-fit: cover; }
+        #canvas_overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        
+        .nudge-overlay {
+            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+            padding: 8px 15px; border-radius: 20px; color: white; font-weight: bold;
+            font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 10;
+        }
+        .nudge-eye { background: rgba(79, 70, 229, 0.8); border: 2px solid white; }
+        .nudge-posture { background: rgba(239, 68, 68, 0.8); }
+
+        .controls { padding: 20px; text-align: center; }
+        .question-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 15px; margin: 15px; border-radius: 8px; font-weight: 500; }
+        .btn { cursor: pointer; padding: 12px 25px; border-radius: 8px; border: none; font-weight: 600; width: 100%; transition: 0.2s; }
+        .btn-start { background: var(--primary); color: white; }
+        .btn-stop { background: var(--danger); color: white; display: none; }
+        
+        #results { padding: 20px; display: none; }
+        .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Behavioral Coach</h2>
+        <p>Real-time Eye & Posture Tracking</p>
+    </div>
+
+    <div class="video-wrap">
+        <video id="webcam" autoplay playsinline></video>
+        <canvas id="canvas_overlay"></canvas>
+        <div id="eyeNudge" class="nudge-overlay nudge-eye">Look at the Lens! 👁️</div>
+        <div id="postureNudge" class="nudge-overlay nudge-posture">Sit Up Straight! 📏</div>
+    </div>
+
+    <div id="interviewScreen">
+        <div class="question-box">
+            "Tell me about a time you handled a difficult situation with a patient."
+        </div>
+        <div class="controls">
+            <button id="startBtn" class="btn btn-start">Start Analysis</button>
+            <button id="stopBtn" class="btn btn-stop">Stop & View Results</button>
+        </div>
+    </div>
+
+    <div id="results">
+        <h3>Analysis Summary</h3>
+        <div class="stat-row"><span>Eye Contact (On Lens)</span><strong id="resEye">0%</strong></div>
+        <div class="stat-row"><span>Posture Stability</span><strong id="resPosture">0%</strong></div>
+        <div class="stat-row"><span>Nervous Fidgeting</span><strong id="resFidget">Low</strong></div>
+        <button class="btn btn-start" onclick="location.reload()" style="margin-top:20px;">Try Again</button>
+    </div>
+</div>
+
+<script type="module">
+    import { FaceLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+
+    const video = document.getElementById('webcam');
+    const canvas = document.getElementById('canvas_overlay');
+    const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const eyeNudge = document.getElementById('eyeNudge');
+    const postureNudge = document.getElementById('postureNudge');
+
+    let faceLandmarker;
+    let running = false;
+    let metrics = { totalFrames: 0, eyeContactFrames: 0, slouchFrames: 0 };
+    let baselinePosture = null;
+
+    // Initialize Face Landmarker
+    async function init() {
+        const filesetResolver = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");
+        faceLandmarker = await FaceLandmarker.createFromOptions(filesetResolver, {
+            baseOptions: { modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task` },
+            runningMode: "VIDEO", numFaces: 1
+        });
+        setupCamera();
+    }
+
+    async function setupCamera() {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        video.addEventListener('loadeddata', predict);
+    }
+
+    async function predict() {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        if (running && faceLandmarker) {
+            const results = faceLandmarker.detectForVideo(video, performance.now());
+            metrics.totalFrames++;
+
+            if (results.faceLandmarks && results.faceLandmarks.length > 0) {
+                const landmarks = results.faceLandmarks[0];
+                
+                // 1. Eye Contact Logic
+                // We track the Z-coordinate (depth) of the nose tip (index 1) 
+                // and eye orientation relative to camera center
+                const nose = landmarks[1];
+                const onLens = Math.abs(nose.x - 0.5) < 0.1 && Math.abs(nose.y - 0.5) < 0.15;
+                
+                if (onLens) {
+                    metrics.eyeContactFrames++;
+                    eyeNudge.style.opacity = 0;
+                } else {
+                    eyeNudge.style.opacity = 1;
+                }
+
+                // 2. Posture Logic (Using face level as proxy for slouching)
+                if (!baselinePosture) baselinePosture = nose.y;
+                const isSlouching = nose.y > (baselinePosture + 0.08);
+
+                if (isSlouching) {
+                    metrics.slouchFrames++;
+                    postureNudge.style.opacity = 1;
+                } else {
+                    postureNudge.style.opacity = 0;
+                }
+            }
+        }
+        requestAnimationFrame(predict);
+    }
+
+    startBtn.onclick = () => {
+        running = true;
+        baselinePosture = null; // Calibrate at start
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'block';
+    };
+
+    stopBtn.onclick = () => {
+        running = false;
+        document.getElementById('interviewScreen').style.display = 'none';
+        document.getElementById('results').style.display = 'block';
+        
+        const eyeScore = Math.round((metrics.eyeContactFrames / metrics.totalFrames) * 100);
+        const postureScore = 100 - Math.round((metrics.slouchFrames / metrics.totalFrames) * 100);
+        
+        document.getElementById('resEye').textContent = eyeScore + '%';
+        document.getElementById('resPosture').textContent = postureScore + '%';
+        document.getElementById('resFidget').textContent = metrics.slouchFrames > (metrics.totalFrames * 0.3) ? "High" : "Low";
+    };
+
+    init();
+</script>
+</body>
+</html>
