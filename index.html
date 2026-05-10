@@ -1,0 +1,2855 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMG Interview Prep - USA Residency & Fellowship (v11)</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .app-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 { margin: 0; font-size: 22px; font-weight: 700; }
+        .header p { margin: 5px 0 0 0; opacity: 0.9; font-size: 13px; }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-top: 6px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 12px 6px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab.active {
+            color: #4f46e5;
+            border-bottom: 3px solid #4f46e5;
+            background: white;
+        }
+
+        .content { padding: 20px; min-height: calc(100vh - 200px); }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .practice-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-left: 4px solid #4f46e5;
+        }
+
+        .practice-card h3 { margin: 0 0 8px 0; color: #1e293b; font-size: 16px; }
+        .practice-card p { margin: 0 0 12px 0; color: #64748b; line-height: 1.5; font-size: 14px; }
+
+        .btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .btn:hover { background: #4338ca; transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: #64748b; }
+        .btn-secondary:hover { background: #475569; }
+        .btn-danger { background: #dc2626; }
+        .btn-danger:hover { background: #b91c1c; }
+        .btn-success { background: #10b981; }
+        .btn-success:hover { background: #059669; }
+        .btn-outline {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        .btn-outline:hover { background: #4f46e5; color: white; }
+
+        .question-card {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid #10b981;
+        }
+
+        .question-card h4 {
+            margin: 0 0 10px 0;
+            color: #1e293b;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .question-hint {
+            font-size: 12px;
+            color: #64748b;
+            background: white;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-top: 10px;
+            border-left: 3px solid #10b981;
+            line-height: 1.5;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .q-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .badge-general { background: #0ea5e9; }
+        .badge-behavioral { background: #10b981; }
+        .badge-clinical { background: #f59e0b; color: #1e293b; }
+        .badge-redflag { background: #ef4444; }
+        .badge-situational { background: #8b5cf6; }
+        .badge-fellowship { background: #ec4899; }
+        .badge-num { background: #94a3b8; }
+
+        .timer {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+
+        .timer.warning { background: #fee2e2; color: #dc2626; }
+
+        /* ====== MICROPHONE / RECORDING ====== */
+        .mic-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 2px dashed #e2e8f0;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .mic-section.recording {
+            border-color: #dc2626;
+            background: #fff5f5;
+        }
+
+        .mic-btn-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .mic-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(79,70,229,0.35);
+        }
+
+        .mic-circle:hover { transform: scale(1.07); box-shadow: 0 6px 18px rgba(79,70,229,0.45); }
+        .mic-circle.recording { background: #dc2626; box-shadow: 0 0 0 8px rgba(220,38,38,0.15); animation: mic-pulse 1.5s infinite; }
+        .mic-circle svg { width: 32px; height: 32px; fill: white; }
+
+        @keyframes mic-pulse {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(220,38,38,0.2); }
+            50% { box-shadow: 0 0 0 14px rgba(220,38,38,0.05); }
+        }
+
+        .mic-status { font-size: 13px; font-weight: 600; color: #4f46e5; margin-bottom: 4px; }
+        .mic-status.recording { color: #dc2626; }
+        .mic-timer { font-size: 12px; color: #64748b; }
+
+        .waveform {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 36px;
+            margin: 8px 0;
+        }
+
+        .wave-bar {
+            width: 4px;
+            border-radius: 2px;
+            background: #c7d2fe;
+            height: 4px;
+            transition: height 0.08s ease;
+        }
+
+        .wave-bar.active { background: #4f46e5; }
+        .wave-bar.active.rec { background: #dc2626; }
+
+        /* ====== TRANSCRIPT ====== */
+        .transcript-wrap {
+            margin-bottom: 14px;
+        }
+
+        .transcript-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-count { font-weight: 400; }
+
+        .transcript-textarea {
+            width: 100%;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: inherit;
+            color: #1e293b;
+            resize: vertical;
+            min-height: 90px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .transcript-textarea:focus { border-color: #4f46e5; }
+
+        /* ====== AI PROGRESS / FEEDBACK ====== */
+        .ai-progress-wrap {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .ai-progress-wrap.visible { display: block; }
+
+        .ai-progress-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .ai-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .ai-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 34px;
+            width: 2px;
+            height: calc(100% - 14px);
+            background: #e2e8f0;
+        }
+
+        .ai-step.done::after { background: #10b981; }
+        .ai-step.active::after { background: linear-gradient(#4f46e5, #e2e8f0); }
+
+        .step-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #94a3b8;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .ai-step.done .step-dot { background: #10b981; border-color: #10b981; color: white; }
+        .ai-step.active .step-dot { background: #4f46e5; border-color: #4f46e5; color: white; animation: step-spin 1s linear infinite; }
+
+        @keyframes step-spin {
+            0% { box-shadow: 0 0 0 0 rgba(79,70,229,0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(79,70,229,0); }
+        }
+
+        .step-content { flex: 1; padding-top: 4px; }
+        .step-label { font-size: 13px; font-weight: 600; color: #1e293b; }
+        .step-label.muted { color: #94a3b8; font-weight: 400; }
+        .step-sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+        /* ====== SCORES ====== */
+        .scores-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .score-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+        }
+
+        .score-num {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+
+        .score-lbl { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; }
+        .sc-green { color: #10b981; }
+        .sc-blue { color: #4f46e5; }
+        .sc-amber { color: #f59e0b; }
+        .sc-red { color: #ef4444; }
+
+        /* ====== FEEDBACK ITEMS ====== */
+        .feedback-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .feedback-section h4 { margin: 0 0 12px 0; color: #1e293b; font-size: 14px; }
+
+        .feedback-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .feedback-item:last-child { margin-bottom: 0; }
+
+        .feedback-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .feedback-icon.good { background: #dcfce7; color: #166534; }
+        .feedback-icon.improve { background: #fef3c7; color: #92400e; }
+        .feedback-icon.danger { background: #fee2e2; color: #991b1b; }
+
+        .feedback-text-block { flex: 1; }
+        .feedback-text-block strong { display: block; font-size: 13px; color: #1e293b; margin-bottom: 2px; }
+        .feedback-text-block small { font-size: 12px; color: #64748b; line-height: 1.4; }
+
+        /* ====== IMPROVEMENTS ====== */
+        .improve-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .improve-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .improve-num {
+            width: 24px;
+            height: 24px;
+            background: #ede9fe;
+            color: #5b21b6;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .improve-body strong { display: block; font-size: 13px; color: #1e293b; margin-bottom: 3px; }
+        .improve-body span { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+        .sample-answer-block {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* ====== PROGRESS BAR ====== */
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4f46e5, #10b981);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        /* ====== STATS ====== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stat-number { font-size: 28px; font-weight: 700; color: #4f46e5; margin-bottom: 4px; }
+        .stat-label { color: #64748b; font-size: 12px; }
+
+        /* ====== SPECIALTY GRID ====== */
+        .specialty-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .specialty-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .specialty-card:hover { transform: translateY(-2px); border-color: #4f46e5; box-shadow: 0 6px 16px rgba(79,70,229,0.15); }
+
+        .specialty-icon { font-size: 30px; margin-bottom: 8px; }
+        .specialty-name { font-weight: 600; color: #1e293b; font-size: 13px; margin-bottom: 4px; }
+        .specialty-count { color: #64748b; font-size: 11px; }
+
+        /* ====== BACK BTN ====== */
+        .back-btn {
+            background: none;
+            border: none;
+            color: #4f46e5;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        /* ====== QUESTION BROWSER ====== */
+        .question-browser-card {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            border-left: 4px solid #e2e8f0;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .question-browser-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+        .question-category-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        /* ====== FILTER BTNS ====== */
+        .filter-buttons { display: flex; gap: 6px; margin: 12px 0; flex-wrap: wrap; }
+
+        .filter-btn {
+            flex: 1;
+            min-width: 70px;
+            font-size: 12px;
+            padding: 8px 10px;
+        }
+
+        /* ====== NOTIFICATION TOAST ====== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1e293b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+            max-width: 320px;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* ====== MIC PERMISSION NOTICE ====== */
+        .mic-notice {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #1d4ed8;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+
+        .mic-notice .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+        .btn-row { display: flex; gap: 8px; }
+        .btn-row .btn { flex: 1; }
+
+        .hidden { display: none !important; }
+
+        /* ====== TIPS ====== */
+        .tip-item {
+            display: flex;
+            gap: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+        /* ====== HISTORY LOG ====== */
+        .history-entry {
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid #4f46e5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+
+        .history-header {
+            padding: 12px 14px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            user-select: none;
+        }
+
+        .history-header:hover { background: #f8fafc; }
+
+        .history-meta { flex: 1; }
+        .history-q { font-size: 13px; font-weight: 600; color: #1e293b; line-height: 1.4; margin-bottom: 5px; }
+        .history-chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+        .history-chip { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 8px; }
+        .chip-date { background: #f1f5f9; color: #64748b; }
+        .chip-type { background: #ede9fe; color: #5b21b6; }
+        .chip-score { color: white; }
+        .score-hi { background: #10b981; }
+        .score-mid { background: #f59e0b; }
+        .score-lo { background: #ef4444; }
+
+        .history-chevron { font-size: 18px; color: #94a3b8; transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
+        .history-chevron.open { transform: rotate(90deg); }
+
+        .history-body { display: none; border-top: 1px solid #f1f5f9; padding: 12px 14px 14px; }
+        .history-body.open { display: block; }
+
+        .hb-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; margin: 10px 0 5px; }
+        .hb-label:first-child { margin-top: 0; }
+        .hb-answer { font-size: 13px; color: #475569; line-height: 1.6; background: #f8fafc; border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; }
+        .hb-overall { font-size: 13px; color: #475569; line-height: 1.6; }
+
+        .hb-scores { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin: 6px 0; }
+        .hb-score-box { background: #f8fafc; border-radius: 8px; padding: 7px 4px; text-align: center; }
+        .hb-score-num { font-size: 18px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+        .hb-score-lbl { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; }
+
+        .hb-improvement { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+        .hb-improvement:last-child { border-bottom: none; }
+        .hb-imp-num { width: 20px; height: 20px; background: #ede9fe; color: #5b21b6; border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+        .hb-imp-body strong { display: block; font-size: 12px; color: #1e293b; margin-bottom: 1px; }
+        .hb-imp-body span { font-size: 12px; color: #64748b; line-height: 1.4; }
+
+        .hb-sample { font-size: 12px; color: #166534; font-style: italic; background: #f0fdf4; border-left: 3px solid #10b981; border-radius: 6px; padding: 8px 10px; line-height: 1.6; }
+
+        .empty-history { text-align: center; padding: 40px 20px; color: #94a3b8; }
+        .empty-history .empty-icon { font-size: 40px; margin-bottom: 12px; }
+        .empty-history p { font-size: 13px; line-height: 1.6; }
+
+        /* ====== PRINT STYLES ====== */
+        @media print {
+            body { background: white !important; }
+            .app-container { box-shadow: none !important; max-width: 100% !important; }
+            .header, .nav-tabs, .no-print { display: none !important; }
+            .screen { display: block !important; }
+            #practice, #interview, #resources, #roadmap, #tips,
+            #starMethod, #allQuestions, #links, #settings,
+            #specialties { display: none !important; }
+            #progress { display: block !important; }
+            .history-body { display: block !important; }
+            .history-chevron { display: none !important; }
+            .history-entry { break-inside: avoid; box-shadow: none !important; border: 1px solid #e2e8f0 !important; margin-bottom: 20px; }
+            .print-header { display: block !important; }
+            .stats-grid, #readinessBar, #recentFeedback,
+            .btn, .back-btn { display: none !important; }
+        }
+
+        .print-header {
+            display: none;
+            text-align: center;
+            padding: 16px 0 8px;
+            border-bottom: 2px solid #4f46e5;
+            margin-bottom: 20px;
+        }
+
+        .print-header h2 { margin: 0; font-size: 18px; color: #1e293b; }
+        .print-header p { margin: 4px 0 0; font-size: 12px; color: #64748b; }
+
+
+    /* ====== ONBOARDING MODAL ====== */
+	.onboarding-overlay {
+    	position: fixed;
+    	top: 0; left: 0; width: 100%; height: 100%;
+    	background: rgba(0,0,0,0.7);
+    	display: none;
+    	align-items: center;
+    	justify-content: center;
+    	z-index: 10000;
+    	padding: 20px;
+    	box-sizing: border-box;
+	}
+  .onboarding-card {
+    background: white;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    animation: slideUp 0.3s ease-out;
+	}
+    
+    .onboarding-step-img { font-size: 48px; margin-bottom: 16px; }
+    .onboarding-title { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
+    .onboarding-text { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* =========== end onboarding modal ==========/
+
+
+    </style>
+</head>
+<body >
+    <div class="app-container">
+        <div class="header">
+            <h1>👨‍ IMGs Interview Prep 👩‍</h1>
+            <p>USA Residency &amp; Fellowship Coach</p>
+            <div class="header-badge">✨ AI-Powered Feedback</div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showScreen('practice', this)">🏠 Home</button>
+            <button class="nav-tab" onclick="showScreen('progress', this)">📊 Progress</button>
+            <button class="nav-tab" onclick="showScreen('resources', this)">📚 Resources</button>
+            <button class="nav-tab" onclick="showScreen('settings', this)">⚙️ Settings</button>
+        </div>
+
+        <div class="content">
+
+            <!-- ======== PRACTICE HOME ======== -->
+            <div id="practice" class="screen active">
+                <div class="practice-card">
+                    <h3>🎯 Quick Practice</h3>
+                    <p>Jump into a random residency interview question with AI feedback</p>
+                    <button class="btn" onclick="startSession('general')">Start Quick Session</button>
+                </div>
+
+                <div class="practice-card">
+                    <h3>🏥 Specialty-Specific</h3>
+                    <p>Practice questions tailored to your target US residency specialty</p>
+                    <button class="btn" onclick="showSpecialties()">Choose Specialty</button>
+                </div>
+
+                <div class="practice-card">
+                    <h3>📝 Behavioral &amp; STAR</h3>
+                    <p>Master behavioral questions using the STAR framework for US programs</p>
+                    <button class="btn" onclick="startSession('behavioral')">Practice Behavioral</button>
+                </div>
+
+                <div class="practice-card">
+                    <h3>🚩 Red Flag Questions</h3>
+                    <p>Practice answering USMLE gaps, retakes, graduation year concerns</p>
+                    <button class="btn" onclick="startSession('redflag')">Practice Red Flags</button>
+                </div>
+
+                <div class="practice-card">
+                    <h3>🔬 Clinical Scenarios</h3>
+                    <p>Work through patient cases and clinical decision-making questions</p>
+                    <button class="btn" onclick="startSession('clinical')">Clinical Practice</button>
+                </div>
+            </div>
+
+            <!-- ======== SPECIALTY SELECTION ======== -->
+            <div id="specialties" class="screen">
+                <button class="back-btn" onclick="showScreen('practice')">← Back to Practice</button>
+                <h3 style="margin-bottom:16px; color:#1e293b;">Choose Your Specialty</h3>
+                <div class="specialty-grid">
+                    <div class="specialty-card" onclick="startSession('im')">
+                        <div class="specialty-icon">🫀</div>
+                        <div class="specialty-name">Internal Medicine</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('fm')">
+                        <div class="specialty-icon">👨‍👩‍👧</div>
+                        <div class="specialty-name">Family Medicine</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('peds')">
+                        <div class="specialty-icon">👶</div>
+                        <div class="specialty-name">Pediatrics</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('surgery')">
+                        <div class="specialty-icon">🔪</div>
+                        <div class="specialty-name">Surgery</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('psych')">
+                        <div class="specialty-icon">🧠</div>
+                        <div class="specialty-name">Psychiatry</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('em')">
+                        <div class="specialty-icon">🚑</div>
+                        <div class="specialty-name">Emergency Med</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('fellowship')">
+                        <div class="specialty-icon">🏆</div>
+                        <div class="specialty-name">Fellowship</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                    <div class="specialty-card" onclick="startSession('research')">
+                        <div class="specialty-icon">🔬</div>
+                        <div class="specialty-name">Research / Academic</div>
+                        <div class="specialty-count">8 questions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== INTERVIEW SESSION ======== -->
+            <div id="interview" class="screen">
+                <button class="back-btn" onclick="endSession()">← End Session</button>
+
+                <div class="progress-label">
+                    <span id="progress-text">Question 1 of 5</span>
+                    <span id="session-type-label"></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:20%"></div>
+                </div>
+
+                <div class="timer" id="timer">02:00</div>
+
+                <div class="question-card">
+                    <div class="question-meta" id="questionMeta"></div>
+                    <h4 id="currentQuestion">Tell me about yourself and why you chose medicine.</h4>
+                    <div class="question-hint" id="questionHint"></div>
+                </div>
+
+                <!-- MIC NOTICE -->
+                <div class="mic-notice" id="micNotice">
+                    <span class="icon">🎙️</span>
+                    <span>Tap the microphone below to record. Allow mic access when prompted. You can also type directly in the box.</span>
+                </div>
+
+                <!-- MICROPHONE -->
+                <div class="mic-section" id="micSection">
+                    <div class="mic-btn-wrap">
+                        <button class="mic-circle" id="micCircle" onclick="toggleRecording()" title="Tap to record your answer" aria-label="Toggle recording">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v6a2 2 0 0 0 4 0V5a2 2 0 0 0-2-2zm7 8a1 1 0 0 1 1 1 8 8 0 0 1-7 7.938V21h2a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2h2v-1.062A8 8 0 0 1 4 12a1 1 0 0 1 2 0 6 6 0 0 0 12 0 1 1 0 0 1 1-1z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="mic-status" id="micStatus">Tap microphone to start recording</p>
+                    <p class="mic-timer" id="micTimer">0:00</p>
+                    <div class="waveform" id="waveform"></div>
+                </div>
+
+                <!-- TRANSCRIPT -->
+                <div class="transcript-wrap">
+                    <div class="transcript-label">
+                        <span>Your Answer</span>
+                        <span class="word-count" id="wordCount">0 words</span>
+                    </div>
+                    <textarea class="transcript-textarea" id="transcriptBox" rows="5"
+                        placeholder="Your speech will appear here as you talk. You can also type or paste your answer directly..."
+                        oninput="onTranscriptInput()"></textarea>
+                </div>
+
+                <div class="btn-row" id="actionBtnRow">
+                    <button class="btn" id="analyseBtn" onclick="analyseAnswer()" disabled>🤖 Get AI Feedback</button>
+                    <button class="btn btn-secondary" onclick="nextQuestion()" style="width:auto; padding:12px 16px;">Skip →</button>
+                </div>
+
+                <!-- AI PROGRESS -->
+                <div class="ai-progress-wrap" id="aiProgressWrap">
+                    <div class="feedback-section" style="padding:14px;">
+                        <h4 style="margin-bottom:14px;">🤖 AI Analysis in Progress</h4>
+                        <div class="ai-progress-steps" id="aiSteps">
+                            <div class="ai-step" id="step1">
+                                <div class="step-dot">1</div>
+                                <div class="step-content">
+                                    <div class="step-label muted">Transcribing &amp; reading your answer</div>
+                                </div>
+                            </div>
+                            <div class="ai-step" id="step2">
+                                <div class="step-dot">2</div>
+                                <div class="step-content">
+                                    <div class="step-label muted">Evaluating content &amp; clinical depth</div>
+                                </div>
+                            </div>
+                            <div class="ai-step" id="step3">
+                                <div class="step-dot">3</div>
+                                <div class="step-content">
+                                    <div class="step-label muted">Checking structure &amp; STAR framework</div>
+                                </div>
+                            </div>
+                            <div class="ai-step" id="step4">
+                                <div class="step-dot">4</div>
+                                <div class="step-content">
+                                    <div class="step-label muted">Generating feedback &amp; improvements</div>
+                                </div>
+                            </div>
+                            <div class="ai-step" id="step5">
+                                <div class="step-dot">5</div>
+                                <div class="step-content">
+                                    <div class="step-label muted">Crafting model answer for you</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FEEDBACK RESULTS -->
+                <div id="feedbackResults" class="hidden">
+                    <div class="practice-card" style="border-left-color:#10b981; margin-top:16px;">
+                        <h3>📊 Your Scores</h3>
+                        <div class="scores-row" id="scoresRow"></div>
+                        <div id="summaryText"></div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <h4>✅ Strengths &amp; ⚠️ Areas to Improve</h4>
+                        <div id="strengthsList"></div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <h4>💡 Detailed Feedback</h4>
+                        <p id="detailedFeedback" style="font-size:13px; color:#475569; line-height:1.6; margin:0;"></p>
+                    </div>
+
+                    <div class="feedback-section">
+                        <h4>🚀 How to Improve</h4>
+                        <div id="improvementsList"></div>
+                    </div>
+
+                    <div class="feedback-section" id="sampleSection" style="display:none;">
+                        <h4>⭐ Model Answer</h4>
+                        <div class="sample-answer-block" id="sampleAnswer"></div>
+                    </div>
+
+                    <div class="btn-row" style="margin-top:14px;">
+                        <button class="btn btn-success" onclick="nextQuestion()">Next Question →</button>
+                        <button class="btn btn-outline" onclick="retryQuestion()">Retry</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== PROGRESS ======== -->
+            <div id="progress" class="screen">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSessions">0</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalQuestions">0</div>
+                        <div class="stat-label">Questions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgScore">—</div>
+                        <div class="stat-label">Avg Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="streak">0</div>
+                        <div class="stat-label">Day Streak 🔥</div>
+                    </div>
+                </div>
+
+                <div class="practice-card" style="border-left-color:#10b981;">
+                    <h3>📈 Overall Readiness</h3>
+                    <div id="readinessBar" style="margin:10px 0 4px;">
+                        <div class="progress-label"><span>Interview Readiness</span><span id="readinessPct">0%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" id="readinessFill" style="width:0%"></div></div>
+                    </div>
+                    <p id="readinessMsg" style="font-size:13px; color:#64748b; margin:0;">Complete practice sessions to build your readiness score.</p>
+                </div>
+
+                <div class="feedback-section">
+                    <h4>Recent Feedback</h4>
+                    <div id="recentFeedback">
+                        <div class="feedback-item">
+                            <div class="feedback-icon good">✓</div>
+                            <div class="feedback-text-block">
+                                <strong>Start practicing!</strong>
+                                <small>Complete a session and your AI feedback will appear here.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row no-print" style="margin-top:4px;">
+                    <button class="btn" onclick="showScreen('practice')">Start Practicing Now</button>
+                    <button class="btn btn-secondary" onclick="showSubscreen('history','progress')" style="white-space:nowrap;">📋 History</button>
+                </div>
+            </div>
+
+            <!-- ======== HISTORY ======== -->
+            <div id="history" class="screen">
+                <div class="print-header">
+                    <h2>🩺 IMG Interview Prep — Answer History</h2>
+                    <p id="printDate"></p>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;" class="no-print">
+                    <button class="back-btn" style="margin-bottom:0;" onclick="showScreen('progress')">← Back</button>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-success" style="width:auto;padding:9px 14px;font-size:13px;" onclick="printHistory()">🖨️ Print / Save PDF</button>
+                        <button class="btn btn-danger" style="width:auto;padding:9px 14px;font-size:13px;" onclick="confirmClearHistory()">🗑️ Clear</button>
+                    </div>
+                </div>
+                <div id="historyCount" style="font-size:12px;color:#64748b;margin-bottom:12px;" class="no-print"></div>
+                <div id="historyList"></div>
+            </div>
+
+            <!-- ======== RESOURCES ======== -->
+            <div id="resources" class="screen">
+                <div class="practice-card">
+                    <h3>📋 Match Roadmap</h3>
+                    <p>Step-by-step guide from ECFMG certification to Match Day</p>
+                    <button class="btn" onclick="showSubscreen('roadmap', 'resources')">View Roadmap</button>
+                </div>
+                <div class="practice-card">
+                    <h3>💡 IMG Interview Tips</h3>
+                    <p>USA-specific strategies for IMGs: red flags, virtual interviews, post-interview emails</p>
+                    <button class="btn" onclick="showSubscreen('tips', 'resources')">View Tips</button>
+                </div>
+                <div class="practice-card">
+                    <h3>📝 STAR Method Guide</h3>
+                    <p>Master the framework used in every US behavioral interview</p>
+                    <button class="btn" onclick="showSubscreen('starMethod', 'resources')">Learn STAR</button>
+                </div>
+                <div class="practice-card">
+                    <h3>💡 Browse All Questions</h3>
+                    <p>Library of 130+ curated USA residency interview questions</p>
+                    <button class="btn" onclick="showSubscreen('allQuestions', 'resources')">Browse Questions</button>
+                </div>
+                <div class="practice-card">
+                    <h3>🔗 Key Resources</h3>
+                    <p>ECFMG, ERAS, NRMP, USMLE, FREIDA &amp; Match A Resident links</p>
+                    <button class="btn" onclick="showSubscreen('links', 'resources')">Open Resources</button>
+                </div>
+            </div>
+
+            <!-- ======== ROADMAP ======== -->
+            <div id="roadmap" class="screen">
+                <button class="back-btn" onclick="showScreen('resources')">← Back to Resources</button>
+                <h3 style="margin-bottom:18px; color:#1e293b;">🗺️ IMG to USA Match Roadmap</h3>
+                <div id="roadmapContent"></div>
+            </div>
+
+            <!-- ======== TIPS ======== -->
+            <div id="tips" class="screen">
+                <button class="back-btn" onclick="showScreen('resources')">← Back to Resources</button>
+                <h3 style="margin-bottom:18px; color:#1e293b;">💡 IMG Interview Tips</h3>
+                <div id="tipsContent"></div>
+            </div>
+
+            <!-- ======== STAR METHOD ======== -->
+            <div id="starMethod" class="screen">
+                <button class="back-btn" onclick="showScreen('resources')">← Back to Resources</button>
+                <h3 style="margin-bottom:16px; color:#1e293b;">⭐ STAR Method Guide</h3>
+                <div class="practice-card" style="background:#fef3c7; border-left-color:#f59e0b;">
+                    <h3>What is STAR?</h3>
+                    <p>A structured framework for answering behavioral questions. Every "Tell me about a time…" question should use this format.</p>
+                </div>
+                <div class="feedback-section">
+                    <h4>The STAR Framework</h4>
+                    <div class="feedback-item"><div class="feedback-icon good">S</div><div class="feedback-text-block"><strong>Situation</strong><small>Set the context — describe the background briefly (1–2 sentences)</small></div></div>
+                    <div class="feedback-item"><div class="feedback-icon good">T</div><div class="feedback-text-block"><strong>Task</strong><small>What was your specific responsibility or challenge?</small></div></div>
+                    <div class="feedback-item"><div class="feedback-icon good">A</div><div class="feedback-text-block"><strong>Action</strong><small>What did YOU specifically do? (This is the longest part — 60%)</small></div></div>
+                    <div class="feedback-item"><div class="feedback-icon good">R</div><div class="feedback-text-block"><strong>Result</strong><small>What was the outcome? Quantify where possible. What did you learn?</small></div></div>
+                </div>
+                <div class="practice-card">
+                    <h3>💡 STAR Tips for IMGs</h3>
+                    <p>• Use real examples from your clinical training — even from your home country</p>
+                    <p>• Focus on YOUR actions, not the team's</p>
+                    <p>• Quantify results: "Blood sugar stabilized within 48 hours"</p>
+                    <p>• Always end with what you learned — US programs value self-reflection</p>
+                    <p>• Aim for 2–3 minutes per answer</p>
+                </div>
+                <button class="btn" onclick="startSession('behavioral')">Practice Behavioral Questions</button>
+            </div>
+
+            <!-- ======== ALL QUESTIONS ======== -->
+            <div id="allQuestions" class="screen">
+                <button class="back-btn" onclick="showScreen('resources')">← Back to Resources</button>
+                <h3 style="margin-bottom:12px; color:#1e293b;">💡 Question Library</h3>
+                <div class="practice-card" style="background:#f0f9ff; border-left-color:#0ea5e9; padding:14px;">
+                    <div class="filter-buttons">
+                        <button class="btn filter-btn" onclick="filterQ('all',this)">All</button>
+                        <button class="btn filter-btn btn-secondary" onclick="filterQ('general',this)">General</button>
+                        <button class="btn filter-btn btn-secondary" onclick="filterQ('behavioral',this)">Behavioral</button>
+                        <button class="btn filter-btn btn-secondary" onclick="filterQ('clinical',this)">Clinical</button>
+                    </div>
+                    <p style="font-size:12px; color:#64748b; margin:0;"><span id="questionCount">0</span> questions</p>
+                </div>
+                <div id="questionsList"></div>
+            </div>
+
+            <!-- ======== LINKS ======== -->
+            <div id="links" class="screen">
+                <button class="back-btn" onclick="showScreen('resources')">← Back to Resources</button>
+                <h3 style="margin-bottom:16px; color:#1e293b;">🔗 Key Resources</h3>
+                <div id="linksContent"></div>
+            </div>
+
+            <!-- ======== SETTINGS ======== -->
+            <div id="settings" class="screen">
+                <h3 style="margin-bottom:18px; color:#1e293b;">⚙️ Settings</h3>
+
+                <!-- ===== MIC ACCESS & TEST PANEL ===== -->
+                <div class="practice-card" style="border-left-color:#7c3aed;" id="micTestCard">
+                    <h3>🎙️ Microphone Access &amp; Test</h3>
+                    <p>Enable your mic, test recording, transcribe speech, and analyse with AI — all before your practice session.</p>
+
+                    <!-- STATUS ROW -->
+                    <div id="micPermStatus" style="display:flex;align-items:center;gap:10px;background:#f8fafc;border-radius:10px;padding:10px 12px;margin-bottom:14px;">
+                        <div id="micPermDot" style="width:12px;height:12px;border-radius:50%;background:#e2e8f0;flex-shrink:0;transition:background 0.3s;"></div>
+                        <div>
+                            <div id="micPermLabel" style="font-size:13px;font-weight:600;color:#64748b;">Microphone not yet enabled</div>
+                            <div id="micPermSub" style="font-size:11px;color:#94a3b8;margin-top:2px;">Tap below to request access from your browser</div>
+                        </div>
+                    </div>
+
+                    <!-- REQUEST / REVOKE -->
+                    <button class="btn" id="micEnableBtn" onclick="requestMicAccess()" style="margin-bottom:10px;">🎙️ Enable Microphone</button>
+                    <button class="btn btn-secondary hidden" id="micRevokeBtn" onclick="revokeMicHint()" style="margin-bottom:10px;">ℹ️ How to revoke access</button>
+
+                    <!-- TEST RECORDER (shown after permission granted) -->
+                    <div id="micTestRecorder" class="hidden">
+                        <hr style="border:none;border-top:1px solid #f1f5f9;margin:14px 0;">
+                        <p style="font-size:13px;font-weight:600;color:#1e293b;margin-bottom:10px;">🎤 Test Recording</p>
+
+                        <!-- Big mic button -->
+                        <div style="display:flex;justify-content:center;margin-bottom:12px;">
+                            <button class="mic-circle" id="settingsMicCircle" onclick="toggleSettingsRec()" title="Hold to record test" aria-label="Record test">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v6a2 2 0 0 0 4 0V5a2 2 0 0 0-2-2zm7 8a1 1 0 0 1 1 1 8 8 0 0 1-7 7.938V21h2a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2h2v-1.062A8 8 0 0 1 4 12a1 1 0 0 1 2 0 6 6 0 0 0 12 0 1 1 0 0 1 1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <p class="mic-status" id="settingsMicStatus" style="text-align:center;">Tap microphone to start test recording</p>
+                        <p class="mic-timer" id="settingsMicTimer" style="text-align:center;">0:00</p>
+
+                        <div class="waveform" id="settingsWaveform" style="justify-content:center;margin:8px 0 14px;"></div>
+
+                        <!-- Transcript box -->
+                        <div class="transcript-wrap">
+                            <div class="transcript-label">
+                                <span>Transcription</span>
+                                <span class="word-count" id="settingsWordCount">0 words</span>
+                            </div>
+                            <textarea class="transcript-textarea" id="settingsTranscript" rows="4"
+                                placeholder="Your speech will appear here in real time. You can also type directly..."
+                                oninput="onSettingsTranscriptInput()"></textarea>
+                        </div>
+
+                        <!-- AI Analysis progress -->
+                        <div id="settingsAiProgress" class="hidden" style="margin:10px 0;">
+                            <div style="background:#f8fafc;border-radius:10px;padding:12px 14px;">
+                                <div style="font-size:13px;font-weight:600;color:#1e293b;margin-bottom:10px;">🤖 AI Analysing…</div>
+                                <div id="settingsStepsWrap" style="display:flex;flex-direction:column;gap:6px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Feedback results in settings -->
+                        <div id="settingsFeedbackResult" class="hidden" style="margin-top:12px;">
+                            <div class="scores-row" id="settingsScoresRow" style="margin-bottom:10px;"></div>
+                            <div class="feedback-section" style="padding:12px;">
+                                <h4 style="margin-bottom:8px;">Overall Assessment</h4>
+                                <p id="settingsOverall" style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 10px;"></p>
+                                <h4 style="margin-bottom:8px;">Top Improvements</h4>
+                                <div id="settingsImprovements"></div>
+                            </div>
+                            <div class="sample-answer-block" id="settingsSample" style="margin-top:10px;display:none;"></div>
+                        </div>
+
+                        <div class="btn-row" style="margin-top:12px;">
+                            <button class="btn" id="settingsAnalyseBtn" onclick="analyseSettingsRec()" >🤖 Analyse with AI</button>
+                            <button class="btn btn-secondary" onclick="clearSettingsRec()">🗑 Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- Revoke hint -->
+                    <div id="revokeHint" class="hidden" style="background:#fef3c7;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:#92400e;line-height:1.5;">
+                        <strong>To revoke mic access:</strong><br>
+                        • <strong>Chrome/Edge:</strong> Click the 🔒 icon in the address bar → Site settings → Microphone → Block<br>
+                        • <strong>Safari (iOS):</strong> Settings → Safari → Microphone → Deny<br>
+                        • <strong>Firefox:</strong> Click the mic icon in the address bar → Remove permission
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <h3>🎯 Session Length</h3>
+                    <p>Number of questions per session</p>
+                    <div class="btn-row">
+                        <button class="btn filter-btn" onclick="setSessionLength(3,this)">3 Qs</button>
+                        <button class="btn filter-btn btn-success" id="slBtn5" onclick="setSessionLength(5,this)">5 Qs ✓</button>
+                        <button class="btn filter-btn btn-secondary" onclick="setSessionLength(10,this)">10 Qs</button>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <h3>⏱️ Timer per Question</h3>
+                    <p>Answer time limit before auto-stop</p>
+                    <div class="btn-row">
+                        <button class="btn filter-btn btn-secondary" onclick="setTimerLen(90,this)">1.5 min</button>
+                        <button class="btn filter-btn btn-success" id="tlBtn120" onclick="setTimerLen(120,this)">2 min ✓</button>
+                        <button class="btn filter-btn btn-secondary" onclick="setTimerLen(180,this)">3 min</button>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <h3>🔄 Reset Progress</h3>
+                    <p>Clear all practice data and start fresh.</p>
+                    <button class="btn btn-danger" onclick="confirmReset()">Reset All Progress</button>
+                </div>
+
+                <div class="practice-card" style="border-left-color:#7c3aed;">
+                    <h3>🔑 API Key</h3>
+                    <p>Enter your <strong>Anthropic API key</strong> to enable AI feedback. Get one free at <strong>console.anthropic.com</strong></p>
+                    <div style="position:relative;margin-bottom:10px;">
+                        <input type="password"  id="apiKeyInput"
+                            placeholder=""
+                            style="width:100%;padding:10px 44px 10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;background:#f8fafc;"
+                            oninput="saveApiKey()"
+                        />
+                        <button onclick="toggleApiKeyVisibility()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;padding:0;" id="apiKeyToggle">👁</button>
+                    </div>
+                    <div id="apiKeyStatus" style="font-size:12px;color:#94a3b8;margin-bottom:10px;">No key saved yet.</div>
+                    <button class="btn btn-secondary" style="font-size:13px;padding:9px;" onclick="clearApiKey()">Clear Key</button>
+
+                    <p style="font-size:11px;color:#94a3b8;margin:10px 0 0;">Key is stored only in your browser's local storage and never sent anywhere except Anthropic.</p>
+                </div>
+
+
+                <!-- ======== start 2 links ======== -->
+<div id="video_no_ai" class="practice-card">
+
+  <div class="practice-card" id="video-content">
+   <h3>⭐ Video Analysis Available</h3>
+
+    <p>You can practice your answers using video analysis: <a href="https://dirshco.github.io/IMGs_Interviews/video.html" target="new_">Start now</a>
+  </div>
+
+  <div class="practice-card" id="no_ai">
+    <h3>🔄 No AI available</h3>
+    <p>Practice all the questions with no AI at this time ⭐: <a href="https://dirshco.github.io/IMGs_Interviews/no_ai.html" target="new_">Start now</a></p>
+  </div>
+</div>
+                <!-- ======== end 2 links ======== -->
+
+
+            <!-- ======== RESOURCES ======== -->
+            <div id="about" class="about">
+                <div class="practice-card" style="border-left-color:#94a3b8;">
+                    <h3>ℹ️ About</h3>
+                    <p><strong>IMGs Interview Prep v2.0</strong> — USA Residency &amp; Fellowship Edition</p>
+                    <p style="font-size:12px; color:#64748b;">Sessions: <span id="settingsSessions">0</span> &nbsp;|&nbsp; Questions: <span id="settingsQuestions">0</span></p>
+                    <p style="font-size:11px; color:blue; margin:0;">Powered by Claude AI (Anthropic)</p>
+                </div>
+                <div class="practice-card" style="border-left-color:#94a3b8;">
+                    <h3>🟢 Tele-Geriatric Research Fellowship</h3><br><strong> <a href="https://tgrfpublications.glide.page/">Supported by the Combined Research Foundation.</a></strong>
+                    <p><strong>www.thecombinedresearchfoundation.org</strong> </p>
+                    <p style="font-size:12px; color:green;">📝 Nadir@thecombinedresearchfoundation.org</p>
+                    <p style="font-size:11px; color:green; margin:0;">💬 ‪(810) 373-9530‬</p>
+                </div>
+
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /app-container -->
+
+    <div class="toast" id="toast"></div>
+
+<script>
+// ==================== DATA ====================
+const QDB = {
+    general: [
+        {q:"Tell me about yourself and why you have chosen to pursue medical training in the United States.",type:"General",hint:"Present–Past–Future framework. 2–3 min. Cover med school, key experiences, why USA, why this specialty."},
+        {q:"Why did you choose this specialty?",type:"General",hint:"Reference 2–3 specific clinical experiences. Show intellectual passion, not just career logic."},
+        {q:"What are your greatest strengths and weaknesses as a physician?",type:"General",hint:"Be genuine. For weakness: show self-awareness + what you've done to improve. Never say 'I work too hard'."},
+        {q:"Where do you see yourself in 10 years?",type:"General",hint:"Show ambition and commitment to residency. Name a subspecialty interest or academic/research goal."},
+        {q:"Why our program specifically?",type:"General",hint:"Research required. Name specific faculty, rotations, fellowship pathway, or research focus. Generic answers kill applications."},
+        {q:"What challenges do you expect as an IMG starting residency in the US?",type:"General",hint:"Show self-awareness: cultural adaptation, EHR systems (Epic), care team dynamics, communication style."},
+        {q:"How do you define professionalism in US medicine?",type:"General",hint:"ACGME competencies: accountability, humanism, communication, ethics, reliability. Give an example."},
+        {q:"How do you handle stress and prevent burnout?",type:"General",hint:"Be honest. Mention specific coping strategies, support systems, hobbies. Programs screen for resilience."},
+        {q:"What is your understanding of the US healthcare system?",type:"General",hint:"Show knowledge: insurance (Medicare/Medicaid/private), ACGME, Epic EHR, patient-centered medical home, value-based care."},
+        {q:"Why should we rank you for our program?",type:"General",hint:"This is a sales pitch. Lead with 1–2 specific strengths, connect them to what the program values."}
+    ],
+    behavioral: [
+        {q:"Tell me about a time you made a clinical error. How did you handle it?",type:"Behavioral",hint:"STAR. Honesty essential. Show: recognition, disclosure, team communication, learning, systems-thinking. Never blame others."},
+        {q:"Describe a time you had to work with a very difficult colleague.",type:"Behavioral",hint:"STAR. Show: professional approach, private conversation first, focus on patient care, appropriate escalation."},
+        {q:"Tell me about a time you had to deliver bad news to a patient or family.",type:"Behavioral",hint:"SPIKES framework: Setting, Perception, Invitation, Knowledge, Emotions, Summary. Demonstrate empathy."},
+        {q:"Describe a leadership experience you have had.",type:"Behavioral",hint:"Show initiative, team mobilisation, outcome. Fellowship programs especially want this."},
+        {q:"Tell me about a time you disagreed with a senior physician.",type:"Behavioral",hint:"Show confidence without insubordination. Patient safety first. Speak privately first, escalate if needed."},
+        {q:"Tell me about a time you failed at something important.",type:"Behavioral",hint:"Choose a real failure. Show accountability, what you learned, and how you changed. Avoid humble-brags."},
+        {q:"Describe a time when you had to adapt quickly to a major change.",type:"Behavioral",hint:"Could be COVID, system change, new team. Show flexibility and positive framing."},
+        {q:"Tell me about a time you had to advocate for a patient.",type:"Behavioral",hint:"Show patient-centred values. Describe the barrier, your action, and the outcome."},
+        {q:"Describe a time you worked with a patient from a different cultural background.",type:"Behavioral",hint:"Cultural humility. Use of interpreters. Adapting communication. Non-judgmental approach."},
+        {q:"Tell me about a time you had to handle multiple urgent priorities at once.",type:"Behavioral",hint:"Show triage thinking, calm under pressure, communication with team, and outcome."}
+    ],
+    clinical: [
+        {q:"A 65-year-old presents with chest pain. Walk me through your approach.",type:"Clinical",hint:"Systematic: history, risk factors, ECG first, troponins, differential (ACS, PE, dissection, etc). Show you can prioritise."},
+        {q:"How would you manage a patient who refuses a recommended treatment?",type:"Clinical",hint:"Autonomy, informed consent, capacity assessment. Explore reasons. Document. Never abandon the patient."},
+        {q:"What would you do if you witnessed a colleague make a serious medication error?",type:"Clinical",hint:"Patient safety first — immediate disclosure and correction. Then incident reporting, not blame. Show speaking-up culture."},
+        {q:"How do you approach a patient with chronic pain seeking opioids?",type:"Clinical",hint:"Non-judgmental. PDMP check, functional assessment, multimodal analgesia, clear boundaries, documentation."},
+        {q:"A patient's family disagrees with the treatment plan. How do you handle it?",type:"Clinical",hint:"Family meeting, explore concerns, involve palliative/ethics if needed, maintain patient's wishes as priority."},
+        {q:"How do you approach breaking bad news to a patient?",type:"Clinical",hint:"SPIKES: Setting, Perception, Invitation, Knowledge (chunk-and-check), Emotions, Strategy/Summary."},
+        {q:"What would you do if you weren't sure about a diagnosis?",type:"Clinical",hint:"Acknowledge uncertainty — a strength in US medicine. Senior consult, appropriate workup, safety netting."},
+        {q:"A patient wants to leave against medical advice. How do you handle this?",type:"Clinical",hint:"Assess capacity. Explore reasons. Inform of risks clearly. Document thoroughly. Maintain relationship."},
+        {q:"Describe your approach to a patient with multiple comorbidities and polypharmacy.",type:"Clinical",hint:"Medication reconciliation, deprescribing framework, patient goals, PCP communication."},
+        {q:"How do you approach end-of-life care discussions?",type:"Clinical",hint:"Goals of care conversation, advance directives, hospice vs palliative, family involvement, documentation."}
+    ],
+    redflag: [
+        {q:"I notice a gap in your CV between graduation and now. Can you explain?",type:"Red Flag",hint:"Be brief, honest, forward-looking. Frame: what you did in the gap (studying, research, observership), what you learned, why you're ready now."},
+        {q:"Your USMLE Step scores are lower than our usual cutoff. What should we know?",type:"Red Flag",hint:"Acknowledge without defensiveness. Contextualise (first attempt, medical issue, language). Show upward trend or other strengths (USCE, research, LORs)."},
+        {q:"You graduated several years ago. How have you stayed current with medicine?",type:"Red Flag",hint:"Show active CPD: journals, UpToDate, conferences, CME, observerships, research. Demonstrate you're current."},
+        {q:"You've applied to residency multiple times. Why should we accept you this cycle?",type:"Red Flag",hint:"Show what changed: more USCE, stronger LORs, better scores, interview skills. Forward focus, never bitter."},
+        {q:"How will you adapt to the US style of medicine after training in a different system?",type:"Red Flag",hint:"Specifics: ACGME competencies, Epic EHR, team-based care, direct patient communication culture. Show you've researched."},
+        {q:"Your medical school is not widely known here. Tell us about the quality of your training.",type:"Red Flag",hint:"Brief school description, clinical exposure you got, how it prepared you. Pivot to USCE and USMLE performance as validation."},
+        {q:"Do you have any concerns about getting a J-1 or H-1B visa?",type:"Red Flag",hint:"Show you've researched options. J-1 is most common for IMGs (ECFMG-sponsored). Know the 2-year home residency rule for J-1."},
+        {q:"Why did you leave your previous job or training program?",type:"Red Flag",hint:"Be honest but positive. Never criticise previous institution. Frame as growth, seeking better training, or personal circumstances."}
+    ],
+    im: [
+        {q:"Why Internal Medicine? What draws you to diagnostic reasoning and adult medicine?",type:"General",hint:"Reference 2–3 formative IM cases. Mention intellectual curiosity, subspecialty pathways, and long-term patient relationships."},
+        {q:"Walk me through a complex medical case you managed. What was your reasoning?",type:"Clinical",hint:"Present as: chief complaint → workup → differential → leading diagnosis → management → outcome. Show systematic thinking."},
+        {q:"Tell me about a time you had to manage a deteriorating patient overnight as the primary.",type:"Behavioral",hint:"STAR. Show: recognition of deterioration, escalation, resuscitation principles, communication, documentation."},
+        {q:"What do you know about the ACGME milestones for IM residents?",type:"General",hint:"6 core competencies: Patient Care, Medical Knowledge, Practice-Based Learning, Interpersonal Skills, Professionalism, Systems-Based Practice."},
+        {q:"How would you approach a patient presenting with undifferentiated fever and elevated inflammatory markers?",type:"Clinical",hint:"Broad differential: infection, autoimmune, malignancy. Systematic workup. Don't anchor early."},
+        {q:"What subspecialty interests you most after IM residency?",type:"General",hint:"Be specific and genuine. Show exposure or research interest. Name 1–2 reasons it connects to your background."},
+        {q:"How would you manage a patient with new-onset heart failure with reduced ejection fraction?",type:"Clinical",hint:"Evidence-based: diuresis, ACE-I/ARB/ARNI, beta-blocker, MRA, SGLT2i. Address reversible causes. Echo."},
+        {q:"Tell me about a time you had to discuss prognosis with a patient.",type:"Behavioral",hint:"SPIKES. Honest communication. Hope and reality. Patient goals of care. Palliative referral if appropriate."}
+    ],
+    fm: [
+        {q:"Why Family Medicine? Why not a hospital-based specialty?",type:"General",hint:"Continuity of care, breadth, community impact, underserved populations, preventive medicine."},
+        {q:"How do you manage a 15-minute appointment with a patient who has five problems?",type:"Clinical",hint:"Agenda-setting, prioritisation with patient, address acute concerns, schedule follow-up. Efficient, not dismissive."},
+        {q:"What do you know about the Patient-Centered Medical Home model?",type:"General",hint:"Team-based care, care coordination, access, quality measurement, EHR integration, preventive focus."},
+        {q:"Describe how you would approach a patient presenting with depression.",type:"Clinical",hint:"PHQ-9 screening, safety assessment, biopsychosocial approach, medication + therapy, follow-up plan."},
+        {q:"How do you approach preventive care counselling in a primary care visit?",type:"Clinical",hint:"US Preventive Services Task Force guidelines. Age/sex-appropriate screening. Brief motivational interviewing."},
+        {q:"Tell me about a time you managed a patient's care across multiple specialties.",type:"Behavioral",hint:"STAR. Show coordination, communication with specialists, patient as central, documentation."},
+        {q:"How do you deal with a patient who frequently attends with minor complaints?",type:"Clinical",hint:"Screen for underlying anxiety/depression/social factors. Scheduled appointments. Boundary-setting with empathy."},
+        {q:"What is your understanding of social determinants of health?",type:"General",hint:"SDOH: housing, food security, education, transportation, income. How you screen and refer — Z-codes in ICD-10."}
+    ],
+    peds: [
+        {q:"Why Pediatrics? What drew you to working with children and families?",type:"General",hint:"Authentic story. Show genuine connection. Reference a formative patient encounter."},
+        {q:"A 3-year-old presents with fever and a petechial rash. Walk me through your assessment.",type:"Clinical",hint:"Meningococcemia on differential — treat as emergency. ABC, IV access, blood cultures, empiric ceftriaxone, ICU."},
+        {q:"How do you communicate a serious diagnosis to parents?",type:"Clinical",hint:"SPIKES adapted for parents. Plain language. Allow silence. Social work, chaplaincy. Written summary."},
+        {q:"Tell me about a safeguarding concern you identified.",type:"Behavioral",hint:"STAR. Show: recognition of signs, mandatory reporting knowledge, multidisciplinary approach, documentation."},
+        {q:"How do you handle a parent who refuses vaccination for their child?",type:"Clinical",hint:"Motivational interviewing. Explore concerns. Evidence-based education. Document. Never terminate care abruptly."},
+        {q:"Describe your approach to a febrile neonate under 28 days.",type:"Clinical",hint:"Full sepsis workup (LP, blood, urine cultures), empiric ampicillin + gentamicin, admission."},
+        {q:"Tell me about a time you had to deal with a very anxious parent.",type:"Behavioral",hint:"STAR. Active listening, validate concerns, clear explanation, written instructions, follow-up plan."},
+        {q:"What do you know about child maltreatment reporting obligations in the US?",type:"General",hint:"Mandatory reporter status for all physicians. Report to CPS when suspected — standard is reasonable suspicion, not proof."}
+    ],
+    surgery: [
+        {q:"Why Surgery? Why do you want to be a surgeon in the United States?",type:"General",hint:"Reference specific operative experiences, mentors, and commitment to the demands of surgical training."},
+        {q:"Tell me about a surgical complication you witnessed. How was it managed?",type:"Clinical",hint:"Be specific: case, complication, recognition, team response, outcome. Show surgical safety culture."},
+        {q:"How do you obtain valid informed consent for a high-risk procedure?",type:"Clinical",hint:"Benefits, risks, alternatives, consequences of no treatment. Check comprehension — not just signature. Cultural and language considerations."},
+        {q:"How would you handle a situation where you thought an attending's operative decision was wrong?",type:"Behavioral",hint:"Closed-loop communication, speak privately, patient safety frame, escalate if needed. Never confront in OR in front of team."},
+        {q:"Walk me through your approach to post-operative care.",type:"Clinical",hint:"Pain control, VTE prophylaxis, wound care, diet advancement, drain management, discharge criteria, follow-up."},
+        {q:"Tell me about your research or academic contributions.",type:"Behavioral",hint:"Detail your role, publications, posters. Surgery programs weight research heavily. If limited, show enthusiasm and specific interest."},
+        {q:"How do you manage fatigue during long operative days?",type:"General",hint:"Honest answer. Healthy coping, team communication, duty hours awareness, knowing limits."},
+        {q:"Describe a technically challenging case and how you approached it.",type:"Clinical",hint:"Name the procedure, the challenge, your preparation, intraoperative decision-making, and outcome."}
+    ],
+    psych: [
+        {q:"Why Psychiatry? What drew you to this specialty?",type:"General",hint:"Authentic story. Show understanding of the biopsychosocial model and genuine commitment to mental health."},
+        {q:"How do you perform a suicide risk assessment?",type:"Clinical",hint:"Columbia Suicide Severity Rating Scale. Ideation, intent, plan, means, past attempts, protective factors. Know when to admit."},
+        {q:"How do you balance patient autonomy with involuntary psychiatric holds?",type:"Clinical",hint:"US 5150/Baker Act principles. Capacity, dangerousness, gravely disabled. Bioethical reasoning."},
+        {q:"Describe your approach to a patient presenting with first-episode psychosis.",type:"Clinical",hint:"Rule out medical causes first (labs, imaging). Engage patient and family. Early intervention, antipsychotic initiation, shared decision-making."},
+        {q:"How do you manage countertransference with a difficult patient?",type:"Behavioral",hint:"Show self-awareness. Supervision, peer consultation, self-care. Programs want psychiatrists who know themselves."},
+        {q:"A patient tells you they intend to harm a named third party. What do you do?",type:"Clinical",hint:"Tarasoff duty to warn and protect. Document, consult, consider hospitalisation, notify authorities if necessary."},
+        {q:"Tell me about a patient case that had a significant emotional impact on you.",type:"Behavioral",hint:"Show empathy and resilience. Describe the case, your emotional response, how you processed it, your self-care."},
+        {q:"What is your understanding of the recovery model in mental health?",type:"General",hint:"Person-centred, strengths-based, hope, empowerment, community. How it differs from traditional illness model."}
+    ],
+    em: [
+        {q:"Why Emergency Medicine? What draws you to this environment?",type:"General",hint:"Breadth, acuity, team leadership, resuscitation. Reference formative cases. Show comfort with uncertainty."},
+        {q:"A patient arrives in undifferentiated shock. Walk me through your approach.",type:"Clinical",hint:"ABCDE, IV access x2, fluid bolus, broad differential (septic, hypovolemic, obstructive, cardiogenic), focused POCUS."},
+        {q:"How do you manage a crowded ED with multiple critical patients?",type:"Clinical",hint:"Triage, parallel processing, delegation, closed-loop communication, early escalation."},
+        {q:"Tell me about a time you had to make a rapid decision under pressure.",type:"Behavioral",hint:"STAR. Show: calm, systematic, clear communication, outcome. Reflect on what you'd do differently."},
+        {q:"How do you approach a paediatric patient in status epilepticus?",type:"Clinical",hint:"ABC, IV/IO access, lorazepam first-line, escalate to fosphenytoin then phenobarb, anaesthesia for refractory."},
+        {q:"How do you approach a patient in whom you suspect intimate partner violence?",type:"Clinical",hint:"Universal screening, private interview, mandatory reporting knowledge, safety planning, resource provision."},
+        {q:"Describe your approach to procedural sedation.",type:"Clinical",hint:"Indications, consent, NPO status, monitoring (SpO2, ETCO2, BP, ECG), reversal agents, documentation."},
+        {q:"How do you handle a disagreement with a consultant about patient disposition?",type:"Behavioral",hint:"STAR. Professional communication, patient safety frame, attending escalation, documentation."}
+    ],
+    fellowship: [
+        {q:"Why this subspecialty, and why now after your residency?",type:"Fellowship",hint:"Show a clear progression. Reference 2–3 specific cases that drove your choice. This should feel inevitable, not opportunistic."},
+        {q:"Tell me about your most impactful research project or publication.",type:"Fellowship",hint:"Detail your specific role, methodology, findings, clinical implications. Don't just describe — explain why it matters."},
+        {q:"Where do you see yourself 10 years after this fellowship?",type:"Fellowship",hint:"Specific and ambitious: academic centre, NIH funding, teaching, procedural volume. Show the fellowship is a strategic step."},
+        {q:"What specific skills do you hope to gain that you don't yet have?",type:"Fellowship",hint:"Honest self-assessment. Be specific about procedural, research, or clinical gaps. Show you've researched what this program offers."},
+        {q:"Describe a complex case from residency relevant to this subspecialty.",type:"Clinical",hint:"Choose a case showcasing subspecialty depth. Attending-level clarity in your presentation."},
+        {q:"How have you contributed to teaching or mentoring junior trainees?",type:"Fellowship",hint:"Fellowship = future faculty. Show bedside teaching, case conferences, formal roles. Describe improving a trainee."},
+        {q:"Why this fellowship program specifically?",type:"Fellowship",hint:"Research is non-negotiable. Name specific faculty, ongoing trials, unique clinical volumes, curriculum elements. Vague answers fail."},
+        {q:"Tell me about a time you had a significant disagreement with an attending during residency.",type:"Behavioral",hint:"Maturity, professional communication, patient safety priority. Programs want confident, independent-minded clinicians."}
+    ],
+    research: [
+        {q:"Tell me about your most significant research contribution and its clinical impact.",type:"Research",hint:"Hypothesis, methodology, results, real-world implications. Show you understand the process end-to-end."},
+        {q:"Walk me through a paper you read recently that changed your clinical practice.",type:"Research",hint:"Show critical appraisal: study design, limitations, how you applied findings. Recent and relevant."},
+        {q:"What is your 5-year research agenda?",type:"Research",hint:"Specific and feasible. Name a clinical problem, proposed methodology, infrastructure you'd need."},
+        {q:"How do you approach a null result or a project that didn't work out?",type:"Research",hint:"Scientific maturity. Null results are informative. Describe how you pivoted, what you learned, honest reporting."},
+        {q:"Tell me about your experience with grant writing.",type:"Research",hint:"Even small grants count. Show understanding of NIH/foundation funding landscape and your role in the process."},
+        {q:"How do you balance clinical responsibilities with an active research program?",type:"Research",hint:"Protected research time, prioritisation, collaboration. Show you've done this — describe a specific example."},
+        {q:"How do you approach mentoring students or residents in research?",type:"Research",hint:"Describe a specific mentee. Setting expectations, feedback, handling setbacks, celebrating success."},
+        {q:"Why academic medicine rather than private practice?",type:"Research",hint:"Research, teaching, complex patients, innovation. Show you understand the tenure/promotion process."}
+    ]
+};
+
+// Flatten for browsing
+const allQFlat = () => {
+    let arr = [];
+    ['general','behavioral','clinical'].forEach(k => {
+        QDB[k].forEach(q => arr.push({...q, category: k.charAt(0).toUpperCase()+k.slice(1)}));
+    });
+    return arr;
+};
+
+// ==================== APP STATE ====================
+let currentSessionType = 'general';
+let sessionQ = [];
+let qIdx = 0;
+let sessionLength = 5;
+let timerLength = 120;
+let isRecording = false;
+let recognition = null;
+let timerInt = null;
+let micTimerInt = null;
+let timeLeft = 120;
+let micSecs = 0;
+let wavInt = null;
+let progressData = {sessions:0, questions:0, scores:[], lastDate:null, streak:0};
+let sessionLog = []; // Array of {id, date, question, type, specialty, answer, feedback}
+let lastFeedback = null;
+
+// ==================== INIT ====================
+window.addEventListener('beforeunload', function() {
+    if (recognition) { try { recognition.abort(); } catch(e) {} }
+    if (settingsRecognition) { try { settingsRecognition.abort(); } catch(e) {} }
+    if (settingsMicStream) { settingsMicStream.getTracks().forEach(function(t){ t.stop(); }); }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadPersisted();
+    loadApiKeyUI();
+    loadSessionLog();
+    buildWaveform();
+    buildRoadmap();
+    buildTips();
+    buildLinks();
+    filterQ('all', null);
+    updateProgressDisplay();
+    updateTimer();
+});
+
+// ==================== NAVIGATION ====================
+function showScreen(id, tabEl) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (tabEl) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tabEl.classList.add('active');
+    }
+    window.scrollTo(0,0);
+}
+
+function showSubscreen(id, backTo) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'history') renderHistory();
+    window.scrollTo(0,0);
+}
+
+function showSpecialties() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('specialties').classList.add('active');
+}
+
+// ==================== SESSION ====================
+function startSession(type) {
+    currentSessionType = type;
+    const pool = QDB[type] || QDB.general;
+    sessionQ = shuffle([...pool]).slice(0, sessionLength);
+    qIdx = 0;
+
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('interview').classList.add('active');
+
+    resetInterviewUI();
+    loadQ();
+    updateProgress();
+
+    const labels = {
+        general:'General', behavioral:'Behavioral', clinical:'Clinical', redflag:'Red Flag',
+        im:'Internal Medicine', fm:'Family Medicine', peds:'Pediatrics', surgery:'Surgery',
+        psych:'Psychiatry', em:'Emergency Med', fellowship:'Fellowship', research:'Research'
+    };
+    document.getElementById('session-type-label').textContent = labels[type] || type;
+    window.scrollTo(0,0);
+}
+
+function loadQ() {
+    if (qIdx >= sessionQ.length) { endSession(); return; }
+    const q = sessionQ[qIdx];
+    const meta = document.getElementById('questionMeta');
+    meta.innerHTML = `<span class="q-badge badge-num">Q${qIdx+1}/${sessionQ.length}</span><span class="q-badge badge-${q.type.toLowerCase().replace(' ','')||'general'}">${q.type}</span>`;
+    document.getElementById('currentQuestion').textContent = q.q;
+    document.getElementById('questionHint').textContent = '💡 ' + q.hint;
+    resetInterviewUI();
+}
+
+function updateProgress() {
+    const pct = Math.round(((qIdx) / sessionQ.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = `Question ${qIdx+1} of ${sessionQ.length}`;
+}
+
+function resetInterviewUI() {
+    forceStopRecording();
+    clearInterval(timerInt);
+    timeLeft = timerLength;
+
+    // Reset timer display
+    var timerEl = document.getElementById('timer');
+    timerEl.classList.remove('warning');
+    updateTimer();
+
+    // Reset transcript
+    document.getElementById('transcriptBox').value = '';
+    document.getElementById('transcriptBox').readOnly = false;
+    document.getElementById('wordCount').textContent = '0 words';
+
+    // Reset buttons — show action row, hide feedback
+    document.getElementById('analyseBtn').disabled = false;
+    document.getElementById('actionBtnRow').style.display = 'flex';
+    document.getElementById('feedbackResults').classList.add('hidden');
+
+    // Hide AI progress
+    document.getElementById('aiProgressWrap').classList.remove('visible');
+
+    // Reset mic section
+    document.getElementById('micSection').style.display = 'block';
+    document.getElementById('micSection').classList.remove('recording');
+    document.getElementById('micCircle').classList.remove('recording');
+    document.getElementById('micStatus').textContent = 'Tap microphone to start recording';
+    document.getElementById('micStatus').classList.remove('recording');
+    document.getElementById('micTimer').textContent = '0:00';
+
+    resetWave();
+    resetSteps();
+}
+
+function nextQuestion() {
+    if (isRecording) forceStopRecording();
+    qIdx++;
+    if (qIdx >= sessionQ.length) { endSession(false); return; }
+    updateProgress();
+    loadQ();
+    window.scrollTo(0,0);
+}
+
+function retryQuestion() {
+    resetInterviewUI();
+    document.getElementById('micNotice').style.display = 'flex';
+    window.scrollTo(0,0);
+}
+
+function endSession(increment) {
+    forceStopRecording();
+    clearInterval(timerInt);
+    if (increment !== false) progressData.sessions++;
+    updateStreak();
+    savePersisted();
+    updateProgressDisplay();
+    showScreen('progress', null);
+    document.querySelectorAll('.nav-tab')[1].classList.add('active');
+    document.querySelectorAll('.nav-tab')[0].classList.remove('active');
+    showToast('Session complete! 🎉');
+}
+
+// ==================== TIMER ====================
+function startCountdown() {
+    clearInterval(timerInt);
+    timerInt = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) { stopRecording(); clearInterval(timerInt); }
+        if (timeLeft <= 20) document.getElementById('timer').classList.add('warning');
+    }, 1000);
+}
+
+function updateTimer() {
+    const m = Math.floor(timeLeft/60);
+    const s = timeLeft % 60;
+    document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+// ==================== MICROPHONE ====================
+function buildWaveform() {
+    const wf = document.getElementById('waveform');
+    wf.innerHTML = '';
+    for (let i=0; i<32; i++) {
+        const b = document.createElement('div');
+        b.className = 'wave-bar';
+        b.id = 'wb'+i;
+        wf.appendChild(b);
+    }
+}
+
+function animateWave() {
+    for (let i=0; i<32; i++) {
+        const b = document.getElementById('wb'+i);
+        if (!b) continue;
+        b.style.height = isRecording ? (4+Math.random()*28)+'px' : '4px';
+        b.className = 'wave-bar' + (isRecording?' active rec':'');
+    }
+}
+
+function resetWave() {
+    for (let i=0; i<32; i++) {
+        const b = document.getElementById('wb'+i);
+        if (b) { b.style.height='4px'; b.className='wave-bar'; }
+    }
+}
+
+function toggleRecording() {
+    if (isRecording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+}
+
+function startRecording() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+        showToast('Speech recognition unavailable — please type your answer');
+        document.getElementById('micStatus').textContent = 'Please type your answer below';
+        return;
+    }
+
+    // Hide notice after first use
+    document.getElementById('micNotice').style.display = 'none';
+
+    recognition = new SR();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+    let finalT = document.getElementById('transcriptBox').value;
+
+    recognition.onresult = e => {
+        let interim = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) finalT += e.results[i][0].transcript + ' ';
+            else interim = e.results[i][0].transcript;
+        }
+        document.getElementById('transcriptBox').value = finalT + interim;
+        updateWordCount();
+        checkAnalyseBtn();
+    };
+
+    recognition.onerror = e => {
+        if (e.error === 'not-allowed') {
+            showToast('Mic access denied. Please allow mic in browser settings.');
+            stopRecording();
+        } else if (e.error !== 'no-speech') {
+            showToast('Mic error: ' + e.error + '. Please type your answer.');
+            stopRecording();
+        }
+    };
+
+    recognition.onend = () => { if (isRecording) { try { recognition.start(); } catch(e){} } };
+
+    try {
+        recognition.start();
+    } catch(e) {
+        showToast('Could not start mic. Please type your answer.');
+        return;
+    }
+
+    isRecording = true;
+    document.getElementById('micCircle').classList.add('recording');
+    document.getElementById('micSection').classList.add('recording');
+    document.getElementById('micStatus').textContent = 'Recording — speak your answer now';
+    document.getElementById('micStatus').classList.add('recording');
+
+    micSecs = 0;
+    clearInterval(micTimerInt);
+    micTimerInt = setInterval(() => {
+        micSecs++;
+        const m = Math.floor(micSecs/60), s = micSecs%60;
+        document.getElementById('micTimer').textContent = m+':'+String(s).padStart(2,'0');
+    }, 1000);
+
+    wavInt = setInterval(animateWave, 90);
+    startCountdown();
+}
+
+
+// Graceful stop — preserves transcript
+function stopRecording() {
+    isRecording = false;
+    clearInterval(micTimerInt);
+    clearInterval(wavInt);
+    if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+        // Don't null it yet — onend fires after stop() and we need isRecording=false to prevent restart
+        setTimeout(function() { recognition = null; }, 300);
+    }
+    document.getElementById('micCircle').classList.remove('recording');
+    document.getElementById('micSection').classList.remove('recording');
+    document.getElementById('micStatus').textContent = 'Recording stopped — edit if needed, then get AI feedback';
+    document.getElementById('micStatus').classList.remove('recording');
+    resetWave();
+    checkAnalyseBtn();
+}
+
+// Hard stop — used when navigating away or on error
+function forceStopRecording() {
+    isRecording = false;
+    clearInterval(micTimerInt);
+    clearInterval(wavInt);
+    clearInterval(timerInt);
+    if (recognition) {
+        try { recognition.abort(); } catch(e) {}
+        recognition = null;
+    }
+    document.getElementById('micCircle').classList.remove('recording');
+    document.getElementById('micSection').classList.remove('recording');
+    document.getElementById('micStatus').textContent = 'Tap microphone to start recording';
+    document.getElementById('micStatus').classList.remove('recording');
+    resetWave();
+    checkAnalyseBtn();
+}
+
+function updateWordCount() {
+    var val = document.getElementById('transcriptBox').value.trim();
+    var words = val.length === 0 ? 0 : val.split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+    document.getElementById('wordCount').textContent = words + ' word' + (words !== 1 ? 's' : '');
+}
+
+function onTranscriptInput() { updateWordCount(); checkAnalyseBtn(); }
+
+function checkAnalyseBtn() {
+    const len = document.getElementById('transcriptBox').value.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+    const hasKey = !!getApiKey();
+    const btn = document.getElementById('analyseBtn');
+    if (!btn) return;
+  //  btn.disabled = (len < 5) || !hasKey;
+ //   btn.title = !hasKey ? 'Add API key in Settings first' : len < 5 ? 'Record or type more of your answer' : '';
+}
+
+// ==================== AI PROGRESS STEPS ====================
+function resetSteps() {
+    for (let i=1; i<=5; i++) {
+        const step = document.getElementById('step'+i);
+        step.classList.remove('done','active');
+        step.querySelector('.step-label').classList.add('muted');
+    }
+}
+
+function activateStep(n) {
+    for (let i=1; i<n; i++) {
+        const s = document.getElementById('step'+i);
+        s.classList.add('done'); s.classList.remove('active');
+        s.querySelector('.step-dot').textContent = '✓';
+        s.querySelector('.step-label').classList.remove('muted');
+    }
+    const curr = document.getElementById('step'+n);
+    curr.classList.add('active'); curr.classList.remove('done');
+    curr.querySelector('.step-dot').textContent = n;
+    curr.querySelector('.step-label').classList.remove('muted');
+}
+
+function allStepsDone() {
+    for (let i=1; i<=5; i++) {
+        const s = document.getElementById('step'+i);
+        s.classList.add('done'); s.classList.remove('active');
+        s.querySelector('.step-dot').textContent = '✓';
+        s.querySelector('.step-label').classList.remove('muted');
+    }
+}
+
+// ==================== ANALYSE ====================
+async function analyseAnswer() {
+    const answer = document.getElementById('transcriptBox').value.trim();
+    if (!answer || answer.length < 20) return;
+    if (!getApiKey()) {
+        showToast('Please add your API key in Settings first');
+        showScreen('settings', null);
+        document.querySelectorAll('.nav-tab')[3].classList.add('active');
+        return;
+    }
+
+    if (isRecording) forceStopRecording();
+    clearInterval(timerInt);
+
+    // Snapshot question NOW before anything async changes qIdx
+    const currentQ = sessionQ[qIdx] || {q: document.getElementById('currentQuestion').textContent, type:'General', hint:''};
+    const currentAnswer = answer;
+    const currentSpecialty = currentSessionType;
+
+    document.getElementById('analyseBtn').disabled = true;
+    document.getElementById('feedbackResults').classList.add('hidden');
+    document.getElementById('actionBtnRow').style.display = 'none';
+    document.getElementById('micSection').style.display = 'none';
+    document.getElementById('transcriptBox').readOnly = true;
+    document.getElementById('aiProgressWrap').classList.add('visible');
+    resetSteps();
+
+    activateStep(1);
+    await delay(700);
+    activateStep(2);
+    await delay(900);
+    activateStep(3);
+    activateStep(4);
+
+    const systemPrompt = [
+        'You are an expert interview coach for International Medical Graduates (IMGs) applying to US residency and fellowship programs.',
+        'You understand ECFMG, ERAS, NRMP, USMLE, USCE, ACGME, J-1/H-1B visas, and the specific challenges IMGs face.',
+        '',
+        'Analyse the candidate answer and respond ONLY with a single valid JSON object.',
+        'No markdown fences, no backticks, no explanation before or after — just the raw JSON.',
+        '',
+        'Required JSON structure:',
+        '{',
+        '  "scores": {"content": 7, "communication": 6, "structure": 8, "usa_readiness": 5},',
+        '  "strengths": ["strength one", "strength two", "strength three"],',
+        '  "gaps": ["gap one", "gap two"],',
+        '  "overall": "Two or three sentence honest overall assessment.",',
+        '  "detailed": "Three to four sentences on content quality, US context awareness, framework usage, and communication clarity.",',
+        '  "improvements": [',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."},',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."},',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."},',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."}',
+        '  ],',
+        '  "sample": "Three to four sentence model answer the IMG could adapt."',
+        '}'
+    ].join('\n');
+
+    const userMsg = 'Specialty: ' + currentSpecialty + '\n' +
+                    'Question type: ' + currentQ.type + '\n' +
+                    'Interview question: ' + currentQ.q + '\n' +
+                    'Candidate answer: ' + currentAnswer;
+
+    try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': getApiKey(),
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-haiku-4-5-20251001',
+                max_tokens: 1200,
+                system: systemPrompt,
+                messages: [{role: 'user', content: userMsg}]
+            })
+        });
+
+        if (!res.ok) {
+            const errJson = await res.json().catch(()=>({}));
+            throw new Error((errJson.error && errJson.error.message) || 'HTTP ' + res.status);
+        }
+
+        const data = await res.json();
+        activateStep(5);
+        await delay(500);
+
+        const rawText = (data.content || []).map(c => c.text || '').join('').trim();
+
+        // Robust JSON extraction — strip any wrapping fences or stray text
+        let jsonStr = rawText;
+        const fenceMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (fenceMatch) {
+            jsonStr = fenceMatch[1].trim();
+        } else {
+            // Find first { and last } to extract the JSON object
+            const start = rawText.indexOf('{');
+            const end = rawText.lastIndexOf('}');
+            if (start !== -1 && end !== -1 && end > start) {
+                jsonStr = rawText.slice(start, end + 1);
+            }
+        }
+
+        const result = JSON.parse(jsonStr);
+
+        // Validate expected keys exist
+        if (!result.scores || !result.overall) {
+            throw new Error('Unexpected response format from AI');
+        }
+
+        allStepsDone();
+        await delay(300);
+        renderFeedback(result);
+
+        // Track score
+        const scores = result.scores;
+        const avg = ((scores.content || 5) + (scores.communication || 5) + (scores.structure || 5) + (scores.usa_readiness || 5)) / 4;
+        const avgRounded = parseFloat(avg.toFixed(1));
+
+        progressData.questions++;
+        progressData.scores.push(avgRounded);
+        if (progressData.scores.length > 50) progressData.scores = progressData.scores.slice(-50);
+        savePersisted();
+        updateProgressDisplay();
+
+        // Save to history log using snapshotted values
+        saveToLog({
+            question: currentQ.q,
+            type: currentQ.type,
+            specialty: currentSpecialty,
+            answer: currentAnswer,
+            feedback: result,
+            avgScore: avgRounded
+        });
+
+    } catch(e) {
+        allStepsDone();
+        document.getElementById('aiProgressWrap').classList.remove('visible');
+        document.getElementById('actionBtnRow').style.display = 'flex';
+        document.getElementById('micSection').style.display = 'block';
+        document.getElementById('transcriptBox').readOnly = false;
+        document.getElementById('analyseBtn').disabled = false;
+        const msg = e.message || 'Connection failed';
+        showToast('Error: ' + msg);
+        console.error('AI analyse error:', e);
+    }
+}
+
+function renderFeedback(r) {
+    if (!r || typeof r !== 'object') { showToast('Could not display feedback — unexpected format'); return; }
+    const sc = r.scores || {};
+    // Scores
+    const scoreLabels = [
+        ['content','Content'],
+        ['communication','Comms'],
+        ['structure','Structure'],
+        ['usa_readiness','USA Ready']
+    ];
+    let shtml = '';
+    scoreLabels.forEach(([k,l]) => {
+        const v = sc[k] || 0;
+        const color = v>=8?'sc-green':v>=6?'sc-amber':'sc-red';
+        shtml += '<div class="score-box"><div class="score-num ' + color + '">' + v + '</div><div class="score-lbl">' + l + '</div></div>';
+    });
+    document.getElementById('scoresRow').innerHTML = shtml;
+    document.getElementById('summaryText').innerHTML = '<p style="font-size:13px;color:#475569;line-height:1.6;margin:0;">' + (r.overall || '') + '</p>';
+
+    // Strengths + gaps
+    let fhtml = '';
+    (Array.isArray(r.strengths) ? r.strengths : []).forEach(function(s) {
+        fhtml += '<div class="feedback-item"><div class="feedback-icon good">&#10003;</div><div class="feedback-text-block"><strong>' + s + '</strong></div></div>';
+    });
+    (Array.isArray(r.gaps) ? r.gaps : []).forEach(function(g) {
+        fhtml += '<div class="feedback-item"><div class="feedback-icon improve">!</div><div class="feedback-text-block"><strong>' + g + '</strong></div></div>';
+    });
+    document.getElementById('strengthsList').innerHTML = fhtml || '<p style="font-size:13px;color:#64748b;">No specific flags.</p>';
+
+    document.getElementById('detailedFeedback').textContent = r.detailed || '';
+
+    // Improvements
+    let ihtml = '';
+    (Array.isArray(r.improvements) ? r.improvements : []).forEach(function(it, i) {
+        ihtml += '<div class="improve-item"><div class="improve-num">' + (i+1) + '</div><div class="improve-body"><strong>' + (it.title||'') + '</strong><span>' + (it.desc||'') + '</span></div></div>';
+    });
+    document.getElementById('improvementsList').innerHTML = ihtml || '<p style="font-size:13px;color:#64748b;">No improvements listed.</p>';
+
+    // Sample
+    if (r.sample) {
+        document.getElementById('sampleAnswer').textContent = r.sample;
+        document.getElementById('sampleSection').style.display = 'block';
+    } else {
+        document.getElementById('sampleSection').style.display = 'none';
+    }
+
+    // Hide AI progress, show results
+    document.getElementById('aiProgressWrap').classList.remove('visible');
+    document.getElementById('actionBtnRow').style.display = 'none';
+    document.getElementById('micSection').style.display = 'none';
+    document.getElementById('transcriptBox').readOnly = false;
+    var fr = document.getElementById('feedbackResults');
+    fr.classList.remove('hidden');
+    fr.style.display = 'block';
+
+    // Store for progress tab
+    lastFeedback = r;
+    updateRecentFeedback(r);
+
+    // Scroll to results
+    setTimeout(function() {
+        var el = document.getElementById('feedbackResults');
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 100);
+}
+
+function updateRecentFeedback(r) {
+    const el = document.getElementById('recentFeedback');
+    let html = '';
+    (r.strengths||[]).slice(0,2).forEach(s => {
+        html += `<div class="feedback-item"><div class="feedback-icon good">✓</div><div class="feedback-text-block"><strong>${s}</strong></div></div>`;
+    });
+    (r.improvements||[]).slice(0,2).forEach(it => {
+        html += `<div class="feedback-item"><div class="feedback-icon improve">!</div><div class="feedback-text-block"><strong>${it.title}</strong><small>${it.desc}</small></div></div>`;
+    });
+    if (html) el.innerHTML = html;
+}
+
+// ==================== QUESTION BROWSER ====================
+function filterQ(cat, btnEl) {
+    const list = document.getElementById('questionsList');
+    let items = cat === 'all' ? allQFlat() : allQFlat().filter(q => q.category.toLowerCase() === cat);
+    document.getElementById('questionCount').textContent = items.length;
+    const colors = {General:'#0ea5e9', Behavioral:'#10b981', Clinical:'#f59e0b'};
+    let html = '';
+    items.forEach((q,i) => {
+        const c = colors[q.category] || '#6366f1';
+        html += `<div class="question-browser-card" style="border-left-color:${c}" onclick="practiceThis(${JSON.stringify(q.q).replace(/'/g,"&#39;")})">
+            <span class="question-category-badge" style="background:${c}">${q.category}</span>
+            <div style="font-size:13px;font-weight:500;color:#1e293b;line-height:1.4;">${q.q}</div>
+        </div>`;
+    });
+    list.innerHTML = html || '<p style="color:#64748b;font-size:13px;text-align:center;padding:20px 0;">No questions found.</p>';
+    if (btnEl) {
+        document.querySelectorAll('.filter-btn').forEach(b => { b.className = b.className.replace('btn-success','btn-secondary'); });
+        btnEl.className = btnEl.className.replace('btn-secondary','btn-success');
+    }
+}
+
+function practiceThis(qText) {
+    // Start a mini session with this specific question
+    const found = allQFlat().find(q => q.q === qText);
+    if (!found) return;
+    currentSessionType = found.category.toLowerCase();
+    sessionQ = [found];
+    qIdx = 0;
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('interview').classList.add('active');
+    resetInterviewUI();
+    loadQ();
+    window.scrollTo(0,0);
+}
+
+// ==================== STATIC CONTENT BUILDERS ====================
+function buildRoadmap() {
+    const steps = [
+        {n:1, title:'ECFMG Certification', desc:'Register with MyIntealth. Pass USMLE Step 1 & Step 2 CK. Complete an ECFMG Pathway (OET Medicine or equivalent) for clinical/communication skills.'},
+        {n:2, title:'US Clinical Experience (USCE)', desc:'Secure observerships, externships, or elective rotations at US hospitals. Get LORs from US-based attendings — these carry the most weight.'},
+        {n:3, title:'ERAS Application (opens June)', desc:'Obtain ECFMG/ERAS token. Build CV, personal statement (750–850 words), gather 3+ specialty-specific LORs. Apply across reach, match & safety programs.'},
+        {n:4, title:'Interview Season (Oct–Feb)', desc:'Most interviews are virtual (Zoom). Prepare your setup, lighting, and background. Send thank-you emails within 24 hrs. Personalise your "Why this program?" for every interview.'},
+        {n:5, title:'NRMP Rank Order List (Jan–Feb)', desc:'Rank programs honestly by preference — the Match algorithm is applicant-friendly. Consider a Letter of Intent to your #1 program.'},
+        {n:6, title:'Match Day (March)', desc:'Results 2nd Monday (match/no-match). Program revealed 2nd Friday. If unmatched, enter SOAP for remaining unfilled positions.'},
+        {n:7, title:'Visa & Credentialing (April–June)', desc:'Apply for J-1 (ECFMG-sponsored, most common) or H-1B visa. Verify state licensing requirements. Start hospital credentialing. Begin July 1.'},
+    ];
+    document.getElementById('roadmapContent').innerHTML = steps.map(s => `
+        <div class="feedback-item" style="margin-bottom:12px;align-items:flex-start;">
+            <div class="feedback-icon good" style="background:#ede9fe;color:#5b21b6;width:30px;height:30px;font-size:14px;flex-shrink:0;">${s.n}</div>
+            <div class="feedback-text-block"><strong>${s.title}</strong><small>${s.desc}</small></div>
+        </div>`).join('');
+}
+
+function buildTips() {
+    const tips = [
+        {icon:'🚩', t:'Address gaps & red flags proactively', d:"Don't wait to be asked. If you have USMLE retakes or a graduation gap, prepare a brief, confident explanation. Show growth — never defensiveness."},
+        {icon:'🇺🇸', t:'Know the US healthcare system', d:'Understand ACGME, Medicare/Medicaid, Epic EHR, team-based care, and American medical culture. Programs want IMGs who will integrate seamlessly.'},
+        {icon:'⭐', t:'Use STAR for every behavioral question', d:'Every "Tell me about a time…" needs Situation, Task, Action, Result. Prepare 6–8 flexible STAR stories you can adapt to any question.'},
+        {icon:'💻', t:'Master virtual interview etiquette', d:'Test Zoom 24 hrs before. Eye-level camera. Business attire. Neutral background. Good lighting. Have a phone backup if tech fails.'},
+        {icon:'🎯', t:'Personalise every "Why this program?" answer', d:'Research faculty, research focus, fellowship pathway, patient population. Name specifics. Generic answers are the #1 IMG interview mistake.'},
+        {icon:'📧', t:'Post-interview emails matter', d:'Send a thank-you email within 24 hours. If it\'s your #1 program, send a Letter of Intent before rank list closes.'},
+        {icon:'❓', t:'Prepare questions to ask interviewers', d:'Have 3–4 thoughtful questions: about wellness culture, teaching, fellowship match rates, research. Never ask about salary or schedule on interview day.'},
+        {icon:'🗣️', t:'Speak clearly at a measured pace', d:'Practice slowing down and enunciating. Record yourself and review critically. American interviewers appreciate confident, organised speech.'},
+    ];
+    document.getElementById('tipsContent').innerHTML = tips.map(t => `
+        <div class="tip-item"><span class="tip-icon">${t.icon}</span><div><strong style="display:block;font-size:13px;margin-bottom:3px;">${t.t}</strong>${t.d}</div></div>`).join('');
+}
+
+function buildLinks() {
+    const links = [
+        {icon:'🏛️', t:'ECFMG / Intealth', d:'Certification, ERAS token, Pathways. Your first stop as an IMG.', url:'https://www.ecfmg.org'},
+        {icon:'📄', t:'ERAS (AAMC)', d:'Electronic Residency Application Service — centralized application.', url:'https://www.aamc.org/students-residents/eras'},
+        {icon:'🔀', t:'NRMP Match', d:'Rank lists, Match Day, and SOAP for unmatched applicants.', url:'https://www.nrmp.org'},
+        {icon:'📝', t:'USMLE', d:'Step 1 & Step 2 CK — required for ECFMG certification.', url:'https://www.usmle.org'},
+        {icon:'🔍', t:'FREIDA (AMA)', d:'Program search: filter by IMG-friendliness, visa sponsorship, specialty.', url:'https://freida.ama-assn.org'},
+        {icon:'📍', t:'Match A Resident', d:'IMG-focused program search with IMG-friendliness ratings.', url:'https://www.matcharesident.com'},
+    ];
+    document.getElementById('linksContent').innerHTML = links.map(l => `
+        <div class="practice-card" style="padding:14px;">
+            <h3 style="font-size:14px;">${l.icon} ${l.t}</h3>
+            <p style="font-size:13px;margin-bottom:10px;">${l.d}</p>
+            <button class="btn btn-outline" style="font-size:13px;padding:8px;" onclick="window.open('${l.url}','_blank')">Open →</button>
+        </div>`).join('');
+}
+
+// ==================== PROGRESS & STORAGE ====================
+function updateProgressDisplay() {
+    document.getElementById('totalSessions').textContent = progressData.sessions;
+    document.getElementById('totalQuestions').textContent = progressData.questions;
+    document.getElementById('streak').textContent = progressData.streak;
+    document.getElementById('settingsSessions').textContent = progressData.sessions;
+    document.getElementById('settingsQuestions').textContent = progressData.questions;
+
+    if (progressData.scores.length) {
+        const avg = (progressData.scores.reduce((a,b)=>a+b,0)/progressData.scores.length).toFixed(1);
+        document.getElementById('avgScore').textContent = avg;
+        const pct = Math.min(100, Math.round((avg/10)*100));
+        document.getElementById('readinessPct').textContent = pct+'%';
+        document.getElementById('readinessFill').style.width = pct+'%';
+        const msgs = ['Keep practising — you\'re building momentum!','Good progress — consistency is key.','Looking strong — keep refining your answers.','Excellent — you\'re well-prepared for interviews!'];
+        document.getElementById('readinessMsg').textContent = msgs[Math.min(3, Math.floor(avg/2.5))];
+    }
+}
+
+function updateStreak() {
+    const today = new Date().toDateString();
+    if (!progressData.lastDate) { progressData.streak = 1; }
+    else if (progressData.lastDate === today) { return; }
+    else {
+        const diff = Math.floor((new Date(today)-new Date(progressData.lastDate))/(86400000));
+        progressData.streak = diff===1 ? progressData.streak+1 : 1;
+    }
+    progressData.lastDate = today;
+}
+
+function savePersisted() {
+    try { localStorage.setItem('imgPrep2', JSON.stringify(progressData)); } catch(e){}
+}
+
+function loadPersisted() {
+    try {
+        const s = localStorage.getItem('imgPrep2');
+        if (s) progressData = {...progressData, ...JSON.parse(s)};
+    } catch(e){}
+}
+
+// ==================== SETTINGS ====================
+function setSessionLength(n, btn) {
+    sessionLength = n;
+    document.querySelectorAll('.btn-row .filter-btn').forEach(b => b.className = b.className.replace('btn-success','btn-secondary'));
+    if (btn) { btn.className = btn.className.replace('btn-secondary','btn-success'); btn.textContent = n+' Qs ✓'; }
+    showToast('Session length set to '+n+' questions');
+}
+
+function setTimerLen(s, btn) {
+    timerLength = s;
+    document.querySelectorAll('.btn-row .filter-btn').forEach(b => b.className = b.className.replace('btn-success','btn-secondary'));
+    if (btn) { btn.className = btn.className.replace('btn-secondary','btn-success'); btn.textContent = (s/60)+' min ✓'; }
+    showToast('Timer set to '+(s/60)+' min per question');
+}
+
+function confirmReset() {
+    if (confirm('Reset ALL progress? This cannot be undone.')) {
+        progressData = {sessions:0,questions:0,scores:[],lastDate:null,streak:0};
+        sessionLog = [];
+        savePersisted();
+        saveSessionLog();
+        updateProgressDisplay();
+        document.getElementById('recentFeedback').innerHTML = '<div class="feedback-item"><div class="feedback-icon good">✓</div><div class="feedback-text-block"><strong>Start practising!</strong><small>Complete a session and your AI feedback will appear here.</small></div></div>';
+        showToast('Progress reset ✓');
+    }
+}
+
+// ==================== UTILS ====================
+function shuffle(arr) {
+    for (let i=arr.length-1; i>0; i--) {
+        const j=Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+}
+
+function delay(ms) { return new Promise(r=>setTimeout(r,ms)); }
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ==================== SETTINGS MIC ====================
+let settingsMicStream = null;
+let settingsRecognition = null;
+let settingsIsRecording = false;
+let settingsMicTimerInt = null;
+let settingsWavInt = null;
+let settingsMicSecs = 0;
+let settingsMicGranted = false;
+
+function buildSettingsWaveform() {
+    const wf = document.getElementById('settingsWaveform');
+    if (!wf || wf.children.length > 0) return;
+    for (let i = 0; i < 32; i++) {
+        const b = document.createElement('div');
+        b.className = 'wave-bar';
+        b.id = 'swb' + i;
+        wf.appendChild(b);
+    }
+}
+
+function animateSettingsWave() {
+    for (let i = 0; i < 32; i++) {
+        const b = document.getElementById('swb' + i);
+        if (!b) continue;
+        b.style.height = settingsIsRecording ? (4 + Math.random() * 28) + 'px' : '4px';
+        b.className = 'wave-bar' + (settingsIsRecording ? ' active rec' : '');
+    }
+}
+
+function resetSettingsWave() {
+    for (let i = 0; i < 32; i++) {
+        const b = document.getElementById('swb' + i);
+        if (b) { b.style.height = '4px'; b.className = 'wave-bar'; }
+    }
+}
+
+async function requestMicAccess() {
+    const btn = document.getElementById('micEnableBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Requesting access…';
+
+    try {
+        settingsMicStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Permission granted
+        settingsMicGranted = true;
+        setMicStatusGranted();
+        buildSettingsWaveform();
+        showToast('Microphone enabled ✓');
+    } catch (err) {
+        btn.disabled = false;
+        btn.textContent = '🎙️ Enable Microphone';
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+            setMicStatusDenied();
+            showToast('Mic access denied — check browser settings');
+        } else if (err.name === 'NotFoundError') {
+            setMicStatusError('No microphone found on this device.');
+        } else {
+            setMicStatusError('Could not access mic: ' + err.message);
+        }
+    }
+}
+
+function setMicStatusGranted() {
+    document.getElementById('micPermDot').style.background = '#10b981';
+    document.getElementById('micPermLabel').style.color = '#065f46';
+    document.getElementById('micPermLabel').textContent = 'Microphone enabled';
+    document.getElementById('micPermSub').textContent = 'Your mic is ready — record a test answer below';
+    document.getElementById('micEnableBtn').classList.add('hidden');
+    document.getElementById('micRevokeBtn').classList.remove('hidden');
+    document.getElementById('micTestRecorder').classList.remove('hidden');
+}
+
+function setMicStatusDenied() {
+    document.getElementById('micPermDot').style.background = '#ef4444';
+    document.getElementById('micPermLabel').style.color = '#991b1b';
+    document.getElementById('micPermLabel').textContent = 'Microphone access denied';
+    document.getElementById('micPermSub').textContent = 'Please allow mic access in your browser\'s site settings, then refresh';
+    document.getElementById('micEnableBtn').disabled = false;
+    document.getElementById('micEnableBtn').textContent = '🔄 Try Again';
+}
+
+function setMicStatusError(msg) {
+    document.getElementById('micPermDot').style.background = '#f59e0b';
+    document.getElementById('micPermLabel').style.color = '#92400e';
+    document.getElementById('micPermLabel').textContent = 'Microphone unavailable';
+    document.getElementById('micPermSub').textContent = msg;
+    document.getElementById('micEnableBtn').disabled = false;
+    document.getElementById('micEnableBtn').textContent = '🔄 Try Again';
+}
+
+function revokeMicHint() {
+    const h = document.getElementById('revokeHint');
+    h.classList.toggle('hidden');
+}
+
+function toggleSettingsRec() {
+    if (settingsIsRecording) stopSettingsRec();
+    else startSettingsRec();
+}
+
+function startSettingsRec() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+        showToast('Speech recognition not supported in this browser — please type your answer');
+        return;
+    }
+
+    settingsRecognition = new SR();
+    settingsRecognition.continuous = true;
+    settingsRecognition.interimResults = true;
+    settingsRecognition.lang = 'en-US';
+
+    let finalT = document.getElementById('settingsTranscript').value;
+
+    settingsRecognition.onresult = e => {
+        let interim = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) finalT += e.results[i][0].transcript + ' ';
+            else interim = e.results[i][0].transcript;
+        }
+        document.getElementById('settingsTranscript').value = finalT + interim;
+        onSettingsTranscriptInput();
+    };
+
+    settingsRecognition.onerror = e => {
+        if (e.error === 'not-allowed') {
+            showToast('Mic access denied. Please re-enable in settings above.');
+            setMicStatusDenied();
+            stopSettingsRec();
+        } else if (e.error !== 'no-speech') {
+            showToast('Mic error: ' + e.error);
+            stopSettingsRec();
+        }
+    };
+
+    settingsRecognition.onend = () => { if (settingsIsRecording) { try { settingsRecognition.start(); } catch(e){} } };
+
+    try { settingsRecognition.start(); } catch(e) { showToast('Could not start mic. Please try again.'); return; }
+
+    settingsIsRecording = true;
+    document.getElementById('settingsMicCircle').classList.add('recording');
+    document.getElementById('settingsMicStatus').textContent = 'Recording — speak now…';
+    document.getElementById('settingsMicStatus').classList.add('recording');
+
+    settingsMicSecs = 0;
+    clearInterval(settingsMicTimerInt);
+    settingsMicTimerInt = setInterval(() => {
+        settingsMicSecs++;
+        const m = Math.floor(settingsMicSecs / 60), s = settingsMicSecs % 60;
+        document.getElementById('settingsMicTimer').textContent = m + ':' + String(s).padStart(2, '0');
+    }, 1000);
+
+    settingsWavInt = setInterval(animateSettingsWave, 90);
+}
+
+function stopSettingsRec() {
+    if (settingsRecognition) { try { settingsRecognition.stop(); } catch(e){} settingsRecognition = null; }
+    settingsIsRecording = false;
+    clearInterval(settingsMicTimerInt);
+    clearInterval(settingsWavInt);
+    document.getElementById('settingsMicCircle').classList.remove('recording');
+    document.getElementById('settingsMicStatus').textContent = 'Recording stopped — review transcript below';
+    document.getElementById('settingsMicStatus').classList.remove('recording');
+    resetSettingsWave();
+    onSettingsTranscriptInput();
+}
+
+function onSettingsTranscriptInput() {
+    const words = document.getElementById('settingsTranscript').value.trim().split(/\s+/).filter(w => w).length;
+    document.getElementById('settingsWordCount').textContent = words + ' word' + (words !== 1 ? 's' : '');
+    document.getElementById('settingsAnalyseBtn').disabled = document.getElementById('settingsTranscript').value.trim().length < 20;
+}
+
+function clearSettingsRec() {
+    stopSettingsRec();
+    if (settingsMicStream) {
+        settingsMicStream.getTracks().forEach(function(t){ t.stop(); });
+        settingsMicStream = null;
+    }
+    document.getElementById('settingsTranscript').value = '';
+    document.getElementById('settingsWordCount').textContent = '0 words';
+    document.getElementById('settingsMicTimer').textContent = '0:00';
+    document.getElementById('settingsMicStatus').textContent = 'Tap microphone to start test recording';
+    document.getElementById('settingsAnalyseBtn').disabled = true;
+    document.getElementById('settingsAiProgress').classList.add('hidden');
+    document.getElementById('settingsFeedbackResult').classList.add('hidden');
+    resetSettingsWave();
+}
+
+async function analyseSettingsRec() {
+    const text = document.getElementById('settingsTranscript').value.trim();
+    if (!text || text.length < 20) return;
+    if (!getApiKey()) { showToast('⚠️ Please enter your API key above first'); document.getElementById('apiKeyInput').focus(); return; }
+
+    stopSettingsRec();
+
+    document.getElementById('settingsAnalyseBtn').disabled = true;
+    document.getElementById('settingsFeedbackResult').classList.add('hidden');
+    document.getElementById('settingsAiProgress').classList.remove('hidden');
+
+    // Animated step list
+    const stepLabels = [
+        'Reading your response…',
+        'Evaluating content & relevance…',
+        'Checking communication clarity…',
+        'Generating feedback…',
+        'Building improvement tips…'
+    ];
+
+    const wrap = document.getElementById('settingsStepsWrap');
+    wrap.innerHTML = stepLabels.map((l, i) =>
+        `<div id="sset-step${i}" style="display:flex;align-items:center;gap:10px;padding:5px 0;opacity:0.35;transition:opacity 0.3s;">
+            <div id="sset-dot${i}" style="width:22px;height:22px;border-radius:50%;border:2px solid #e2e8f0;background:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#94a3b8;flex-shrink:0;">${i+1}</div>
+            <div style="font-size:12px;color:#475569;">${l}</div>
+        </div>`).join('');
+
+    async function activateSStep(n) {
+        if (n > 0) {
+            const prev = document.getElementById('sset-step'+(n-1));
+            const prevDot = document.getElementById('sset-dot'+(n-1));
+            if (prev) prev.style.opacity = '1';
+            if (prevDot) { prevDot.style.background = '#10b981'; prevDot.style.borderColor = '#10b981'; prevDot.style.color = 'white'; prevDot.textContent = '✓'; }
+        }
+        const cur = document.getElementById('sset-step'+n);
+        const curDot = document.getElementById('sset-dot'+n);
+        if (cur) cur.style.opacity = '1';
+        if (curDot) { curDot.style.background = '#4f46e5'; curDot.style.borderColor = '#4f46e5'; curDot.style.color = 'white'; }
+    }
+
+    activateSStep(0); await delay(600);
+    activateSStep(1); await delay(700);
+    activateSStep(2);
+
+    const sys = [
+        'You are an expert IMG interview coach for US residency and fellowship programs.',
+        'Analyse the spoken or typed response as an interview answer.',
+        '',
+        'Respond ONLY with a single raw JSON object — no markdown, no backticks, no extra text.',
+        '',
+        'Required structure:',
+        '{',
+        '  "scores": {"content": 7, "communication": 6, "structure": 8, "usa_readiness": 5},',
+        '  "overall": "Two or three sentence honest assessment.",',
+        '  "improvements": [',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."},',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."},',
+        '    {"title": "Short title", "desc": "One or two actionable sentences."}',
+        '  ],',
+        '  "sample": "Three to four sentence stronger version of this answer."',
+        '}'
+    ].join('\n');
+
+    const user = 'Candidate response: ' + text + '\n\nAssess this as an IMG residency interview answer and return only the JSON object.';
+
+    activateSStep(3);
+
+    try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': getApiKey(),
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-haiku-4-5-20251001',
+                max_tokens: 800,
+                system: sys,
+                messages: [{ role: 'user', content: user }]
+            })
+        });
+        if (!res.ok) {
+            const errJson = await res.json().catch(()=>({}));
+            throw new Error((errJson.error && errJson.error.message) || 'HTTP ' + res.status);
+        }
+        const data = await res.json();
+        activateSStep(4);
+        await delay(500);
+
+        // Mark all done
+        for (let i = 0; i < 5; i++) {
+            const d = document.getElementById('sset-dot'+i);
+            const s = document.getElementById('sset-step'+i);
+            if (d) { d.style.background='#10b981'; d.style.borderColor='#10b981'; d.style.color='white'; d.textContent='✓'; }
+            if (s) s.style.opacity = '1';
+        }
+
+        await delay(400);
+        const rawSt = (data.content || []).map(c => c.text || '').join('').trim();
+        let jsonSt = rawSt;
+        const fenceSt = rawSt.match(/```(?:json)?[\s\S]*?```/);
+        if (fenceSt) {
+            jsonSt = rawSt.replace(/```(?:json)?/g, '').replace(/```/g, '').trim();
+        } else {
+            const stStart = rawSt.indexOf('{');
+            const stEnd = rawSt.lastIndexOf('}');
+            if (stStart !== -1 && stEnd > stStart) jsonSt = rawSt.slice(stStart, stEnd + 1);
+        }
+        const result = JSON.parse(jsonSt);
+        if (!result.scores || !result.overall) throw new Error('Unexpected AI response format');
+        renderSettingsFeedback(result);
+
+    } catch(e) {
+        document.getElementById('settingsAiProgress').classList.add('hidden');
+        document.getElementById('settingsAnalyseBtn').disabled = false;
+        showToast('Error: ' + (e.message || 'Connection failed. Please try again.'));
+        console.error('Settings AI error:', e);
+    }
+}
+
+function renderSettingsFeedback(r) {
+    document.getElementById('settingsAiProgress').classList.add('hidden');
+
+    const scoreLabels = [
+        ['content','Content'], ['communication','Comms'],
+        ['structure','Structure'], ['usa_readiness','USA Ready']
+    ];
+    let shtml = '';
+    scoreLabels.forEach(([k, l]) => {
+        const v = r.scores[k];
+        const c = v >= 8 ? 'sc-green' : v >= 6 ? 'sc-amber' : 'sc-red';
+        shtml += `<div class="score-box"><div class="score-num ${c}">${v}</div><div class="score-lbl">${l}</div></div>`;
+    });
+    document.getElementById('settingsScoresRow').innerHTML = shtml;
+    document.getElementById('settingsOverall').textContent = r.overall || '';
+
+    let ihtml = '';
+    (r.improvements || []).forEach((it, i) => {
+        ihtml += `<div class="improve-item"><div class="improve-num">${i+1}</div><div class="improve-body"><strong>${it.title}</strong><span>${it.desc}</span></div></div>`;
+    });
+    document.getElementById('settingsImprovements').innerHTML = ihtml;
+
+    if (r.sample) {
+        document.getElementById('settingsSample').textContent = r.sample;
+        document.getElementById('settingsSample').style.display = 'block';
+    }
+
+    document.getElementById('settingsFeedbackResult').classList.remove('hidden');
+    document.getElementById('settingsAnalyseBtn').disabled = false;
+    setTimeout(() => document.getElementById('settingsFeedbackResult').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    showToast('Analysis complete ✓');
+}
+
+// ==================== API KEY ====================
+function getApiKey() {
+    return localStorage.getItem('imgPrepApiKey') || '';
+}
+
+function saveApiKey() {
+    const val = document.getElementById('apiKeyInput').value.trim();
+//
+
+    if (val) {
+        localStorage.setItem('imgPrepApiKey', val);
+        document.getElementById('apiKeyStatus').textContent = '✓ Key saved — AI features enabled';
+        document.getElementById('apiKeyStatus').style.color = '#10b981';
+    } else {
+        localStorage.removeItem('imgPrepApiKey');
+        document.getElementById('apiKeyStatus').textContent = 'No key saved yet.';
+        document.getElementById('apiKeyStatus').style.color = '#94a3b8';
+    }
+}
+
+function clearApiKey() {
+    localStorage.removeItem('imgPrepApiKey');
+    document.getElementById('apiKeyInput').value = '';
+    document.getElementById('apiKeyStatus').textContent = 'Key cleared.';
+    document.getElementById('apiKeyStatus').style.color = '#94a3b8';
+    showToast('API key cleared');
+}
+
+function toggleApiKeyVisibility() {
+    const inp = document.getElementById('apiKeyInput');
+    const btn = document.getElementById('apiKeyToggle');
+    if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+    else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+
+
+function loadApiKeyUI() {
+    const saved = getApiKey();
+    if (saved) {
+        document.getElementById('apiKeyInput').value = saved;
+        document.getElementById('apiKeyStatus').textContent = '✓ Key saved — AI features enabled';
+        document.getElementById('apiKeyStatus').style.color = '#10b981';
+    }
+}
+
+// Auto-check if mic already permitted on page load
+(async function checkExistingMicPermission() {
+    try {
+        if (navigator.permissions) {
+            const perm = await navigator.permissions.query({ name: 'microphone' });
+            if (perm.state === 'granted') {
+                settingsMicGranted = true;
+                // Don't auto-start stream, just update UI
+                document.getElementById('micPermDot').style.background = '#10b981';
+                document.getElementById('micPermLabel').style.color = '#065f46';
+                document.getElementById('micPermLabel').textContent = 'Microphone previously enabled';
+                document.getElementById('micPermSub').textContent = 'Tap "Enable Microphone" to confirm & start test recording';
+            } else if (perm.state === 'denied') {
+                setMicStatusDenied();
+            }
+        }
+    } catch(e) { /* permissions API not supported, ignore */ }
+})();
+
+// ====== start onboarding fxn
+
+const onboardingSteps = [
+    { title: "Welcome, Doctor! 🩺", text: "This app helps you master US Residency/Fellowship interviews with AI-powered feedback.", icon: "👋" },
+    { title: "Voice Recognition 🎤", text: "Speak your answers naturally. We use advanced voice-to-text to capture your responses.", icon: "🎙️" },
+    { title: "Technical issues 🎤", text: "In case voice-to-text is not working, you can type your answers. Make sure your microphone is enabled.", icon: "🎙️" },
+    { title: "AI Feedback 📊", text: "Get scores on clarity, confidence, and content based on US residency standards.", icon: "✨" },
+    { title: "Track Progress 📈", text: "Review your practice history and watch your 'Readiness Score' grow over time. Print for future reference.", icon: "🚀" },
+    { title: "Your feedback 🎤", text: "Review the app. Call or email to give us your feedback.", icon: "📊" }
+];
+
+let currentStep = 0;
+
+function startOnboarding() {
+    currentStep = 0;
+    document.getElementById('onboarding').style.display = 'flex';
+    renderStep();
+}
+
+function renderStep() {
+    const step = onboardingSteps[currentStep];
+    const isLast = currentStep === onboardingSteps.length - 1;
+    document.getElementById('onboarding-content').innerHTML = `
+        <div class="onboarding-step-img">${step.icon}</div>
+        <div class="onboarding-title">${step.title}</div>
+        <div class="onboarding-text">${step.text}</div>
+        <button class="btn" onclick="${isLast ? 'closeOnboarding()' : 'nextStep()'}">
+            ${isLast ? 'Get Started' : 'Next'}
+        </button>
+    `;
+}
+
+function nextStep() {
+    currentStep++;
+    renderStep();
+}
+
+function closeOnboarding() {
+    document.getElementById('onboarding').style.display = 'none';
+    localStorage.setItem('onboardingComplete', 'true');
+}
+
+function displayOnboarding() {
+    document.getElementById('onboarding').style.display = 'true';
+    localStorage.setItem('onboardingComplete', 'false');
+}
+
+// Corrected initialization block
+window.onload = () => {
+    if (!localStorage.getItem('onboardingComplete')) {
+        startOnboarding();
+    };
+}
+
+//Add } and }; to close the blocks properly.
+
+// ====== end onbaording fxn
+
+// ==================== SESSION LOG ====================
+function saveToLog(entry) {
+    try {
+        const fb = entry.feedback || {};
+        const sc = fb.scores || {};
+        const record = {
+            id: Date.now(),
+            date: new Date().toLocaleString('en-US', {
+                year:'numeric', month:'short', day:'numeric',
+                hour:'2-digit', minute:'2-digit'
+            }),
+            question: entry.question || 'Unknown question',
+            type: entry.type || 'General',
+            specialty: entry.specialty || '',
+            answer: entry.answer || '',
+            avgScore: entry.avgScore || 0,
+            feedback: {
+                scores: {
+                    content: sc.content || 0,
+                    communication: sc.communication || 0,
+                    structure: sc.structure || 0,
+                    usa_readiness: sc.usa_readiness || 0
+                },
+                overall: fb.overall || '',
+                strengths: Array.isArray(fb.strengths) ? fb.strengths : [],
+                gaps: Array.isArray(fb.gaps) ? fb.gaps : [],
+                detailed: fb.detailed || '',
+                improvements: Array.isArray(fb.improvements) ? fb.improvements : [],
+                sample: fb.sample || ''
+            }
+        };
+        sessionLog.unshift(record);
+        if (sessionLog.length > 200) sessionLog = sessionLog.slice(0, 200);
+        saveSessionLog();
+        console.log('Saved to log. Total entries:', sessionLog.length);
+    } catch(e) {
+        console.error('saveToLog error:', e);
+    }
+}
+
+function saveSessionLog() {
+    try { localStorage.setItem('imgPrepLog', JSON.stringify(sessionLog)); } catch(e) {}
+}
+
+function loadSessionLog() {
+    try {
+        const s = localStorage.getItem('imgPrepLog');
+        if (s) {
+            const parsed = JSON.parse(s);
+            sessionLog = Array.isArray(parsed) ? parsed : [];
+        }
+    } catch(e) {
+        console.warn('Could not load session log, resetting:', e);
+        sessionLog = [];
+    }
+}
+
+function confirmClearHistory() {
+    if (confirm('Clear all saved question history? This cannot be undone.')) {
+        sessionLog = [];
+        saveSessionLog();
+        renderHistory();
+        showToast('History cleared');
+    }
+}
+
+function printHistory() {
+    document.getElementById('printDate').textContent = 'Printed: ' + new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+    // Expand all entries for print
+    document.querySelectorAll('.history-body').forEach(b => b.classList.add('open'));
+    window.print();
+}
+
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    const countEl = document.getElementById('historyCount');
+
+    if (!sessionLog.length) {
+        list.innerHTML = `<div class="empty-history">
+            <div class="empty-icon">📋</div>
+            <p><strong>No answered questions yet.</strong><br>Complete a practice session and get AI feedback — your answers will be saved here automatically.</p>
+        </div>`;
+        if (countEl) countEl.textContent = '';
+        return;
+    }
+
+    if (countEl) countEl.textContent = sessionLog.length + ' answered question' + (sessionLog.length !== 1 ? 's' : '') + ' saved';
+
+    const scoreColor = v => v >= 8 ? 'score-hi' : v >= 6 ? 'score-mid' : 'score-lo';
+    const scoreClass = v => v >= 8 ? 'sc-green' : v >= 6 ? 'sc-amber' : 'sc-red';
+
+    list.innerHTML = sessionLog.map((entry, idx) => {
+        const s = entry.feedback.scores;
+        const avg = entry.avgScore || ((s.content + s.communication + s.structure + s.usa_readiness) / 4).toFixed(1);
+
+        const scoresHtml = `
+            <div class="hb-scores">
+                <div class="hb-score-box"><div class="hb-score-num ${scoreClass(s.content)}">${s.content}</div><div class="hb-score-lbl">Content</div></div>
+                <div class="hb-score-box"><div class="hb-score-num ${scoreClass(s.communication)}">${s.communication}</div><div class="hb-score-lbl">Comms</div></div>
+                <div class="hb-score-box"><div class="hb-score-num ${scoreClass(s.structure)}">${s.structure}</div><div class="hb-score-lbl">Structure</div></div>
+                <div class="hb-score-box"><div class="hb-score-num ${scoreClass(s.usa_readiness)}">${s.usa_readiness}</div><div class="hb-score-lbl">USA Ready</div></div>
+            </div>`;
+
+        const strengthsHtml = [...(entry.feedback.strengths||[]).map(s=>`<div class="feedback-item" style="margin-bottom:6px;"><div class="feedback-icon good" style="width:20px;height:20px;font-size:10px;">✓</div><div class="feedback-text-block"><strong style="font-size:12px;">${s}</strong></div></div>`),
+            ...(entry.feedback.gaps||[]).map(g=>`<div class="feedback-item" style="margin-bottom:6px;"><div class="feedback-icon improve" style="width:20px;height:20px;font-size:10px;">!</div><div class="feedback-text-block"><strong style="font-size:12px;">${g}</strong></div></div>`)
+        ].join('');
+
+        const imprHtml = (entry.feedback.improvements||[]).map((it,i)=>`
+            <div class="hb-improvement">
+                <div class="hb-imp-num">${i+1}</div>
+                <div class="hb-imp-body"><strong>${it.title}</strong><span>${it.desc}</span></div>
+            </div>`).join('');
+
+        const sampleHtml = entry.feedback.sample
+            ? `<div class="hb-label">⭐ Model Answer</div><div class="hb-sample">${entry.feedback.sample}</div>`
+            : '';
+
+        return `
+        <div class="history-entry">
+            <div class="history-header" onclick="toggleHistory(${idx})">
+                <div class="history-meta">
+                    <div class="history-q">${entry.question}</div>
+                    <div class="history-chips">
+                        <span class="history-chip chip-date">${entry.date}</span>
+                        <span class="history-chip chip-type">${entry.type}</span>
+                        <span class="history-chip chip-score ${scoreColor(avg)}">Avg ${avg}/10</span>
+                    </div>
+                </div>
+                <div class="history-chevron" id="chev-${idx}">›</div>
+            </div>
+            <div class="history-body" id="hbody-${idx}">
+                <div class="hb-label">🎤 Your Answer</div>
+                <div class="hb-answer">${entry.answer || '<em style="color:#94a3b8;">No answer recorded</em>'}</div>
+
+                <div class="hb-label" style="margin-top:12px;">📊 Scores</div>
+                ${scoresHtml}
+
+                <div class="hb-label">💬 Overall Feedback</div>
+                <div class="hb-overall">${entry.feedback.overall || ''}</div>
+
+                ${strengthsHtml ? `<div class="hb-label">✅ Strengths &amp; ⚠️ Gaps</div>${strengthsHtml}` : ''}
+
+                ${entry.feedback.detailed ? `<div class="hb-label">📝 Detailed Feedback</div><div class="hb-overall">${entry.feedback.detailed}</div>` : ''}
+
+                ${imprHtml ? `<div class="hb-label">🚀 Improvements</div>${imprHtml}` : ''}
+
+                ${sampleHtml}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function toggleHistory(idx) {
+    const body = document.getElementById('hbody-' + idx);
+    const chev = document.getElementById('chev-' + idx);
+    if (body) body.classList.toggle('open');
+    if (chev) chev.classList.toggle('open');
+}
+
+
+
+</script>
+</body>
+</html>
