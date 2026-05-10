@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMG Interview Prep</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    display: ['Fraunces', 'serif'],
+                    body: ['DM Sans', 'sans-serif']
+                }
+            }
+        }
+    }
+  </script>
+  <style>
+html, body { height: 100%; margin: 0; }
+.app-wrapper { height: 100%; overflow-y: auto; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+    0% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+.fade-up { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+.fade-up-1 { animation-delay: 0.1s; }
+.fade-up-2 { animation-delay: 0.2s; }
+.fade-up-3 { animation-delay: 0.3s; }
+
+.card-hover { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+.card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -8px rgba(0,0,0,0.15); }
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+.timer-pulse::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    animation: pulse-ring 1.5s infinite;
+}
+
+.sidebar-menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 280px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border-right: 1px solid rgba(148, 163, 184, 0.1);
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+}
+.sidebar-menu.open { transform: translateX(0); }
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.sidebar-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+.menu-close {
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+.menu-items {
+    padding: 12px 0;
+}
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #cbd5e1;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    font-size: 15px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+.menu-item:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: #e2e8f0;
+}
+.menu-item.active {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+    border-left: 3px solid #6366f1;
+    padding-left: 17px;
+}
+.menu-item i {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+    .sidebar-menu {
+        transform: translateX(0);
+        position: static;
+        height: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    .sidebar-overlay { display: none; }
+    .menu-header { display: none; }
+    .menu-items {
+        display: flex;
+        padding: 0;
+        gap: 0;
+    }
+    .menu-item {
+        flex: 1;
+        padding: 16px 12px;
+        border: none;
+        border-bottom: 3px solid transparent;
+        text-align: center;
+        font-size: 13px;
+        flex-direction: column;
+    }
+    .menu-item:hover { background: rgba(99, 102, 241, 0.08); }
+    .menu-item.active {
+        background: none;
+        border-bottom: 3px solid #6366f1;
+        border-left: none;
+        padding-left: 12px;
+    }
+    .menu-item i { margin-bottom: 4px; }
+}
+
+@media (max-width: 767px) {
+    .app-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    .header-nav-container { order: -1; }
+    .content-wrapper {
+        flex: 1;
+        overflow-y: auto;
+    }
+    .bottom-nav-mobile {
+        position: sticky;
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        padding: 8px 0;
+        backdrop-filter: blur(10px);
+    }
+    .bottom-nav-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.1);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+    }
+    .bottom-nav-circle:hover { background: rgba(99, 102, 241, 0.15); }
+    .bottom-nav-circle.active {
+        background: rgba(99, 102, 241, 0.25);
+        border-color: #6366f1;
+    }
+    .bottom-nav-circle i {
+        width: 24px;
+        height: 24px;
+        color: #cbd5e1;
+    }
+    .bottom-nav-circle.active i { color: #818cf8; }
+}
+
+@media (min-width: 768px) {
+    .sidebar-menu, .bottom-nav-mobile { display: none !important; }
+}
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="app-wrapper w-full bg-slate-950 font-body" id="appWrapper">
+   <div class="sidebar-menu" id="sidebarMenu">
+    <div class="menu-header">
+     <h3 class="text-white font-semibold">Menu</h3><button class="menu-close" onclick="toggleSidebar()"><i data-lucide="x" style="width:24px;height:24px;"></i></button>
+    </div>
+    <div class="menu-items" id="mobileMenuItems"></div>
+   </div>
+   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+   <div class="header-nav-container">
+    <header class="relative overflow-hidden px-6 pt-8 pb-6" id="headerSection">
+     <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-500 opacity-90"></div>
+     <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 40%);"></div>
+     <div class="relative z-10 max-w-full">
+      <div class="flex items-center justify-between mb-4">
+       <div class="flex items-center gap-3">
+        <button class="md:hidden text-white hover:text-violet-200 transition-colors" onclick="toggleSidebar()"> <i data-lucide="menu" style="width:24px;height:24px;"></i> </button>
+        <div>
+         <h1 class="font-display text-2xl text-white tracking-tight" id="appTitle">IMG Interview Prep</h1>
+         <p class="text-violet-200 text-sm mt-1" id="appSubtitle">USA Residency &amp; Fellowship</p>
+        </div>
+       </div>
+       <div class="flex items-center gap-2"><span class="inline-flex items-center gap-1 bg-white/15 backdrop-blur-sm border border-white/20 text-white text-xs px-3 py-1.5 rounded-full"> <i data-lucide="zap" style="width:12px;height:12px;"></i> <span id="streakCount">0</span> streak </span>
+       </div>
+      </div>
+      <div class="bg-white/20 rounded-full h-2 overflow-hidden">
+       <div class="h-full bg-white rounded-full transition-all duration-500" id="progressBar" style="width: 0%"></div>
+      </div>
+      <p class="text-violet-200 text-xs mt-2"><span id="questionsAnswered">0</span> of <span id="totalQuestions">0</span> questions practiced</p>
+     </div>
+    </header>
+    <nav class="sticky top-0 z-20 bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
+     <div class="hidden md:flex" id="desktopMenuItems"></div>
+    </nav>
+   </div>
+   <div class="content-wrapper">
+    <div class="max-w-full md:max-w-lg md:mx-auto px-5 py-6">
+     <!-- Practice Screen -->
+     <div class="screen active" id="screen-practice">
+      <div class="fade-up fade-up-1">
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 mb-5 card-hover">
+        <div class="flex items-start gap-4">
+         <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center flex-shrink-0"><i data-lucide="shuffle" style="width:20px;height:20px;color:white;"></i>
+         </div>
+         <div class="flex-1">
+          <h3 class="text-white font-semibold text-base mb-1">Random Question</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Get a surprise question from any category to keep your prep well-rounded.</p><button class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition-all" onclick="startRandomQuestion()">Start Practicing</button>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="fade-up fade-up-2">
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 mb-5 card-hover">
+        <div class="flex items-start gap-4">
+         <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0"><i data-lucide="star" style="width:20px;height:20px;color:white;"></i>
+         </div>
+         <div class="flex-1">
+          <h3 class="text-white font-semibold text-base mb-1">Saved Questions</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Review questions you've bookmarked for extra practice.</p><button class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition-all" onclick="showSaved()">View Saved (<span id="savedCount">0</span>)</button>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="fade-up fade-up-3">
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 card-hover">
+        <div class="flex items-start gap-4">
+         <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center flex-shrink-0"><i data-lucide="target" style="width:20px;height:20px;color:white;"></i>
+         </div>
+         <div class="flex-1">
+          <h3 class="text-white font-semibold text-base mb-1">Weak Areas</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Focus on categories where you need the most improvement.</p><button class="w-full bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition-all" onclick="showWeakAreas()">Review Weak Areas</button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Categories Screen -->
+     <div class="screen" id="screen-categories">
+      <h2 class="font-display text-xl text-white mb-4">Question Topics</h2>
+      <div id="categoriesList" class="space-y-3"></div>
+     </div><!-- Mock Interview Screen -->
+     <div class="screen" id="screen-mock">
+      <div id="mockSetup">
+       <h2 class="font-display text-xl text-white mb-2">Mock Interview</h2>
+       <p class="text-slate-400 text-sm mb-5">Simulate a real interview with timed questions. You'll get 2 minutes per question.</p>
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 mb-4"><label class="text-slate-300 text-sm font-medium block mb-2">Number of questions</label>
+        <div class="flex gap-2"><button class="mock-count-btn flex-1 py-2.5 rounded-lg text-sm font-semibold bg-slate-700 text-slate-300 border border-slate-600 transition-all hover:border-indigo-500" onclick="setMockCount(5)">5</button> <button class="mock-count-btn flex-1 py-2.5 rounded-lg text-sm font-semibold bg-indigo-600 text-white border border-indigo-500 transition-all" onclick="setMockCount(10)">10</button> <button class="mock-count-btn flex-1 py-2.5 rounded-lg text-sm font-semibold bg-slate-700 text-slate-300 border border-slate-600 transition-all hover:border-indigo-500" onclick="setMockCount(15)">15</button> <button class="mock-count-btn flex-1 py-2.5 rounded-lg text-sm font-semibold bg-slate-700 text-slate-300 border border-slate-600 transition-all hover:border-indigo-500" onclick="setMockCount(20)">20</button>
+        </div>
+       </div><button class="w-full bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white font-bold py-3.5 rounded-xl text-base transition-all shadow-lg shadow-indigo-500/25" onclick="startMock()"> <i data-lucide="play" style="width:18px;height:18px;display:inline;vertical-align:-3px;margin-right:6px;"></i>Begin Mock Interview </button>
+      </div>
+      <div id="mockActive" class="hidden">
+       <div class="flex items-center justify-between mb-4"><span class="text-slate-400 text-sm font-medium">Question <span id="mockCurrent">1</span>/<span id="mockTotal">10</span></span>
+        <div class="relative flex items-center gap-2 text-amber-400">
+         <div class="relative timer-pulse" id="timerPulse"><i data-lucide="clock" style="width:16px;height:16px;"></i>
+         </div><span class="font-mono font-bold text-lg" id="mockTimer">2:00</span>
+        </div>
+       </div>
+       <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5 mb-5"><span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-medium px-2.5 py-1 rounded-full mb-3" id="mockCategory">Category</span>
+        <p class="text-white text-lg leading-relaxed font-medium" id="mockQuestion">Question text here</p>
+       </div>
+       <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-4 mb-5">
+        <h4 class="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">Key Points to Cover</h4>
+        <ul class="text-slate-400 text-sm space-y-1.5" id="mockTips"></ul>
+       </div>
+       <div class="flex gap-3"><button class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-xl text-sm transition-all" onclick="skipMockQuestion()">Skip</button> <button class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-semibold py-3 rounded-xl text-sm transition-all" onclick="nextMockQuestion()">Next →</button>
+       </div>
+      </div>
+      <div id="mockResults" class="hidden text-center">
+       <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center"><i data-lucide="trophy" style="width:36px;height:36px;color:white;"></i>
+       </div>
+       <h2 class="font-display text-2xl text-white mb-2">Interview Complete!</h2>
+       <p class="text-slate-400 mb-6">You answered <span id="mockAnsweredCount" class="text-emerald-400 font-bold">0</span> questions</p>
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 mb-5 text-left">
+        <h4 class="text-slate-300 text-sm font-semibold mb-3">Session Summary</h4>
+        <div class="grid grid-cols-2 gap-3" id="mockSummary"></div>
+       </div><button class="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-semibold py-3 rounded-xl transition-all" onclick="resetMock()">Try Again</button>
+      </div>
+     </div><!-- Stats Screen -->
+     <div class="screen" id="screen-stats">
+      <h2 class="font-display text-xl text-white mb-4">Your Progress</h2>
+      <div class="grid grid-cols-2 gap-3 mb-5">
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+        <p class="text-3xl font-bold text-indigo-400" id="statTotal">0</p>
+        <p class="text-slate-400 text-xs mt-1">Practiced</p>
+       </div>
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+        <p class="text-3xl font-bold text-emerald-400" id="statStreak">0</p>
+        <p class="text-slate-400 text-xs mt-1">Day Streak</p>
+       </div>
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+        <p class="text-3xl font-bold text-amber-400" id="statSaved">0</p>
+        <p class="text-slate-400 text-xs mt-1">Saved</p>
+       </div>
+       <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+        <p class="text-3xl font-bold text-violet-400" id="statMocks">0</p>
+        <p class="text-slate-400 text-xs mt-1">Mock Sessions</p>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 mb-5">
+       <h3 class="text-white font-semibold text-sm mb-3">Category Breakdown</h3>
+       <div id="categoryBreakdown" class="space-y-3"></div>
+      </div><button class="w-full bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold py-3 rounded-xl text-sm transition-all" onclick="resetStats()">Reset All Progress</button>
+      <div id="resetConfirm" class="hidden mt-3 bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
+       <p class="text-red-300 text-sm mb-3">Are you sure? This cannot be undone.</p>
+       <div class="flex gap-2"><button class="flex-1 bg-slate-700 text-slate-300 py-2 rounded-lg text-sm font-medium" onclick="cancelReset()">Cancel</button> <button class="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium" onclick="confirmReset()">Delete All</button>
+       </div>
+      </div>
+     </div><!-- Question View -->
+     <div class="screen" id="screen-question"><button class="flex items-center gap-1 text-slate-400 hover:text-white text-sm mb-4 transition-colors" onclick="goBack()"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Back </button>
+      <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5 mb-4">
+       <div class="flex items-center justify-between mb-3"><span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-medium px-2.5 py-1 rounded-full" id="qCategory">Category</span> <button class="text-slate-400 hover:text-amber-400 transition-colors" id="saveBtn" onclick="toggleSave()"> <i data-lucide="star" style="width:20px;height:20px;" id="saveIcon"></i> </button>
+       </div>
+       <p class="text-white text-lg leading-relaxed font-medium" id="qText">Question</p>
+      </div>
+      <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-4 mb-4">
+       <h4 class="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">Suggested Talking Points</h4>
+       <ul class="text-slate-400 text-sm space-y-2" id="qTips"></ul>
+      </div>
+      <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-4 mb-5">
+       <h4 class="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">Sample Framework</h4>
+       <p class="text-slate-300 text-sm leading-relaxed" id="qSample"></p>
+      </div>
+      <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-4 mb-4">
+       <h4 class="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-3">Your Answer</h4>
+       <div id="answerText" class="text-slate-300 text-sm leading-relaxed min-h-12 p-3 bg-slate-900/50 rounded-lg border border-slate-700/30 mb-3"></div>
+       <div class="flex gap-2"><button class="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-lg text-sm transition-all" id="micBtn" onclick="toggleRecording()"> <i data-lucide="mic" style="width:16px;height:16px;"></i><span id="micLabel">Start Recording</span> </button> <button class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2.5 rounded-lg text-sm transition-all" onclick="clearAnswer()"> Clear </button>
+       </div>
+      </div>
+      <div class="flex gap-3"><button class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-xl text-sm transition-all" onclick="markForReview()"> <i data-lucide="bookmark" style="width:14px;height:14px;display:inline;vertical-align:-2px;margin-right:4px;"></i>Mark for Review </button> <button class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold py-3 rounded-xl text-sm transition-all" onclick="nextQuestion()"> Next Question → </button>
+      </div>
+     </div><!-- Saved Questions View -->
+     <div class="screen" id="screen-saved"><button class="flex items-center gap-1 text-slate-400 hover:text-white text-sm mb-4 transition-colors" onclick="goBack()"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Back </button>
+      <h2 class="font-display text-xl text-white mb-4">Saved Questions</h2>
+      <div id="savedList" class="space-y-3"></div>
+      <p class="text-slate-500 text-sm text-center mt-6 hidden" id="noSaved">No saved questions yet. Star questions during practice!</p>
+     </div>
+    </div>
+    <div class="bottom-nav-mobile" id="mobileBottomNav"></div>
+   </div>
+  </div>
+  <script>
+const specialties = ['FM', 'IM', 'Pediatrics', 'Gen Surgery', 'Neurology', 'Pathology', 'Psychiatry', 'OBGYN', 'Radiology', 'Cardiology', 'Orthopedics', 'ENT', 'Ophthalmology', 'Dermatology', 'Urology', 'Emergency Medicine', 'Anesthesia', 'Oncology'];
+
+const questions = [
+    { id: 1, specialty: 'General', category: "Tell Me About Yourself", q: "Walk me through your journey to applying for residency in the United States.", tips: ["Start with medical school background", "Mention clinical experience", "Explain why the US", "Show passion for specialty"], sample: "I completed my medical degree at [University] in [Country], where I developed a strong foundation in clinical medicine. During my rotations, I became particularly drawn to [specialty] because of [specific experience]. I then pursued [USCE/research] in the US, which confirmed my desire to train here." },
+    { id: 2, specialty: 'General', category: "Tell Me About Yourself", q: "What makes you unique as a candidate compared to US graduates?", tips: ["Cultural competency", "Diverse patient exposure", "Adaptability", "Additional language skills"], sample: "My training in [country] exposed me to a high-volume, resource-limited setting where I developed strong clinical reasoning skills. I bring cultural competency that helps me connect with diverse patient populations." },
+    { id: 3, specialty: 'General', category: "Tell Me About Yourself", q: "Tell me about your family background and how it shaped your journey to medicine.", tips: ["Personal motivation", "Family support", "Early influences", "Core values"], sample: "My family [background details]. This shaped my values and commitment to serving others. My [family member]'s experience inspired me to pursue medicine to help others." },
+    { id: 4, specialty: 'General', category: "Tell Me About Yourself", q: "How have you spent the past few years since graduation?", tips: ["Timeline of activities", "Clinical experience", "Research contributions", "Continuous learning"], sample: "Post-graduation, I've [describe activities]. This period allowed me to [strengthen skills/gain experience]. I completed [USCE/research/certifications]." },
+    { id: 5, specialty: 'General', category: "Tell Me About Yourself", q: "What are your greatest strengths as a physician?", tips: ["Self-awareness", "Examples that demonstrate strengths", "Patient care focus", "Teamwork"], sample: "I believe my greatest strengths are [traits]. For example, during [situation], I [demonstrated strength]." },
+    { id: 6, specialty: 'IM', category: "Why This Specialty", q: "What drew you to Internal Medicine, and when did you first become interested?", tips: ["Specific clinical moment", "Intellectual appeal", "Patient relationships", "Long-term vision"], sample: "My interest in IM began during my [rotation] when I encountered [patient case]. The complexity of managing multiple comorbidities and the longitudinal patient relationships attracted me." },
+    { id: 7, specialty: 'Surgery', category: "Why This Specialty", q: "What attracted you to surgery as a career?", tips: ["Technical skills", "Immediate gratification", "Operative experience", "Procedural interest"], sample: "I've been drawn to surgery because of the combination of [technical challenge/patient care]. During my rotation in [specialty], I participated in [procedures]." },
+    { id: 8, specialty: 'Pediatrics', category: "Why This Specialty", q: "Why pediatrics? What appeals to you about caring for children?", tips: ["Communication with families", "Preventive focus", "Long-term relationships", "Age-specific challenges"], sample: "Pediatrics appeals to me because I value the opportunity to impact children's lives during critical developmental periods." },
+    { id: 9, specialty: 'OBGYN', category: "Why This Specialty", q: "What draws you to OBGYN?", tips: ["Continuity of care", "Procedural skills", "Women's health", "Unique patient relationships"], sample: "OBGYN offers a unique blend of continuity of care, procedural skills, and the opportunity to build lasting relationships with patients." },
+    { id: 10, specialty: 'Psychiatry', category: "Why This Specialty", q: "What interests you about psychiatry?", tips: ["Mental health importance", "Patient advocacy", "Therapeutic relationships", "Specialty diversity"], sample: "Psychiatry interests me because of its unique focus on understanding the human mind and providing meaningful therapeutic relationships." }
+];
+
+const menuItems = [
+    { id: 'practice', label: 'Practice', icon: 'book-open', tab: 'practice' },
+    { id: 'categories', label: 'Topics', icon: 'layers', tab: 'categories' },
+    { id: 'mock', label: 'Mock', icon: 'timer', tab: 'mock' },
+    { id: 'stats', label: 'Stats', icon: 'bar-chart-3', tab: 'stats' }
+];
+
+// Voice Recording
+let recognition;
+let isRecording = false;
+let currentAnswer = '';
+let interimTranscript = '';
+
+function initSpeechRecognition() {
+    if (recognition) return;
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        console.warn('Speech Recognition not supported');
+        return;
+    }
+    
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+        isRecording = true;
+        interimTranscript = '';
+        const btn = document.getElementById('micBtn');
+        if (btn) {
+            btn.classList.remove('bg-red-600', 'hover:bg-red-700');
+            btn.classList.add('bg-red-500', 'hover:bg-red-600', 'ring-2', 'ring-red-400');
+            document.getElementById('micLabel').textContent = 'Recording...';
+        }
+    };
+
+    recognition.onresult = (event) => {
+        interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+                currentAnswer += transcript + ' ';
+            } else {
+                interimTranscript += transcript;
+            }
+        }
+        const display = document.getElementById('answerText');
+        if (display) {
+            display.textContent = (currentAnswer + interimTranscript).trim();
+        }
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Speech error:', event.error);
+    };
+
+    recognition.onend = () => {
+        isRecording = false;
+        const btn = document.getElementById('micBtn');
+        if (btn) {
+            btn.classList.remove('bg-red-500', 'hover:bg-red-600', 'ring-2', 'ring-red-400');
+            btn.classList.add('bg-red-600', 'hover:bg-red-700');
+            document.getElementById('micLabel').textContent = 'Start Recording';
+        }
+    };
+}
+
+function toggleRecording() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        const display = document.getElementById('answerText');
+        if (display) {
+            display.textContent = '[Speech recognition not supported in your browser. Please try Chrome, Edge, or Safari.]';
+        }
+        return;
+    }
+    
+    if (!recognition) {
+        initSpeechRecognition();
+    }
+    
+    if (!recognition) {
+        const display = document.getElementById('answerText');
+        if (display) {
+            display.textContent = '[Unable to initialize speech recognition. Please check microphone permissions.]';
+        }
+        return;
+    }
+    
+    if (isRecording) {
+        recognition.stop();
+    } else {
+        try {
+            currentAnswer = '';
+            interimTranscript = '';
+            const display = document.getElementById('answerText');
+            if (display) {
+                display.textContent = '🎤 Listening...';
+            }
+            recognition.start();
+        } catch (e) {
+            console.error('Error starting recognition:', e);
+            const display = document.getElementById('answerText');
+            if (display) {
+                display.textContent = '[Error: ' + e.message + ']';
+            }
+        }
+    }
+}
+
+function clearAnswer() {
+    currentAnswer = '';
+    interimTranscript = '';
+    const display = document.getElementById('answerText');
+    if (display) {
+        display.textContent = '';
+    }
+    if (isRecording && recognition) {
+        recognition.stop();
+    }
+}
+
+// State
+let state = {
+    currentTab: 'practice',
+    previousTab: 'practice',
+    answered: JSON.parse(localStorage.getItem('img_answered') || '[]'),
+    saved: JSON.parse(localStorage.getItem('img_saved') || '[]'),
+    difficult: JSON.parse(localStorage.getItem('img_difficult') || '[]'),
+    streak: parseInt(localStorage.getItem('img_streak') || '0'),
+    lastDate: localStorage.getItem('img_lastDate') || '',
+    mockSessions: parseInt(localStorage.getItem('img_mocks') || '0'),
+    mockCount: 10,
+    mockQuestions: [],
+    mockIndex: 0,
+    mockTimerId: null,
+    mockTimeLeft: 120,
+    currentQuestion: null
+};
+
+function toggleSidebar() {
+    document.getElementById('sidebarMenu').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+function renderMenuItems() {
+    const desktopMenu = document.getElementById('desktopMenuItems');
+    desktopMenu.innerHTML = menuItems.map(item => `
+        <button class="nav-tab flex-1 py-3.5 text-center text-xs font-semibold text-slate-400 border-b-2 border-transparent transition-all" data-tab="${item.tab}" onclick="switchTab('${item.tab}')">
+            <i data-lucide="${item.icon}" style="width:16px;height:16px;display:inline;vertical-align:-3px;margin-right:4px;"></i>${item.label}
+        </button>
+    `).join('');
+
+    const mobileMenu = document.getElementById('mobileMenuItems');
+    mobileMenu.innerHTML = menuItems.map(item => `
+        <button class="menu-item" data-tab="${item.tab}" onclick="switchTabAndClose('${item.tab}')">
+            <i data-lucide="${item.icon}"></i>
+            <span>${item.label}</span>
+        </button>
+    `).join('');
+
+    const bottomNav = document.getElementById('mobileBottomNav');
+    bottomNav.innerHTML = menuItems.map(item => `
+        <button class="bottom-nav-circle" data-tab="${item.tab}" onclick="switchTab('${item.tab}')" title="${item.label}">
+            <i data-lucide="${item.icon}"></i>
+        </button>
+    `).join('');
+
+    lucide.createIcons();
+}
+
+function switchTabAndClose(tab) {
+    toggleSidebar();
+    switchTab(tab);
+}
+
+function switchTab(tab) {
+    state.previousTab = state.currentTab;
+    state.currentTab = tab;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + tab).classList.add('active');
+    document.querySelectorAll('.nav-tab, .menu-item, .bottom-nav-circle').forEach(t => {
+        t.classList.remove('active', 'text-indigo-400', 'border-indigo-400');
+    });
+    document.querySelectorAll(`[data-tab="${tab}"]`).forEach(t => {
+        t.classList.add('active', 'text-indigo-400', 'border-indigo-400');
+    });
+    if (tab === 'stats') updateStats();
+    if (tab === 'categories') renderCategories();
+}
+
+function goBack() {
+    switchTab(state.previousTab || 'practice');
+}
+
+function recordActivity() {
+    const today = new Date().toISOString().split('T')[0];
+    if (state.lastDate !== today) {
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        if (state.lastDate === yesterday || state.lastDate === '') {
+            state.streak++;
+        } else {
+            state.streak = 1;
+        }
+        state.lastDate = today;
+        localStorage.setItem('img_streak', state.streak);
+        localStorage.setItem('img_lastDate', today);
+    }
+}
+
+function saveState() {
+    localStorage.setItem('img_answered', JSON.stringify(state.answered));
+    localStorage.setItem('img_saved', JSON.stringify(state.saved));
+    localStorage.setItem('img_difficult', JSON.stringify(state.difficult));
+    localStorage.setItem('img_mocks', state.mockSessions);
+}
+
+function markAnswered(id) {
+    if (!state.answered.includes(id)) {
+        state.answered.push(id);
+        saveState();
+        recordActivity();
+        updateProgress();
+    }
+}
+
+function startRandomQuestion() {
+    const unanswered = questions.filter(q => !state.answered.includes(q.id));
+    const pool = unanswered.length > 0 ? unanswered : questions;
+    showQuestion(pool[Math.floor(Math.random() * pool.length)]);
+}
+
+function showQuestion(q) {
+    state.currentQuestion = q;
+    state.previousTab = state.currentTab;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-question').classList.add('active');
+    
+    document.getElementById('qCategory').textContent = q.category;
+    document.getElementById('qText').textContent = q.q;
+    document.getElementById('qTips').innerHTML = q.tips.map(t => `<li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">•</span>${t}</li>`).join('');
+    document.getElementById('qSample').textContent = q.sample;
+    
+    updateSaveButton();
+    markAnswered(q.id);
+    currentAnswer = '';
+    document.getElementById('answerText').textContent = '';
+}
+
+function updateSaveButton() {
+    const isSaved = state.saved.includes(state.currentQuestion.id);
+    const btn = document.getElementById('saveBtn');
+    if (isSaved) {
+        btn.classList.add('text-amber-400');
+        btn.classList.remove('text-slate-400');
+    } else {
+        btn.classList.remove('text-amber-400');
+        btn.classList.add('text-slate-400');
+    }
+}
+
+function toggleSave() {
+    const id = state.currentQuestion.id;
+    if (state.saved.includes(id)) {
+        state.saved = state.saved.filter(s => s !== id);
+    } else {
+        state.saved.push(id);
+    }
+    saveState();
+    updateSaveButton();
+    document.getElementById('savedCount').textContent = state.saved.length;
+}
+
+function markForReview() {
+    const id = state.currentQuestion.id;
+    if (!state.difficult.includes(id)) {
+        state.difficult.push(id);
+        saveState();
+    }
+    nextQuestion();
+}
+
+function nextQuestion() {
+    currentAnswer = '';
+    document.getElementById('answerText').textContent = '';
+    startRandomQuestion();
+}
+
+function showSaved() {
+    state.previousTab = state.currentTab;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-saved').classList.add('active');
+    
+    const list = document.getElementById('savedList');
+    const noSaved = document.getElementById('noSaved');
+    
+    if (state.saved.length === 0) {
+        list.innerHTML = '';
+        noSaved.classList.remove('hidden');
+        return;
+    }
+    
+    noSaved.classList.add('hidden');
+    list.innerHTML = state.saved.map(id => {
+        const q = questions.find(x => x.id === id);
+        return `<div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 cursor-pointer card-hover" onclick="showQuestion(questions.find(x=>x.id===${id}))">
+            <span class="text-xs text-indigo-300 font-medium">${q.category}</span>
+            <p class="text-white text-sm mt-1 leading-relaxed">${q.q}</p>
+        </div>`;
+    }).join('');
+}
+
+function showWeakAreas() {
+    if (state.difficult.length === 0) {
+        startRandomQuestion();
+        return;
+    }
+    const q = questions.find(x => x.id === state.difficult[Math.floor(Math.random() * state.difficult.length)]);
+    showQuestion(q);
+}
+
+function renderCategories() {
+    const cats = [...new Set(questions.map(q => q.category))];
+    const list = document.getElementById('categoriesList');
+    list.innerHTML = cats.map(cat => {
+        const catQuestions = questions.filter(q => q.category === cat);
+        const answered = catQuestions.filter(q => state.answered.includes(q.id)).length;
+        const pct = Math.round((answered / catQuestions.length) * 100);
+        return `<div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 cursor-pointer card-hover" onclick="startCategoryQuestion('${cat}')">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-white font-semibold text-sm">${cat}</h3>
+                <span class="text-xs text-slate-400">${answered}/${catQuestions.length}</span>
+            </div>
+            <div class="bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-500" style="width:${pct}%"></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function startCategoryQuestion(cat) {
+    const catQuestions = questions.filter(q => q.category === cat);
+    const unanswered = catQuestions.filter(q => !state.answered.includes(q.id));
+    const pool = unanswered.length > 0 ? unanswered : catQuestions;
+    showQuestion(pool[Math.floor(Math.random() * pool.length)]);
+}
+
+function setMockCount(n) {
+    state.mockCount = n;
+    document.querySelectorAll('.mock-count-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-500');
+        btn.classList.add('bg-slate-700', 'text-slate-300', 'border-slate-600');
+    });
+    event.target.classList.remove('bg-slate-700', 'text-slate-300', 'border-slate-600');
+    event.target.classList.add('bg-indigo-600', 'text-white', 'border-indigo-500');
+}
+
+function startMock() {
+    const shuffled = [...questions].sort(() => Math.random() - 0.5);
+    state.mockQuestions = shuffled.slice(0, state.mockCount);
+    state.mockIndex = 0;
+    document.getElementById('mockSetup').classList.add('hidden');
+    document.getElementById('mockActive').classList.remove('hidden');
+    document.getElementById('mockResults').classList.add('hidden');
+    document.getElementById('mockTotal').textContent = state.mockCount;
+    showMockQuestion();
+}
+
+function showMockQuestion() {
+    const q = state.mockQuestions[state.mockIndex];
+    document.getElementById('mockCurrent').textContent = state.mockIndex + 1;
+    document.getElementById('mockCategory').textContent = q.category;
+    document.getElementById('mockQuestion').textContent = q.q;
+    document.getElementById('mockTips').innerHTML = q.tips.map(t => `<li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">•</span>${t}</li>`).join('');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(state.mockTimerId);
+    state.mockTimeLeft = 120;
+    updateTimerDisplay();
+    state.mockTimerId = setInterval(() => {
+        state.mockTimeLeft--;
+        updateTimerDisplay();
+        if (state.mockTimeLeft <= 0) {
+            clearInterval(state.mockTimerId);
+            nextMockQuestion();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(state.mockTimeLeft / 60);
+    const s = state.mockTimeLeft % 60;
+    document.getElementById('mockTimer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    const timerEl = document.getElementById('mockTimer');
+    if (state.mockTimeLeft <= 30) {
+        timerEl.classList.add('text-red-400');
+        timerEl.classList.remove('text-amber-400');
+    } else {
+        timerEl.classList.remove('text-red-400');
+        timerEl.classList.add('text-amber-400');
+    }
+}
+
+function nextMockQuestion() {
+    markAnswered(state.mockQuestions[state.mockIndex].id);
+    state.mockIndex++;
+    if (state.mockIndex >= state.mockQuestions.length) {
+        endMock();
+    } else {
+        showMockQuestion();
+    }
+}
+
+function skipMockQuestion() {
+    state.mockIndex++;
+    if (state.mockIndex >= state.mockQuestions.length) {
+        endMock();
+    } else {
+        showMockQuestion();
+    }
+}
+
+function endMock() {
+    clearInterval(state.mockTimerId);
+    state.mockSessions++;
+    localStorage.setItem('img_mocks', state.mockSessions);
+    document.getElementById('mockActive').classList.add('hidden');
+    document.getElementById('mockResults').classList.remove('hidden');
+    document.getElementById('mockAnsweredCount').textContent = state.mockIndex;
+    
+    const summary = document.getElementById('mockSummary');
+    summary.innerHTML = `
+        <div class="bg-slate-700/50 rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-emerald-400">${state.mockIndex}</p>
+            <p class="text-slate-400 text-xs">Answered</p>
+        </div>
+        <div class="bg-slate-700/50 rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-amber-400">${state.mockQuestions.length - state.mockIndex}</p>
+            <p class="text-slate-400 text-xs">Skipped</p>
+        </div>
+    `;
+}
+
+function resetMock() {
+    document.getElementById('mockSetup').classList.remove('hidden');
+    document.getElementById('mockActive').classList.add('hidden');
+    document.getElementById('mockResults').classList.add('hidden');
+}
+
+function updateStats() {
+    document.getElementById('statTotal').textContent = state.answered.length;
+    document.getElementById('statStreak').textContent = state.streak;
+    document.getElementById('statSaved').textContent = state.saved.length;
+    document.getElementById('statMocks').textContent = state.mockSessions;
+    
+    const breakdown = document.getElementById('categoryBreakdown');
+    const cats = [...new Set(questions.map(q => q.category))];
+    breakdown.innerHTML = cats.map(cat => {
+        const catQ = questions.filter(q => q.category === cat);
+        const answered = catQ.filter(q => state.answered.includes(q.id)).length;
+        const pct = Math.round((answered / catQ.length) * 100);
+        return `<div>
+            <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">${cat}</span>
+                <span class="text-slate-500">${pct}%</span>
+            </div>
+            <div class="bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all" style="width:${pct}%"></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function resetStats() {
+    document.getElementById('resetConfirm').classList.remove('hidden');
+}
+
+function cancelReset() {
+    document.getElementById('resetConfirm').classList.add('hidden');
+}
+
+function confirmReset() {
+    state.answered = [];
+    state.saved = [];
+    state.difficult = [];
+    state.streak = 0;
+    state.lastDate = '';
+    state.mockSessions = 0;
+    localStorage.clear();
+    saveState();
+    updateProgress();
+    updateStats();
+    document.getElementById('resetConfirm').classList.add('hidden');
+    document.getElementById('savedCount').textContent = '0';
+}
+
+function updateProgress() {
+    const pct = Math.round((state.answered.length / questions.length) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('questionsAnswered').textContent = state.answered.length;
+    document.getElementById('totalQuestions').textContent = questions.length;
+    document.getElementById('streakCount').textContent = state.streak;
+    document.getElementById('savedCount').textContent = state.saved.length;
+}
+
+// Element SDK
+const defaultConfig = {
+    app_title: 'IMG Interview Prep',
+    app_subtitle: 'USA Residency & Fellowship',
+    background_color: '#0f172a',
+    surface_color: '#1e293b',
+    text_color: '#f8fafc',
+    primary_action_color: '#6366f1',
+    secondary_action_color: '#10b981',
+    font_family: 'DM Sans',
+    font_size: 14
+};
+
+window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+        document.getElementById('appTitle').textContent = config.app_title || defaultConfig.app_title;
+        document.getElementById('appSubtitle').textContent = config.app_subtitle || defaultConfig.app_subtitle;
+        document.getElementById('appWrapper').style.backgroundColor = config.background_color || defaultConfig.background_color;
+    },
+    mapToCapabilities: (config) => ({
+        recolorables: [
+            { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+            { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+    }),
+    mapToEditPanelValues: (config) => new Map([
+        ['app_title', config.app_title || defaultConfig.app_title],
+        ['app_subtitle', config.app_subtitle || defaultConfig.app_subtitle]
+    ])
+});
+
+// Init
+updateProgress();
+renderMenuItems();
+switchTab('practice');
+lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f9620451143e0b1',t:'MTc3ODM4NjU2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
