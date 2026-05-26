@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>PD Insider Pro | Ultimate IMG Interview Mastery & Match Prep Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef9f0 0%, #fff5e6 100%);
+            color: #1a2a3a;
+            line-height: 1.5;
+            transition: background 0.3s, color 0.3s;
+            padding-bottom: 80px;
+        }
+        body.dark-mode {
+            background: linear-gradient(145deg, #0f1724 0%, #16212e 100%);
+            color: #eef2ff;
+        }
+        body.dark-mode .card { background: rgba(30, 41, 59, 0.96); border: 1px solid rgba(71, 85, 105, 0.5); }
+        body.dark-mode .hero { background: linear-gradient(135deg, #0f2f3a 0%, #1a5a5f 100%); }
+        body.dark-mode .bottom-nav { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(12px); border-top: 1px solid #334155; }
+        body.dark-mode .nav-item span { color: #94a3b8; }
+        body.dark-mode .nav-item.active span, body.dark-mode .nav-item.active i { color: #ffb347; }
+        body.dark-mode .flashcard { background: #2d3a4e; border-color: #ffb347; color: #ffecd6; }
+        body.dark-mode .ai-msg { background: #2d3a4e; color: #e2e8f0; }
+        body.dark-mode .insight-box { background: #1e2a3a; color: #cbd5e1; }
+        body.dark-mode .tip-card { background: #1e2a3a; }
+        body.dark-mode .stat-pill { background: rgba(255,180,71,0.25); color: #ffb347; }
+        body.dark-mode .chat-container { background: #1a2533; }
+        body.dark-mode .feedback-message { background: #1e293b; }
+        body.dark-mode input[type="text"], body.dark-mode textarea { background: #0f172a; border-color: #475569; color: white; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem 1.5rem; }
+        .hero {
+            background: linear-gradient(115deg, #e65c1e 0%, #ff8c42 25%, #ffb347 50%, #2c3e50 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            border-radius: 2rem;
+            padding: 2rem 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .hero::after { content: "🎯"; font-size: 140px; opacity: 0.12; position: absolute; bottom: -30px; right: -10px; pointer-events: none; }
+        .hero h1 { font-size: clamp(1.3rem, 5vw, 1.8rem); font-weight: 800; letter-spacing: -0.02em; }
+        .stats-row { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
+        .stat-pill { background: rgba(0, 0, 0, 0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 40px; padding: 0.3rem 1rem; font-size: 0.75rem; font-weight: 600; color: #fff5e6; }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 1.5rem;
+            padding: 1.3rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s;
+            border-left: 6px solid #ff8c42;
+        }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 140, 66, 0.2); }
+        
+        .big-btn {
+            padding: 0.9rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 60px;
+            margin: 0.4rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            background: linear-gradient(95deg, #ff6b2b, #ffb347);
+            color: white;
+            box-shadow: 0 6px 14px rgba(255, 107, 43, 0.3);
+            transition: all 0.2s;
+            flex-wrap: wrap;
+        }
+        .big-btn.outline { background: transparent; border: 2px solid #ff8c42; color: #ff8c42; box-shadow: none; }
+        .big-btn.sm { padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 30px; margin: 0.2rem; }
+        .big-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-group { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin: 1.5rem 0; }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.6rem 1rem 0.8rem;
+            border-top: 1px solid rgba(255, 140, 66, 0.3);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1100;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; cursor: pointer; flex: 1; text-align: center; padding: 0.3rem 0; border-radius: 2rem; }
+        .nav-item i { font-size: 1.3rem; color: #7f8c8d; transition: 0.2s; }
+        .nav-item span { font-size: 0.65rem; font-weight: 600; color: #5a6e7c; }
+        .nav-item.active i, .nav-item.active span { color: #ff8c42; text-shadow: 0 0 4px rgba(255,140,66,0.3); }
+        
+        .screen { display: none; animation: fadeSlide 0.25s ease-out; }
+        .screen.active { display: block; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .simulator-container { display: flex; flex-direction: column; gap: 1.2rem; }
+        .scenario-box { background: #fff5e8; border-radius: 1.2rem; padding: 1.2rem; font-weight: 700; font-size: clamp(0.9rem, 4vw, 1.1rem); text-align: center; border-left: 4px solid #ff8c42; position: relative; }
+        body.dark-mode .scenario-box { background: #1e2a3a; }
+        .action-buttons { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            border-radius: 1rem;
+            border: 2px solid #ffd9b5;
+            padding: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+        .answer-textarea { min-height: 120px; }
+        .feedback-area { margin-top: 1rem; padding: 1rem; border-radius: 1rem; background: #f0f7fa; }
+        
+        .chat-message { padding: 0.6rem; margin: 0.4rem 0; border-radius: 1.2rem; max-width: 95%; word-wrap: break-word; }
+        .user-msg { background: linear-gradient(95deg, #ff6b2b, #ffb347); color: white; align-self: flex-end; margin-left: auto; }
+        .ai-msg { background: #f0f4f9; color: #1e2a36; }
+        .chat-container { height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 0.5rem; background: #fafbfd; border-radius: 1rem; padding: 0.8rem; }
+        
+        .flashcard-wrapper { perspective: 1000px; margin: 1rem auto; max-width: 500px; width: 100%; }
+        .flashcard { background: linear-gradient(135deg, #fff5e8, #ffe6d5); border-radius: 1.2rem; padding: 2rem 1.5rem; text-align: center; cursor: pointer; font-weight: 700; font-size: 1.05rem; border: 2px solid #ffd9b5; transition: transform 0.4s; min-height: 150px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+        .flashcard.flipped { border-color: #ff8c42; background: linear-gradient(135deg, #ffe6d5, #ffd9b5); }
+        
+        .check-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem; border-bottom: 1px solid #e9ecef; cursor: pointer; font-weight: 500; transition: 0.1s; flex-wrap: wrap; }
+        .progress-bar { background: #e2e8f0; border-radius: 20px; height: 8px; margin: 0.8rem 0; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, #ff6b2b, #ffb347); height: 8px; border-radius: 20px; width: 0%; transition: width 0.3s; }
+        
+        .language-selector { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .lang-btn { padding: 0.5rem 1.2rem; border-radius: 40px; background: #eceff3; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .lang-btn.active { background: #ff8c42; color: white; }
+        .toggle-switch { width: 50px; height: 26px; background: #ccc; border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
+        .toggle-switch.active { background: #ff8c42; }
+        .toggle-switch::after { content: ''; width: 22px; height: 22px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 3px; transition: 0.3s; }
+        .toggle-switch.active::after { left: 25px; }
+        
+        .insight-box { background: #fff5e8; border-radius: 1rem; padding: 0.8rem; margin: 1rem 0; border-left: 4px solid #ffb347; }
+        .qr-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+        .qr-card { text-align: center; background: white; padding: 0.8rem; border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        body.dark-mode .qr-card { background: #1e293b; }
+        .qr-card img { width: 100px; height: 100px; object-fit: contain; border-radius: 0.5rem; }
+        .feedback-message { font-size: 0.85rem; margin-top: 0.5rem; padding: 0.7rem; border-radius: 0.8rem; background: #f3f6fc; color: #1e2a3a; }
+        
+        @media (max-width: 640px) {
+            .container { padding: 1rem 1rem 2rem 1rem; }
+            .hero { padding: 1.5rem; }
+            .card { padding: 1rem; }
+            .big-btn { padding: 0.7rem 1.2rem; font-size: 0.85rem; width: 100%; margin: 0.3rem 0; }
+            .btn-group { flex-direction: column; width: 100%; }
+            .btn-group .big-btn { width: 100%; }
+            .action-buttons { flex-direction: column; width: 100%; }
+            .action-buttons .big-btn { width: 100%; margin: 0.2rem 0; }
+            .nav-item i { font-size: 1.1rem; }
+            .nav-item span { font-size: 0.55rem; }
+            .stat-pill { font-size: 0.65rem; }
+            .scenario-box { font-size: 0.9rem; padding: 1rem; }
+            .answer-textarea { min-height: 100px; font-size: 0.9rem; }
+            .chat-container { height: 200px; }
+            .flashcard { padding: 1.2rem; font-size: 0.95rem; min-height: 130px; }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .big-btn { padding: 0.8rem 1.4rem; font-size: 0.9rem; }
+            .action-buttons { flex-direction: row; }
+            .action-buttons .big-btn { width: auto; }
+        }
+        
+        footer { text-align: center; font-size: 0.7rem; margin-top: 2rem; opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+    <div class="bottom-nav">
+        <div class="nav-item" data-screen="home"><i class="fas fa-home"></i><span data-i18n="nav_home">Home</span></div>
+        <div class="nav-item" data-screen="prep"><i class="fas fa-microphone-alt"></i><span data-i18n="nav_prep">Interview Prep</span></div>
+        <div class="nav-item" data-screen="tools"><i class="fas fa-robot"></i><span data-i18n="nav_tools">AI Tools</span></div>
+        <div class="nav-item" data-screen="resources"><i class="fas fa-database"></i><span data-i18n="nav_resources">Resources</span></div>
+        <div class="nav-item" data-screen="more"><i class="fas fa-bars"></i><span data-i18n="nav_more">More</span></div>
+    </div>
+
+    <div class="container">
+        <div id="homeScreen" class="screen active">
+            <div class="hero">
+                <h1><i class="fas fa-stethoscope"></i> <span data-i18n="hero_title">PD Insider Pro — Empowering Applicants with AI & PD Insights</span></h1>
+                <p data-i18n="hero_sub">“5,000+ apps → 15 spots. Step scores get the interview — presence & research get the rank.”</p>
+                <div class="stats-row">
+                    <span class="stat-pill"><i class="fas fa-robot"></i> <span data-i18n="stat_ai">AI Coach</span></span>
+                    <span class="stat-pill"><i class="fas fa-chart-line"></i> <span data-i18n="stat_analytics">Live Analytics</span></span>
+                    <span class="stat-pill"><i class="fas fa-brain"></i> <span data-i18n="stat_prompts">20+ Prompts</span></span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="big-btn" id="quickStartBtn"><i class="fas fa-play"></i> <span data-i18n="btn_start">Start Interview Drills</span></button>
+                <button class="big-btn outline" id="quickPSBtn"><i class="fas fa-feather"></i> <span data-i18n="btn_ps">PS Authenticity Scan</span></button>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-chalkboard-user"></i> <span data-i18n="pd_golden_title">PD's Golden Advice</span></h3>
+                <p data-i18n="pd_golden_text">“The interview is a 30-minute audition for a 3-year relationship. I’m imagining you on rounds, in the workroom, at 2am with a crashing patient.”</p>
+                <div class="progress-bar"><div class="progress-fill" id="homeReadinessFill" style="width: 0%;"></div></div>
+                <p id="homeScoreText" style="font-size:0.8rem; text-align:center; font-weight:600;" data-i18n="loading_readiness">Your readiness: loading...</p>
+            </div>
+        </div>
+
+        <div id="prepScreen" class="screen">
+            <div class="hero" style="background: linear-gradient(115deg, #2c3e50, #ff8c42);">
+                <h2><i class="fas fa-comments"></i> <span data-i18n="prep_title">Live Interview Simulator</span></h2>
+                <p data-i18n="prep_sub">Practice with PD-style questions & get instant feedback</p>
+            </div>
+            <div class="card">
+                <div class="simulator-container">
+                    <div class="scenario-box">
+                        <span id="scenarioText">"Tell me about a time you showed leadership during a crisis."</span>
+                        <button id="bookmarkScenarioBtn" style="position: absolute; top: 8px; right: 8px; background: transparent; border: none; cursor: pointer; color: #ff8c42; font-size: 1.1rem;"><i class="far fa-star"></i></button>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="newScenarioBtn" class="big-btn outline"><i class="fas fa-random"></i> <span data-i18n="new_scenario">New Scenario</span></button>
+                        <button id="showBookmarkedBtn" class="big-btn outline"><i class="fas fa-star"></i> <span data-i18n="view_starred">View Bookmarks</span></button>
+                    </div>
+                    <textarea id="mockAnswerText" class="answer-textarea" placeholder="Type your answer here... Be specific and use the STAR method (Situation, Task, Action, Result)"></textarea>
+                    <button id="evaluateMockBtn" class="big-btn"><i class="fas fa-star"></i> <span data-i18n="get_feedback">Get AI Feedback</span></button>
+                    <div id="mockFeedbackDetailed" class="feedback-area feedback-message" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-check-circle"></i> <span data-i18n="checklist_title">Interview Day Mastery Checklist</span></h3>
+                <div id="dayChecklistFull">
+                    <div class="check-item" data-check="attire" data-i18n="check_attire"> Biel Professional attire + neutral background</div>
+                    <div class="check-item" data-check="tech" data-i18n="check_tech"> Test camera/mic 1hr before</div>
+                    <div class="check-item" data-check="research" data-i18n="check_research"> Have 3 program-specific facts ready</div>
+                    <div class="check-item" data-check="questions" data-i18n="check_questions"> Prepare 3 thoughtful questions</div>
+                    <div class="check-item" data-check="gracious" data-i18n="check_gracious"> Thank coordinator + residents</div>
+                    <div class="check-item" data-check="followup" data-i18n="check_followup"> Send thank-you note within 24h</div>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="checklistFillFull" style="width:0%"></div></div>
+            </div>
+        </div>
+
+        <div id="toolsScreen" class="screen">
+            <div class="hero" style="background: linear-gradient(115deg, #1a5c4c, #2c9b8a);">
+                <h2><i class="fas fa-microchip"></i> <span data-i18n="tools_title">AI-Powered Tools</span></h2>
+                <p data-i18n="tools_sub">Open-source intelligence for IMGs</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-feather-alt"></i> <span data-i18n="ps_lab_title">Personal Statement Authenticity Lab</span></h3>
+                <textarea id="psSample" rows="3" placeholder="Paste your personal statement paragraph here..."></textarea>
+                <button id="scanPSBtn" class="big-btn outline"><i class="fas fa-chart-simple"></i> <span data-i18n="analyze_ps">Analyze with AI</span></button>
+                <div id="psScanResult" class="feedback-message" style="display: none;"></div>
+                <button id="psPromptBtn" class="big-btn outline" style="margin-top: 0.5rem;"><i class="fas fa-lightbulb"></i> <span data-i18n="prompt_btn">Self-Awareness Prompt</span></button>
+                <div id="psPromptBox" style="margin-top: 0.5rem; font-size:0.85rem;"></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-robot"></i> <span data-i18n="coach_title">PD Chat Coach (AI Powered)</span></h3>
+                <div class="chat-container" id="chatContainer"><div class="ai-msg">🤖 Hi IMG! Ask me about interview strategies, personal statements, LORs, or program research.</div></div>
+                <div style="display: flex; gap:0.5rem; flex-wrap: wrap;"><input type="text" id="chatInput" placeholder="Ask anything about residency interview..." style="flex:1; min-width: 150px;"><button id="sendChatBtn" class="big-btn" style="margin:0;"><i class="fas fa-paper-plane"></i> <span data-i18n="send">Send</span></button></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-brain"></i> <span data-i18n="flashcards_title">Spaced Repetition Flashcards</span></h3>
+                <div class="flashcard-wrapper">
+                    <div class="flashcard" id="flashcardDiv">Click to flip</div>
+                </div>
+                <div style="display: flex; gap:0.5rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                    <button id="markKnownBtn" class="big-btn sm"><i class="fas fa-check-circle"></i> <span data-i18n="mark_known">Known</span></button>
+                    <button id="markReviewBtn" class="big-btn sm outline"><i class="fas fa-redo"></i> <span data-i18n="needs_review">Review</span></button>
+                </div>
+                <div style="display: flex; gap:0.5rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center;"><button id="prevCardBtn" class="big-btn outline">◀ <span data-i18n="prev">Prev</span></button><button id="nextCardBtn" class="big-btn outline"><span data-i18n="next">Next</span> ▶</button></div>
+                <div id="flashcardProgress" style="font-size:0.75rem; text-align:center; margin-top:0.5rem; font-weight:600;"></div>
+            </div>
+        </div>
+
+        <div id="resourcesScreen" class="screen">
+            <div class="hero" style="background: linear-gradient(115deg, #d35400, #ffb347);">
+                <h2><i class="fas fa-database"></i> <span data-i18n="resources_title">IMG Resource Hub</span></h2>
+                <p data-i18n="resources_sub">Program research tracker & PD tips</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-plus-circle"></i> <span data-i18n="program_db">Program Research Database</span></h3>
+                <div style="display: flex; gap:0.5rem; margin-bottom:0.5rem; flex-wrap: wrap;"><input type="text" id="programNameInput" placeholder="Program name" style="flex:1;"><button id="addProgramBtn" class="big-btn outline"><i class="fas fa-plus"></i> <span data-i18n="add">Add</span></button></div>
+                <ul id="programList" style="list-style: none; max-height: 150px; overflow-y: auto;"></ul>
+                <button id="exportProgramsBtn" class="big-btn outline"><i class="fas fa-download"></i> <span data-i18n="export_csv">Export CSV</span></button>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-lightbulb"></i> <span data-i18n="tips_vault">PD Secret Tips Vault</span></h3>
+                <div id="tipBox" class="insight-box"></div>
+                <button id="nextTipBtn" class="big-btn outline" style="margin-top:0.5rem;"><span data-i18n="next_tip">Next Tip</span> <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="moreScreen" class="screen">
+            <div class="hero" style="background: linear-gradient(115deg, #2c3e50, #8e44ad);">
+                <h2><i class="fas fa-ellipsis-h"></i> <span data-i18n="more_title">More Options</span></h2>
+                <p data-i18n="more_sub">Customize & support the mission</p>
+            </div>
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;"><span><i class="fas fa-moon"></i> <span data-i18n="dark_mode">Dark Mode</span></span><div id="darkToggle" class="toggle-switch"></div></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-globe"></i> <span data-i18n="language">Language</span></h3>
+                <div class="language-selector"><button class="lang-btn" data-lang="en">🇬🇧 English</button><button class="lang-btn" data-lang="ar">🇸🇦 العربية</button><button class="lang-btn" data-lang="es">🇪🇸 Español</button></div>
+                <div id="langMsg" class="feedback-message"></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-hand-holding-heart"></i> <span data-i18n="donate_title">Support Our Effort</span></h3>
+                <div style="text-align: center; margin: 1rem 0;">
+                    <img src="https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RMfk9RU4GNIhMY4gBYRg/pub/E7UHIBiJqG9woibLYSxj.png" alt="Support CRF" style="max-width: 100%; border-radius: 1rem; margin-bottom: 1rem; max-height: 130px; object-fit: contain;">
+                    <p data-i18n="donate_text">Your donation helps us maintain this free platform for IMGs worldwide.</p>
+                    <button id="donateNowBtn" class="big-btn"><i class="fas fa-dollar-sign"></i> <span data-i18n="donate_btn">Donate via Zeffy</span></button>
+                </div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-building"></i> <span data-i18n="tgrf_title">Supported by TGRF & Combined Research Foundation</span></h3>
+                <div class="qr-container">
+                    <div class="qr-card"><img src="https://res.cloudinary.com/glide/image/fetch/f_auto,w_2400,c_limit/https%3A%2F%2Fstorage.googleapis.com%2Fglide-prod.appspot.com%2Fuploads-v2%2FRMfk9RU4GNIhMY4gBYRg%2Fpub%2FpUQmIuH8B1OnDm0FxeCC.jpg" alt="TGRF QR"><p style="margin-top:0.3rem; font-size:0.65rem;" data-i18n="qr_tgrf">Scan to visit TGRF</p></div>
+                </div>
+                <p data-i18n="tgrf_description" style="text-align: center; font-size: 0.75rem;">The Tele-Geriatric Research Fellowship (TGRF) and Combined Research Foundation empower the next generation of healthcare providers.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-envelope"></i> <span data-i18n="contact">Contact</span></h3>
+                <button id="contactEmailBtn" class="big-btn outline">📧 info@crfoundation.us</button>
+                <button id="shareAppBtn" class="big-btn outline"><i class="fas fa-share-alt"></i> <span data-i18n="share">Share this tool</span></button>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-info-circle"></i> <span data-i18n="about">About & Privacy</span></h3>
+                <p data-i18n="about_text">Your data stays on your device. No tracking. Built from real PD insights (5k+ apps). Version 5.0 — Fully responsive.</p>
+                <button id="resetAllDataBtn" class="big-btn outline" style="background:#c0392b; color:white; border:none;"><span data-i18n="reset">Reset All Data</span></button>
+            </div>
+        </div>
+        <footer>© 2025 PD Insider Pro — <span data-i18n="footer_text">Empowering Applicants with AI & PD Insights</span> | <span data-i18n="footer_tgrf">Supported by TGRF</span></footer>
+    </div>
+
+    <script>
+        const translations = {
+            en: { nav_home: "Home", nav_prep: "Interview Prep", nav_tools: "AI Tools", nav_resources: "Resources", nav_more: "More", hero_title: "PD Insider Pro — Empowering Applicants with AI & PD Insights", hero_sub: "“5,000+ apps → 15 spots. Step scores get the interview — presence & research get the rank.”", stat_ai: "AI Coach", stat_analytics: "Live Analytics", stat_prompts: "20+ Prompts", btn_start: "Start Interview Drills", btn_ps: "PS Authenticity Scan", pd_golden_title: "PD's Golden Advice", pd_golden_text: "“The interview is a 30-minute audition for a 3-year relationship. I’m imagining you on rounds, in the workroom, at 2am with a crashing patient.”", loading_readiness: "Your readiness: loading...", prep_title: "Live Interview Simulator", prep_sub: "Practice with PD-style questions & get instant feedback", new_scenario: "New Scenario", view_starred: "View Bookmarks", get_feedback: "Get AI Feedback", checklist_title: "Interview Day Mastery Checklist", check_attire: " Professional attire + neutral background", check_tech: " Test camera/mic 1hr before", check_research: " Have 3 program-specific facts ready", check_questions: " Prepare 3 thoughtful questions", check_gracious: " Thank coordinator + residents", check_followup: " Send thank-you note within 24h", tools_title: "AI-Powered Tools", tools_sub: "Open-source intelligence for IMGs", ps_lab_title: "Personal Statement Authenticity Lab", analyze_ps: "Analyze with AI", prompt_btn: "Self-Awareness Prompt", coach_title: "PD Chat Coach (AI Powered)", send: "Send", flashcards_title: "Spaced Repetition Flashcards", mark_known: "Known", needs_review: "Review", prev: "Prev", next: "Next", resources_title: "IMG Resource Hub", resources_sub: "Program research tracker & PD tips", program_db: "Program Research Database", add: "Add", export_csv: "Export CSV", tips_vault: "PD Secret Tips Vault", next_tip: "Next Tip", more_title: "More Options", more_sub: "Customize & support", dark_mode: "Dark Mode", language: "Language", donate_title: "Support Our Effort", donate_text: "Your donation helps us maintain this free platform for IMGs worldwide.", donate_btn: "Donate via Zeffy", tgrf_title: "Supported by TGRF & Combined Research Foundation", qr_tgrf: "Scan to visit TGRF", tgrf_description: "The Tele-Geriatric Research Fellowship (TGRF) and Combined Research Foundation empower the next generation of healthcare providers.", contact: "Contact", share: "Share this tool", about: "About & Privacy", about_text: "Your data stays on your device. No tracking. Built from real PD insights (5k+ apps). Version 5.0 — Fully responsive.", reset: "Reset All Data", footer_text: "Empowering Applicants with AI & PD Insights", footer_tgrf: "Supported by TGRF" },
+            ar: { nav_home: "الرئيسية", nav_prep: "تحضير المقابلة", nav_tools: "أدوات الذكاء", nav_resources: "المصادر", nav_more: "المزيد", hero_title: "PD Insider Pro — تمكين المتقدمين بالذكاء", hero_sub: "“5,000+ طلب → 15 مقعدًا. درجات STEP تمنحك المقابلة — الحضور والبحث يمنحك الترتيب.”", stat_ai: "مدرب ذكاء", stat_analytics: "تحليلات", stat_prompts: "+20 مطالبة", btn_start: "ابدأ تمارين المقابلة", btn_ps: "تحليل البيان", pd_golden_title: "نصيحة مدير البرنامج", pd_golden_text: "“المقابلة هي تجربة أداء مدتها 30 دقيقة لعلاقة عمل مدتها 3 سنوات.”", loading_readiness: "جاهزيتك: جار التحميل...", prep_title: "محاكي المقابلة", prep_sub: "تدرب على أسئلة مدير البرنامج", new_scenario: "سيناريو جديد", view_starred: "المحفوظات", get_feedback: "تقييم الذكاء", checklist_title: "قائمة يوم المقابلة", check_attire: " ملابس مهنية", check_tech: " اختبار الكاميرا", check_research: " حقائق البرنامج", check_questions: " أسئلة مدروسة", check_gracious: " شكر المنسق", check_followup: " رسالة شكر", tools_title: "أدوات الذكاء", tools_sub: "ذكاء مفتوح المصدر", ps_lab_title: "مختبر البيان", analyze_ps: "تحليل بالذكاء", prompt_btn: "مطالبة الوعي", coach_title: "مدرب المقابلات", send: "إرسال", flashcards_title: "بطاقات التكرار", mark_known: "مألوف", needs_review: "مراجعة", prev: "السابق", next: "التالي", resources_title: "مركز الموارد", resources_sub: "متتبع البرامج", program_db: "قاعدة بيانات", add: "إضافة", export_csv: "تصدير CSV", tips_vault: "نصائح مدير البرنامج", next_tip: "نصيحة تالية", more_title: "خيارات", more_sub: "تخصيص ودعم", dark_mode: "الوضع الداكن", language: "اللغة", donate_title: "ادعم جهودنا", donate_text: "تبرعك يساعد في الحفاظ على هذه المنصة المجانية.", donate_btn: "التبرع عبر Zeffy", tgrf_title: "بدعم من TGRF", qr_tgrf: "امسح لزيارة TGRF", tgrf_description: "زمالة أبحاث طب المسنات عن بعد ومؤسسة الأبحاث المشتركة تمكن الجيل القادم.", contact: "اتصل بنا", share: "مشاركة", about: "حول", about_text: "بياناتك تبقى على جهازك. لا تتبع. الإصدار 5.0", reset: "إعادة تعيين", footer_text: "تمكين المتقدمين", footer_tgrf: "بدعم من TGRF" },
+            es: { nav_home: "Inicio", nav_prep: "Preparación", nav_tools: "Herramientas IA", nav_resources: "Recursos", nav_more: "Más", hero_title: "PD Insider Pro — Potenciando Solicitantes con IA", hero_sub: "“5,000+ solicitudes → 15 plazas. Los puntajes Step obtienen la entrevista — presencia e investigación obtienen el ranking.”", stat_ai: "Entrenador IA", stat_analytics: "Análisis", stat_prompts: "20+ Preguntas", btn_start: "Iniciar Simulacros", btn_ps: "Análisis Declaración", pd_golden_title: "Consejo de Oro del PD", pd_golden_text: "“La entrevista es una audición de 30 minutos para una relación laboral de 3 años.”", loading_readiness: "Preparación: cargando...", prep_title: "Simulador de Entrevista", prep_sub: "Practica con preguntas de PD", new_scenario: "Nuevo Escenario", view_starred: "Marcadores", get_feedback: "Obtener Retroalimentación", checklist_title: "Lista de Dominio", check_attire: " Vestimenta profesional", check_tech: " Prueba cámara", check_research: " Datos del programa", check_questions: " Preguntas reflexivas", check_gracious: " Agradece al coordinador", check_followup: " Nota de agradecimiento", tools_title: "Herramientas IA", tools_sub: "Inteligencia de código abierto", ps_lab_title: "Laboratorio de Autenticidad", analyze_ps: "Analizar con IA", prompt_btn: "Pregunta de Autoconciencia", coach_title: "Entrenador de Entrevistas", send: "Enviar", flashcards_title: "Tarjetas de Repetición", mark_known: "Conocido", needs_review: "Revisar", prev: "Anterior", next: "Siguiente", resources_title: "Centro de Recursos", resources_sub: "Rastreador de programas", program_db: "Base de datos", add: "Agregar", export_csv: "Exportar CSV", tips_vault: "Consejos Secretos del PD", next_tip: "Siguiente Consejo", more_title: "Más Opciones", more_sub: "Personalizar y apoyar", dark_mode: "Modo Oscuro", language: "Idioma", donate_title: "Apoya Nuestro Esfuerzo", donate_text: "Tu donación ayuda a mantener esta plataforma gratuita.", donate_btn: "Donar vía Zeffy", tgrf_title: "Apoyado por TGRF", qr_tgrf: "Escanea para visitar TGRF", tgrf_description: "La Beca de Investigación en Tele-Geriatría (TGRF) y la Combined Research Foundation empoderan a la próxima generación.", contact: "Contacto", share: "Compartir", about: "Acerca de", about_text: "Tus datos permanecen en tu dispositivo. Versión 5.0", reset: "Restablecer", footer_text: "Potenciando Solicitantes con IA", footer_tgrf: "Apoyado por TGRF" }
+        };
+
+        let currentLang = localStorage.getItem('appLang') || 'en';
+        
+        function applyLanguage(lang) { 
+            currentLang = lang; 
+            localStorage.setItem('appLang', lang); 
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active')); 
+            document.querySelector(`.lang-btn[data-lang="${lang}"]`)?.classList.add('active'); 
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => { 
+                const key = el.getAttribute('data-i18n'); 
+                if(translations[lang][key]) {
+                    const icon = el.querySelector('i');
+                    if (icon) {
+                        el.innerHTML = '';
+                        el.appendChild(icon);
+                        el.appendChild(document.createTextNode(' ' + translations[lang][key]));
+                    } else {
+                        el.innerText = translations[lang][key]; 
+                    }
+                } 
+            }); 
+            document.getElementById('langMsg').innerHTML = lang==='ar'?'✅ تم تغيير اللغة إلى العربية':lang==='es'?'✅ Idioma cambiado a español':'✅ Language set to English'; 
+        }
+        
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang'))));
+        applyLanguage(currentLang);
+        
+        // Navigation Logic
+        const screens = ['home', 'prep', 'tools', 'resources', 'more'];
+        function showScreen(screenId) { 
+            screens.forEach(id => document.getElementById(`${id}Screen`).classList.remove('active')); 
+            document.getElementById(`${screenId}Screen`).classList.add('active'); 
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active')); 
+            document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active'); 
+            localStorage.setItem('lastScreen', screenId); 
+        }
+        document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => showScreen(btn.getAttribute('data-screen')))); 
+        if(localStorage.getItem('lastScreen') && screens.includes(localStorage.getItem('lastScreen'))) showScreen(localStorage.getItem('lastScreen'));
+        
+        // Interview Simulator Logic with Bookmarks
+        const scenarios = [
+            "Tell me about a time you showed leadership during a crisis.", 
+            "Describe a difficult conversation with a colleague and how you resolved it.", 
+            "How do you handle constructive feedback you initially disagree with?", 
+            "Why should we rank you above other qualified applicants?", 
+            "Tell me about a medical mistake you made and what you learned from it.", 
+            "Describe a situation where you had to advocate for a patient against institutional barriers."
+        ];
+        let bookmarkedScenarios = JSON.parse(localStorage.getItem('bookmarkedScenarios')) || [];
+        let viewStarredMode = false;
+        let scenarioIdx = 0;
+
+        const scenarioTextEl = document.getElementById('scenarioText');
+        const bookmarkBtn = document.getElementById('bookmarkScenarioBtn');
+        const bookmarkIcon = bookmarkBtn.querySelector('i');
+
+        function updateBookmarkIcon() {
+            const currentText = viewStarredMode ? bookmarkedScenarios[scenarioIdx] : scenarios[scenarioIdx];
+            if (bookmarkedScenarios.includes(currentText)) {
+                bookmarkIcon.className = 'fas fa-star';
+            } else {
+                bookmarkIcon.className = 'far fa-star';
+            }
+        }
+
+        function displayScenario() {
+            const currentDeck = viewStarredMode ? bookmarkedScenarios : scenarios;
+            if (currentDeck.length === 0) {
+                scenarioTextEl.innerText = "No bookmarked scenarios found. Bookmark tough questions to see them here!";
+                bookmarkBtn.style.display = 'none';
+                return;
+            }
+            bookmarkBtn.style.display = 'block';
+            scenarioTextEl.innerText = currentDeck[scenarioIdx];
+            updateBookmarkIcon();
+        }
+
+        document.getElementById('newScenarioBtn')?.addEventListener('click', () => { 
+            const currentDeck = viewStarredMode ? bookmarkedScenarios : scenarios;
+            if (currentDeck.length > 0) {
+                scenarioIdx = (scenarioIdx + 1) % currentDeck.length;
+            } else {
+                scenarioIdx = 0;
+            }
+            displayScenario(); 
+        });
+
+        bookmarkBtn?.addEventListener('click', () => {
+            const currentText = viewStarredMode ? bookmarkedScenarios[scenarioIdx] : scenarios[scenarioIdx];
+            if (!currentText) return;
+            
+            const index = bookmarkedScenarios.indexOf(currentText);
+            if (index > -1) {
+                bookmarkedScenarios.splice(index, 1);
+                if (viewStarredMode) {
+                    scenarioIdx = 0;
+                }
+            } else {
+                bookmarkedScenarios.push(currentText);
+            }
+            localStorage.setItem('bookmarkedScenarios', JSON.stringify(bookmarkedScenarios));
+            displayScenario();
+        });
+
+        document.getElementById('showBookmarkedBtn')?.addEventListener('click', function() {
+            viewStarredMode = !viewStarredMode;
+            scenarioIdx = 0;
+            if (viewStarredMode) {
+                this.innerHTML = '<i class="fas fa-globe"></i> <span>View All Scenarios</span>';
+                this.classList.remove('outline');
+            } else {
+                this.innerHTML = '<i class="fas fa-star"></i> <span>View Bookmarks</span>';
+                this.classList.add('outline');
+            }
+            displayScenario();
+        });
+        displayScenario();
+
+        document.getElementById('evaluateMockBtn')?.addEventListener('click', () => { 
+            const ans = document.getElementById('mockAnswerText').value.trim(); 
+            const feedbackEl = document.getElementById('mockFeedbackDetailed');
+            feedbackEl.style.display = 'block';
+            if(!ans) { 
+                feedbackEl.innerHTML = "⚠️ Please type your answer before getting feedback."; 
+                return; 
+            } 
+            let feedback = ""; 
+            if(ans.length < 50) feedback = "⚠️ Your answer is brief. Use the STAR method (Situation, Task, Action, Result) to provide more context and impact."; 
+            else if(ans.toLowerCase().includes("learned") || ans.toLowerCase().includes("improved") || ans.toLowerCase().includes("reflection")) feedback = "🌟 Excellent! You showed self-awareness and growth. This is exactly what PDs look for in a future resident."; 
+            else feedback = "✅ Good structure! Add a clear reflection on what you learned to make your answer stand out to PDs."; 
+            feedbackEl.innerHTML = `<i class="fas fa-robot"></i> ${feedback}`; 
+        });
+        
+        // Checklist Logic
+        function updateChecklist() { 
+            let c = document.querySelectorAll('#dayChecklistFull .check-item[style*="line-through"]').length; 
+            const pct = (c/6)*100; 
+            document.getElementById('checklistFillFull').style.width = pct+"%"; 
+            let rd = Math.floor(pct * 0.7 + 20); 
+            document.getElementById('homeReadinessFill').style.width = rd+"%"; 
+            document.getElementById('homeScoreText').innerHTML = `Your readiness: ${rd}% — ${rd>75?"🔥 You're match-ready!": rd>50?"📈 Keep going, good progress!":"📚 Complete more interview prep steps"}`; 
+        }
+        document.querySelectorAll('#dayChecklistFull .check-item').forEach(el => el.addEventListener('click', () => { 
+            if(el.style.textDecoration === 'line-through') el.style.textDecoration = 'none'; 
+            else el.style.textDecoration = 'line-through'; 
+            updateChecklist(); 
+        }));
+        updateChecklist();
+        
+        // AI Personal Statement Authenticity Lab
+        document.getElementById('scanPSBtn')?.addEventListener('click', () => { 
+            let text = document.getElementById('psSample').value; 
+            const resultEl = document.getElementById('psScanResult');
+            resultEl.style.display = 'block';
+            if(!text) { 
+                resultEl.innerHTML = "Please paste your personal statement paragraph."; 
+                return; 
+            } 
+            let score = 50; 
+            let feedback = ""; 
+            let lowerText = text.toLowerCase();
+            if(lowerText.includes("patient") || lowerText.includes("clinical") || lowerText.includes("rotation")) score += 25; 
+            if(lowerText.includes("learned") || lowerText.includes("reflection") || lowerText.includes("improved")) score += 20; 
+            if(lowerText.includes("passion") && !lowerText.includes("patient")) score -= 15; 
+            if(text.length > 200) score += 10; 
+            score = Math.min(100, Math.max(0, score)); 
+            if(score >= 80) feedback = "✅ Outstanding! Your PS shows authenticity and self-awareness. PDs will remember you."; 
+            else if(score >= 60) feedback = "📝 Good foundation. Add a specific patient story and what you learned to stand out."; 
+            else feedback = "⚠️ Needs revision. Avoid clichés and include a concrete clinical moment that shaped your journey."; 
+            resultEl.innerHTML = `<strong>Authenticity Score: ${score}%</strong><br>${feedback}`; 
+        });
+        const promptsList = ["Describe a moment you received critical feedback and how you changed.", "Recall a patient who challenged your perspective on medicine.", "What medical error taught you resilience and humility?", "How do you build trust with a skeptical team member?", "Write about a time you felt like an imposter and how you overcame it."]; 
+        let pIdx=0;
+        document.getElementById('psPromptBtn')?.addEventListener('click', () => { 
+            document.getElementById('psPromptBox').innerHTML = `<i class="fas fa-pen-fancy"></i> ${promptsList[pIdx%promptsList.length]}<br><small style="color:#ff8c42;">Use this prompt to craft an authentic PS paragraph.</small>`; 
+            pIdx++; 
+        });
+        
+        // AI Chat Coach Simulation
+        const chatContainer = document.getElementById('chatContainer');
+        const chatInput = document.getElementById('chatInput');
+        function addAIMessage(text) { 
+            const div = document.createElement('div'); 
+            div.className = 'ai-msg chat-message'; 
+            div.innerHTML = `<i class="fas fa-robot"></i> ${text}`; 
+            chatContainer.appendChild(div); 
+            chatContainer.scrollTop = chatContainer.scrollHeight; 
+        }
+        function addUserMessage(text) { 
+            const div = document.createElement('div'); 
+            div.className = 'user-msg chat-message'; 
+            div.innerHTML = `<i class="fas fa-user"></i> ${text}`; 
+            chatContainer.appendChild(div); 
+            chatContainer.scrollTop = chatContainer.scrollHeight; 
+        }
+        function getAIResponse(question) { 
+            const q = question.toLowerCase(); 
+            if(q.includes('personal statement') || q.includes('ps')) return "📝 PDs spend ~90 seconds on your PS. Show self-awareness, a strong 'why', and avoid generic AI-sounding language."; 
+            if(q.includes('interview')) return "🎯 The interview is about presence, not perfect answers. Make eye contact, listen actively, and show genuine curiosity."; 
+            if(q.includes('thank you')) return "✉️ Send a personalized thank-you email within 24 hours. Mention a specific detail from the interview day."; 
+            if(q.includes('lor')) return "📌 A detailed letter from an attending who worked with you for 4+ weeks beats a generic chair letter."; 
+            return "Great question! Focus on authenticity, program research, and demonstrating presence."; 
+        }
+        document.getElementById('sendChatBtn')?.addEventListener('click', () => { 
+            const msg = chatInput.value.trim(); 
+            if(!msg) return; 
+            addUserMessage(msg); 
+            const reply = getAIResponse(msg); 
+            setTimeout(() => addAIMessage(reply), 300); 
+            chatInput.value = ''; 
+        });
+        chatInput?.addEventListener('keypress', (e) => { if(e.key === 'Enter') document.getElementById('sendChatBtn').click(); });
+        
+        // Robust Flashcard System
+        const flashDeck = [
+            {q:"What do PDs value most after the interview invite?", a:"Presence, teamwork, and whether they can work with you at 3am."},
+            {q:"How long does a PD spend on your personal statement?", a:"About 90 seconds. Be authentic."},
+            {q:"What's the #1 mistake in 'Why our program?' answers?", a:"Asking something answered on page 1 of the website."},
+            {q:"What makes a strong LOR?", a:"Specific clinical anecdotes from someone who worked closely with you."},
+            {q:"What should you do within 24 hours after interview?", a:"Send a personalized thank-you note."}
+        ];
+        let fIdx = 0; 
+        let knownFlashcards = JSON.parse(localStorage.getItem('knownFlashcards')) || [];
+        let isShowingAnswer = false;
+
+        const flashDiv = document.getElementById('flashcardDiv'); 
+        const flashProgress = document.getElementById('flashcardProgress');
+
+        function updateFlashcard() { 
+            isShowingAnswer = false;
+            flashDiv.classList.remove('flipped');
+            flashDiv.innerText = flashDeck[fIdx].q; 
+            
+            const isKnown = knownFlashcards.includes(fIdx);
+            flashProgress.innerText = `Card ${fIdx+1}/${flashDeck.length} | Status: ${isKnown ? '✅ Known' : '📚 Review Required'} (Total Known: ${knownFlashcards.length}/${flashDeck.length})`; 
+        }
+
+        flashDiv.onclick = () => { 
+            if(!isShowingAnswer) {
+                flashDiv.innerText = flashDeck[fIdx].a; 
+                flashDiv.classList.add('flipped');
+                isShowingAnswer = true;
+            } else {
+                flashDiv.innerText = flashDeck[fIdx].q;
+                flashDiv.classList.remove('flipped');
+                isShowingAnswer = false;
+            }
+        };
+
+        document.getElementById('markKnownBtn')?.addEventListener('click', () => {
+            if (!knownFlashcards.includes(fIdx)) {
+                knownFlashcards.push(fIdx);
+                localStorage.setItem('knownFlashcards', JSON.stringify(knownFlashcards));
+            }
+            fIdx = (fIdx + 1) % flashDeck.length;
+            updateFlashcard();
+        });
+
+        document.getElementById('markReviewBtn')?.addEventListener('click', () => {
+            const index = knownFlashcards.indexOf(fIdx);
+            if (index > -1) {
+                knownFlashcards.splice(index, 1);
+                localStorage.setItem('knownFlashcards', JSON.stringify(knownFlashcards));
+            }
+            fIdx = (fIdx + 1) % flashDeck.length;
+            updateFlashcard();
+        });
+
+        document.getElementById('nextCardBtn')?.addEventListener('click', () => { fIdx = (fIdx+1)%flashDeck.length; updateFlashcard(); });
+        document.getElementById('prevCardBtn')?.addEventListener('click', () => { fIdx = (fIdx-1+flashDeck.length)%flashDeck.length; updateFlashcard(); });
+        updateFlashcard();
+        
+        // Program Research Database
+        let programs = JSON.parse(localStorage.getItem('imgProgs')) || [];
+        function renderPrograms() { 
+            const list = document.getElementById('programList'); 
+            if(!list) return; 
+            list.innerHTML = ''; 
+            programs.forEach((p,i) => { 
+                list.innerHTML += `<li style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; padding: 0.2rem 0;"><span>📌 ${p}</span><button class="delProg" data-idx="${i}" style="background:#ff6b2b; color:white; border:none; border-radius:1rem; padding:0.2rem 0.6rem; cursor:pointer;">🗑️</button></li>`; 
+            }); 
+            document.querySelectorAll('.delProg').forEach(btn => btn.addEventListener('click', (e) => { 
+                programs.splice(parseInt(btn.dataset.idx),1); 
+                localStorage.setItem('imgProgs',JSON.stringify(programs)); 
+                renderPrograms(); 
+            })); 
+        }
+        document.getElementById('addProgramBtn')?.addEventListener('click', () => { 
+            const name = document.getElementById('programNameInput')?.value.trim(); 
+            if(name) { 
+                programs.push(name); 
+                localStorage.setItem('imgProgs',JSON.stringify(programs)); 
+                renderPrograms(); 
+                document.getElementById('programNameInput').value=''; 
+            } 
+        }); 
+        renderPrograms();
+        
+        document.getElementById('exportProgramsBtn')?.addEventListener('click', () => { 
+            const csv = programs.join("\n"); 
+            const blob = new Blob([csv], {type:'text/csv'}); 
+            const a = document.createElement('a'); 
+            a.href=URL.createObjectURL(blob); 
+            a.download='programs.csv'; 
+            a.click(); 
+        });
+        
+        // Secret Tips Vault
+        const tipsArray = ["💡 Send a thank-you note within 24h with a specific detail.", "💡 Your 'Why us?' must reference a faculty publication.", "💡 Show grace to coordinators — they give feedback to the PD.", "💡 Eye contact > reading notes. Look at the camera.", "💡 Research the program's fellowship match list."];
+        let tipInd=0; 
+        document.getElementById('nextTipBtn')?.addEventListener('click', () => { 
+            tipInd = (tipInd+1)%tipsArray.length; 
+            document.getElementById('tipBox').innerHTML = tipsArray[tipInd]; 
+        }); 
+        document.getElementById('tipBox').innerHTML = tipsArray[0];
+        
+        // Dark Mode Controller
+        const darkToggle = document.getElementById('darkToggle'); 
+        function setDark(en) { 
+            if(en) document.body.classList.add('dark-mode'); 
+            else document.body.classList.remove('dark-mode'); 
+            localStorage.setItem('darkMode', en); 
+            if(darkToggle) en?darkToggle.classList.add('active'):darkToggle.classList.remove('active'); 
+        } 
+        darkToggle?.addEventListener('click', () => setDark(!document.body.classList.contains('dark-mode'))); 
+        setDark(localStorage.getItem('darkMode') === 'true');
+        
+        // Donation, Utilities & Sharing
+        document.getElementById('donateNowBtn')?.addEventListener('click', () => window.open('https://www.zeffy.com/en-US/donation-form/donate-to-empower-new-researchers', '_blank'));
+        document.getElementById('contactEmailBtn')?.addEventListener('click', () => window.location.href = "mailto:info@crfoundation.us");
+        document.getElementById('shareAppBtn')?.addEventListener('click', () => { 
+            navigator.clipboard.writeText(window.location.href); 
+            alert("Link copied to clipboard!"); 
+        });
+        document.getElementById('resetAllDataBtn')?.addEventListener('click', () => { 
+            if(confirm("Reset all data? This will clear all progress and settings.")) { 
+                localStorage.clear(); 
+                location.reload(); 
+            } 
+        });
+        document.getElementById('quickStartBtn')?.addEventListener('click', () => showScreen('prep'));
+        document.getElementById('quickPSBtn')?.addEventListener('click', () => showScreen('tools'));
+    </script>
+</body>
+</html>

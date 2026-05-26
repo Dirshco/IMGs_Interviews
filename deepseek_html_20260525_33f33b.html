@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PD Insider Pro - Feature Graphic 1600x900 (Simple)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+        }
+        
+        .feature {
+            width: 1600px;
+            height: 900px;
+            background: linear-gradient(135deg, #0f1724 0%, #1e2a3a 40%, #ff6b2b 75%, #ffb347 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .feature::before {
+            content: "🎯";
+            position: absolute;
+            font-size: 800px;
+            opacity: 0.06;
+            bottom: -200px;
+            right: -100px;
+            pointer-events: none;
+        }
+        
+        .logo {
+            font-size: 120px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.03em;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+        
+        .logo span {
+            color: #ffd9b5;
+        }
+        
+        .tagline {
+            font-size: 42px;
+            color: rgba(255,255,255,0.95);
+            margin-top: 20px;
+            font-weight: 500;
+            z-index: 1;
+        }
+        
+        .features {
+            display: flex;
+            gap: 50px;
+            margin-top: 60px;
+            z-index: 1;
+        }
+        
+        .feature-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .badge-row {
+            display: flex;
+            gap: 25px;
+            margin-top: 50px;
+            z-index: 1;
+        }
+        
+        .badge {
+            background: #ff6b2b;
+            padding: 12px 30px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 1600px) {
+            .feature { width: 100%; height: auto; aspect-ratio: 16/9; }
+        }
+    </style>
+</head>
+<body>
+    <div class="feature" id="featureSimple">
+        <div class="logo">PD Insider <span>Pro</span></div>
+        <div class="tagline">Master Your Residency Interview</div>
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-name">AI Interview Coach</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📝</div>
+                <div class="feature-name">PS Authenticity Lab</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🏥</div>
+                <div class="feature-name">Program Tracker</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📇</div>
+                <div class="feature-name">Smart Flashcards</div>
+            </div>
+        </div>
+        <div class="badge-row">
+            <div class="badge">🎯 5,000+ IMGs Helped</div>
+            <div class="badge">⭐ 95% Match Success</div>
+            <div class="badge">🚀 For Match 2026-27</div>
+        </div>
+    </div>
+    
+    <button style="position: fixed; bottom: 20px; right: 20px; background: #ff6b2b; color: white; padding: 12px 24px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold;" onclick="capture()">📸 Take Screenshot</button>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function capture() {
+            html2canvas(document.getElementById('featureSimple'), {
+                scale: 2,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'pd-insider-pro-feature-1600x900.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>

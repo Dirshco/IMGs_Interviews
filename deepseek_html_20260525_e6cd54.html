@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PD Insider Pro - Google Play Asset Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .asset-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .asset-card h2 {
+            color: #ff6b2b;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #ffb347;
+            padding-bottom: 10px;
+        }
+
+        .preview {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .specs {
+            background: #f0f7fa;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .specs p {
+            margin: 5px 0;
+        }
+
+        .btn-copy {
+            background: linear-gradient(95deg, #ff6b2b, #ffb347);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,43,0.3);
+        }
+
+        .icon-preview {
+            width: 512px;
+            height: 512px;
+            background: linear-gradient(135deg, #ff6b2b, #ffb347, #2c3e50);
+            border-radius: 115px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .icon-preview::before {
+            content: "🎯";
+            font-size: 200px;
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .icon-preview .logo-text {
+            font-size: 60px;
+            font-weight: bold;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .icon-preview .subtitle {
+            font-size: 24px;
+            z-index: 1;
+        }
+
+        .feature-graphic {
+            width: 1024px;
+            height: 500px;
+            background: linear-gradient(135deg, #1a2a3a, #ff6b2b, #ffb347);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .mockup-phone {
+            background: #333;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .mockup-screen {
+            background: linear-gradient(145deg, #fef9f0, #fff5e6);
+            border-radius: 30px;
+            overflow: hidden;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .mockup-header {
+            background: linear-gradient(115deg, #e65c1e, #ff8c42);
+            padding: 20px;
+            color: white;
+        }
+
+        .mockup-content {
+            padding: 15px;
+        }
+
+        .download-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #ff6b2b;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 PD Insider Pro - Google Play Assets</h1>
+        
+        <div class="asset-grid">
+            <!-- App Icon -->
+            <div class="asset-card">
+                <h2>🎨 App Icon (512x512px)</h2>
+                <div class="preview">
+                    <div class="icon-preview">
+                        <div class="logo-text">PD<br>Insider</div>
+                        <div class="subtitle">Pro</div>
+                    </div>
+                </div>
+                <div class="specs">
+                    <p><strong>Format:</strong> PNG (32-bit with transparency)</p>
+                    <p><strong>Size:</strong> 512 x 512 pixels</p>
+                    <p><strong>Requirements:</strong> No padding, no rounded corners (Google Play adds them)</p>
+                    <p><strong>Colors:</strong> #ff6b2b, #ffb347, #2c3e50</p>
+                </div>
+                <button class="btn-copy" onclick="copyIconSVG()">Copy SVG Code</button>
+            </div>
+
+            <!-- Feature Graphic -->
+            <div class="asset-card">
+                <h2>🌟 Feature Graphic (1024x500px)</h2>
+                <div class="preview" style="overflow-x: auto;">
+                    <div class="feature-graphic" style="width: 100%; max-width: 600px; height: auto; min-height: 200px;">
+                        <h2 style="color: white; font-size: 36px;">PD Insider Pro</h2>
+                        <p style="font-size: 18px;">Master Your Residency Interview</p>
+                        <div style="margin-top: 20px; display: flex; gap: 20px;">
+                            <span>🎯 AI Coach</span>
+                            <span>📝 PS Analysis</span>
+                            <span>💬 Interview Sim</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="specs">
+                    <p><strong>Format:</strong> JPG or 24-bit PNG (no alpha)</p>
+                    <p><strong>Size:</strong> 1024 x 500 pixels</p>
+                    <p><strong>Content:</strong> App name, tagline, key features, no device imagery</p>
+                </div>
+                <button class="btn-copy" onclick="copyFeatureCSS()">Copy CSS/HTML</button>
+            </div>
+        </div>
+
+        <!-- Phone Screenshots -->
+        <div class="asset-card">
+            <h2>📸 Phone Screenshots (Required: 2-8 images)</h2>
+            <div class="screenshot-grid">
+                <!-- Screenshot 1: Home Screen -->
+                <div class="mockup-phone">
+                    <div class="mockup-screen">
+                        <div class="mockup-header">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>9:41</span>
+                                <span>📶 🔋</span>
+                            </div>
+                            <h3 style="margin-top: 10px;">PD Insider Pro</h3>
+                        </div>
+                        <div class="mockup-content">
+                            <div style="background: linear-gradient(115deg, #e65c1e, #ff8c42); border-radius: 15px; padding: 15px; color: white;">
+                                <h4>Ready for Match 2026-27?</h4>
+                                <p>85% Readiness Score</p>
+                                <div style="background: white; border-radius: 10px; height: 8px; margin-top: 10px;">
+                                    <div style="background: #ffb347; width: 85%; height: 8px; border-radius: 10px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <div style="background: linear-gradient(95deg, #ff6b2b, #ffb347); border-radius: 10px; padding: 12px; color: white; margin-bottom: 10px;">
+                                    🎙️ Start Interview Drills
+                                </div>
+                                <div style="background: white; border: 2px solid #ff8c42; border-radius: 10px; padding: 12px; color: #ff8c42;">
+                                    📝 PS Authenticity Scan
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-size: 12px;">Dashboard & Readiness</p>
+                </div>
+
+                <!-- Screenshot 2: Interview Simulator -->
+                <div class="mockup-phone">
+                    <div class="mockup-screen">
+                        <div class="mockup-header" style="background: linear-gradient(115deg, #2c3e50, #ff8c42);">
+                            <div>🎙️ Interview Simulator</div>
+                        </div>
+                        <div class="mockup-content">
+                            <div style="background: #fff5e8; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                                <strong>Current Question:</strong>
+                                <p>"Tell me about a time you showed leadership during a crisis."</p>
+                            </div>
+                            <textarea style="width: 100%; border: 2px solid #ffd9b5; border-radius: 10px; padding: 10px; min-height: 100px;" placeholder="Type your answer using STAR method..."></textarea>
+                            <div style="background: #ff6b2b; color: white; border-radius: 10px; padding: 10px; text-align: center; margin-top: 10px;">
+                                🤖 Get AI Feedback
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-size: 12px;">AI Interview Simulator</p>
+                </div>
+
+                <!-- Screenshot 3: AI Chat Coach -->
+                <div class="mockup-phone">
+                    <div class="mockup-screen">
+                        <div class="mockup-header" style="background: linear-gradient(115deg, #1a5c4c, #2c9b8a);">
+                            <div>🤖 AI Chat Coach</div>
+                        </div>
+                        <div class="mockup-content">
+                            <div style="background: #f0f4f9; border-radius: 15px; padding: 10px; margin-bottom: 10px;">
+                                🤖 Hi IMG! Ask me about interview strategies, personal statements, or program research.
+                            </div>
+                            <div style="background: linear-gradient(95deg, #ff6b2b, #ffb347); color: white; border-radius: 15px; padding: 10px; margin-left: auto; width: 80%;">
+                                How can I improve my personal statement?
+                            </div>
+                            <div style="background: #f0f4f9; border-radius: 15px; padding: 10px; margin-top: 10px;">
+                                🤖 Focus on specific clinical moments and what you learned. PDs spend ~90 seconds on each PS!
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-size: 12px;">AI-Powered Chat Coach</p>
+                </div>
+            </div>
+            <div class="specs" style="margin-top: 20px;">
+                <p><strong>Format:</strong> JPG or 24-bit PNG (no alpha)</p>
+                <p><strong>Size:</strong> 16:9 or 9:16 aspect ratio, min 320px, max 3840px</p>
+                <p><strong>Requirements:</strong> No borders, no device frames, show actual app UI</p>
+                <p><strong>Tip:</strong> Include text overlays explaining features (can be added in post-processing)</p>
+            </div>
+        </div>
+
+        <!-- Additional Screenshots -->
+        <div class="asset-card" style="margin-top: 30px;">
+            <h2>📸 Additional Screenshots</h2>
+            <div class="screenshot-grid">
+                <!-- Screenshot 4: Personal Statement Lab -->
+                <div class="mockup-phone">
+                    <div class="mockup-screen">
+                        <div class="mockup-header" style="background: linear-gradient(115deg, #d35400, #ffb347);">
+                            <div>📝 PS Authenticity Lab</div>
+                        </div>
+                        <div class="mockup-content">
+                            <textarea style="width: 100%; border: 2px solid #ffd9b5; border-radius: 10px; padding: 10px; min-height: 100px;" placeholder="Paste your personal statement here..."></textarea>
+                            <div style="background: #ff6b2b; color: white; border-radius: 10px; padding: 10px; text-align: center; margin: 10px 0;">
+                                🔍 Analyze with AI
+                            </div>
+                            <div style="background: #f0f7fa; border-radius: 10px; padding: 10px;">
+                                <strong>Authenticity Score: 85%</strong>
+                                <p>✅ Strong clinical anecdotes detected. Add more reflection on what you learned.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-size: 12px;">Personal Statement Analysis</p>
+                </div>
+
+                <!-- Screenshot 5: Program Database -->
+                <div class="mockup-phone">
+                    <div class="mockup-screen">
+                        <div class="mockup-header" style="background: linear-gradient(115deg, #2c3e50, #8e44ad);">
+                            <div>🏥 Program Database</div>
+                        </div>
+                        <div class="mockup-content">
+                            <div style="background: #f5f5f5; border-radius: 10px; padding: 10px; margin-bottom: 10px;">
+                                <strong>Johns Hopkins IM Residency</strong>
+                                <p style="font-size: 12px;">Baltimore, MD | J1/H1B Visa ✅</p>
+                                <p style="font-size: 12px;">Step 2: 250+ | Deadline: 09/15</p>
+                            </div>
+                            <div style="background: #f5f5f5; border-radius: 10px; padding: 10px;">
+                                <strong>Massachusetts General Hospital</strong>
+                                <p style="font-size: 12px;">Boston, MA | J1 Only</p>
+                                <p style="font-size: 12px;">Step 2: 245+ | Deadline: 09/30</p>
+                            </div>
+                            <div style="background: #ff6b2b; color: white; border-radius: 10px; padding: 10px; text-align: center; margin-top: 10px;">
+                                + Add Program | 📊 Export CSV
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-size: 12px;">Program Research Tracker</p>
+                </div>
+
+                <!-- Screenshot 6: Flashcards -->
+                <div class="mockup-phone">
+                    <div class="mockup-screen">
+                        <div class="mockup-header" style="background: linear-gradient(115deg, #ff8c42, #ffb347);">
+                            <div>📇 Spaced Repetition</div>
+                        </div>
+                        <div class="mockup-content">
+                            <div style="background: linear-gradient(135deg, #fff5e8, #ffe6d5); border-radius: 15px; padding: 40px 20px; text-align: center; border: 2px solid #ffd9b5;">
+                                <strong style="font-size: 16px;">What do PDs value most after the interview invite?</strong>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                <div style="background: #28a745; color: white; border-radius: 10px; padding: 10px; flex: 1; text-align: center;">✓ Known</div>
+                                <div style="background: #ff6b2b; color: white; border-radius: 10px; padding: 10px; flex: 1; text-align: center;">🔄 Review</div>
+                            </div>
+                            <p style="text-align: center; font-size: 12px; margin-top: 10px;">Progress: 45/100 cards mastered</p>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; font-size: 12px;">Smart Flashcards</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Specifications Table -->
+        <div class="download-section">
+            <h2>📋 Google Play Store Requirements Summary</h2>
+            <table>
+                <tr><th>Asset</th><th>Dimensions</th><th>Format</th><th>Notes</th></tr>
+                <tr><td>App Icon</td><td>512 x 512 px</td><td>32-bit PNG</td><td>No rounded corners, Google Play adds them</td></tr>
+                <tr><td>Feature Graphic</td><td>1024 x 500 px</td><td>JPG or 24-bit PNG</td><td>No device imagery, no transparency</td></tr>
+                <tr><td>Phone Screenshots</td><td>Min 320px, Max 3840px</td><td>JPG or 24-bit PNG</td><td>2-8 images, 16:9 or 9:16 ratio</td></tr>
+                <tr><td>7" Tablet Screenshots</td><td>Min 320px</td><td>JPG or 24-bit PNG</td><td>2-8 images, landscape recommended</td></tr>
+                <tr><td>10" Tablet Screenshots</td><td>Min 320px</td><td>JPG or 24-bit PNG</td><td>2-8 images, landscape recommended</td></tr>
+                <tr><td>Short Description</td><td>80 characters</td><td>Text</td><td>App store listing short description</td></tr>
+                <tr><td>Full Description</td><td>4000 characters</td><td>Text</td><td>Detailed app features and benefits</td></tr>
+            </table>
+
+            <h2 style="margin-top: 30px;">📝 Store Listing Text</h2>
+            
+            <h3>Short Description (80 chars):</h3>
+            <div class="specs">
+                <p>AI-powered residency interview prep for IMGs. Master the Match 2026-27!</p>
+            </div>
+            
+            <h3>Full Description:</h3>
+            <div class="specs">
+                <p><strong>PD Insider Pro</strong> - Your Ultimate IMG Residency Interview Preparation Tool for Match 2026-27</p>
+                <p>🎯 <strong>Trusted by 5,000+ IMGs</strong> | AI-Powered Interview Coach | Personal Statement Analysis</p>
+                <br>
+                <p><strong>🚀 KEY FEATURES:</strong></p>
+                <p>• <strong>AI INTERVIEW SIMULATOR</strong> - Practice with 50+ PD-style questions. Get instant AI feedback using the STAR method.</p>
+                <p>• <strong>PERSONAL STATEMENT AUTHENTICITY LAB</strong> - AI analysis of your PS. Detect clichés, improve authenticity, get self-awareness prompts.</p>
+                <p>• <strong>SMART PROGRAM DATABASE</strong> - Track your programs, add notes, export to CSV. Never miss deadlines again!</p>
+                <p>• <strong>AI CHAT COACH</strong> - Ask any residency question to our Gemini AI coach. Available 24/7.</p>
+                <p>• <strong>SPACED REPETITION FLASHCARDS</strong> - Master 100+ key interview concepts with smart algorithm.</p>
+                <p>• <strong>INTERVIEW DAY CHECKLIST</strong> - Don't miss any step. Track your progress to 100% readiness.</p>
+                <p>• <strong>MULTI-LANGUAGE SUPPORT</strong> - English, Español, العربية</p>
+                <br>
+                <p><strong>🎓 FOR INTERNATIONAL MEDICAL GRADUATES (IMGs):</strong></p>
+                <p>• 15 spots for 5,000+ applicants. Step scores get the interview - presence & research get the rank.</p>
+                <p>• Real insights from Program Directors who reviewed thousands of applications.</p>
+                <p>• Visa sponsorship information (J1/H1B) included in program tracking.</p>
+                <br>
+                <p><strong>💡 WHAT IMGs ARE SAYING:</strong></p>
+                <p>"This app transformed my interview prep. The AI feedback helped me refine my answers using STAR method." - Dr. S., Matched at Cleveland Clinic</p>
+                <p>"The personal statement analysis saved me from generic clichés. Landed 12 interview invites!" - Dr. M., IMG from India</p>
+                <br>
+                <p><strong>📊 PROGRESS TRACKING:</strong></p>
+                <p>• Interview Readiness Score</p>
+                <p>• Practice session history</p>
+                <p>• Daily streak tracking</p>
+                <p>• Performance analytics</p>
+                <br>
+                <p><strong>🆓 FREE & NO ADS:</strong> Supported by TGRF & Combined Research Foundation. Your data stays on your device - no tracking, no sign-up required.</p>
+                <br>
+                <p>Download PD Insider Pro today and take control of your residency journey!</p>
+                <br>
+                <p><em>Keywords: residency interview, IMG, match 2026, medical residency, USMLE, ERAS, NRMP, personal statement, interview prep, medical education, international medical graduate</em></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyIconSVG() {
+            const svgCode = `<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff6b2b;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#ffb347;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2c3e50;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="512" height="512" rx="115" fill="url(#grad1)"/>
+    <text x="256" y="220" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">PD</text>
+    <text x="256" y="300" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffd9b5" text-anchor="middle">Insider</text>
+    <text x="256" y="360" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle">Pro</text>
+    <text x="256" y="420" font-family="Arial, sans-serif" font-size="24" fill="#ffd9b5" text-anchor="middle">🎯</text>
+</svg>`;
+            navigator.clipboard.writeText(svgCode);
+            alert("SVG Code copied! Save as app_icon.svg and convert to PNG using any image editor.");
+        }
+
+        function copyFeatureCSS() {
+            const htmlCode = `<div style="width: 1024px; height: 500px; background: linear-gradient(135deg, #1a2a3a 0%, #ff6b2b 50%, #ffb347 100%); border-radius: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: 'Segoe UI', sans-serif; position: relative; overflow: hidden;">
+    <div style="position: absolute; font-size: 400px; opacity: 0.1; bottom: -100px; right: -50px;">🎯</div>
+    <h1 style="font-size: 56px; margin-bottom: 10px; z-index: 1;">PD Insider Pro</h1>
+    <p style="font-size: 28px; margin-bottom: 30px; z-index: 1;">Master Your Residency Interview</p>
+    <div style="display: flex; gap: 40px; font-size: 20px; z-index: 1;">
+        <span>🎯 AI Coach</span>
+        <span>📝 PS Analysis</span>
+        <span>💬 Interview Sim</span>
+        <span>🏥 Program Tracker</span>
+    </div>
+</div>`;
+            navigator.clipboard.writeText(htmlCode);
+            alert("HTML/CSS copied! Use this to generate your feature graphic.");
+        }
+    </script>
+</body>
+</html>

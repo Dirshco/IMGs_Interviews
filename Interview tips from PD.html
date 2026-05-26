@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PD Desk: IMG Interview Prep | From a Program Director's Perspective</title>
+    <!-- Google Fonts for clean, professional typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fc;
+            color: #1e2a3e;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* header & hero */
+        .hero {
+            background: linear-gradient(135deg, #0b2b3b 0%, #1a4a6f 100%);
+            color: white;
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero h1 i {
+            color: #ffcd7e;
+            margin-right: 0.5rem;
+        }
+
+        .hero .pd-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            padding: 0.3rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 80%;
+            opacity: 0.9;
+        }
+
+        /* main grid: left insights, right interactive prep */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+        }
+
+        /* cards & universal styling */
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: #ffffff;
+            padding: 1.2rem 1.8rem;
+            border-bottom: 2px solid #eef2f6;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-header i {
+            font-size: 1.8rem;
+            color: #1e6f5c;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 1.5rem 1.8rem;
+        }
+
+        .insight-item {
+            margin-bottom: 1.8rem;
+            border-left: 4px solid #1e6f5c;
+            padding-left: 1rem;
+        }
+
+        .insight-item .pd-quote {
+            font-weight: 600;
+            color: #0f3b3a;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .insight-item .pd-detail {
+            color: #2c3e4e;
+            font-size: 0.95rem;
+        }
+
+        .tag {
+            background: #eaf7f0;
+            color: #1e6f5c;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* quiz / checklist styles */
+        .quiz-question {
+            background: #f9fafc;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.3rem 0;
+        }
+
+        .option input {
+            width: 18px;
+            height: 18px;
+            accent-color: #1e6f5c;
+        }
+
+        .feedback {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0;
+            color: #2c5f7a;
+        }
+
+        .btn {
+            background: #1e6f5c;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #1e6f5c;
+            color: #1e6f5c;
+        }
+
+        .btn-outline:hover {
+            background: #e0f2ef;
+        }
+
+        .btn:hover {
+            background: #0e5a4a;
+            transform: translateY(-1px);
+        }
+
+        .research-checklist {
+            margin: 1rem 0;
+        }
+
+        .check-item {
+            display: flex;
+            gap: 0.7rem;
+            align-items: baseline;
+            margin-bottom: 0.8rem;
+        }
+
+        .check-item i {
+            color: #1e6f5c;
+            font-size: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        .personal-statement-tips {
+            background: #fef7e0;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            height: 1px;
+            background: #e2edf2;
+        }
+
+        .badge-pd {
+            background: #f3f6fa;
+            border-radius: 12px;
+            padding: 0.8rem;
+            font-size: 0.85rem;
+            border-left: 3px solid #ffae5a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #5a6e7c;
+            border-top: 1px solid #dce5ec;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .hero p {
+                max-width: 100%;
+            }
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+        }
+
+        .link-pd {
+            color: #1e6f5c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-pd:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Hero section with PD inspiration -->
+    <div class="hero">
+        <div class="pd-badge"><i class="fas fa-stethoscope"></i>   From the PD Desk™ | Real insider perspective</div>
+        <h1><i class="fas fa-clipboard-list"></i> The IMG Interview Coach</h1>
+        <p>Based on insights from a <strong>Residency Program Director</strong> (5,000+ apps, 15 spots). Learn what truly matters <br> after the interview invite — presence, preparation, and program fit.</p>
+        <div style="margin-top: 1rem; font-size: 0.85rem;">
+            <i class="fas fa-quote-left"></i> “The applicants who match well are not always the ones with the highest scores. They’re the ones who made the program feel like they belonged there before they even arrived.”
+        </div>
+    </div>
+
+    <div class="two-columns">
+        <!-- LEFT COLUMN: PD Insights (5 key points) -->
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h2>📋 The 5 things PDs actually care about</h2>
+                </div>
+                <div class="card-body">
+                    <div class="insight-item">
+                        <div class="tag">#1 Step scores</div>
+                        <div class="pd-quote">Step scores get you the interview. They don’t get you the rank.</div>
+                        <div class="pd-detail">After interview, we ask: <em>“Can I work with this person at 3am? Will my residents respect them?”</em> Focus on teamwork, resilience, and attitude.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="tag">#2 Personal statement</div>
+                        <div class="pd-quote">90 seconds scanning for self-awareness, a strong WHY, and genuine voice.</div>
+                        <div class="pd-detail">Avoid ChatGPT fluff. Show that you understand internal medicine (or your specialty) as a human — not a robot.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="tag">#3 Letters of recommendation</div>
+                        <div class="pd-quote">Detailed letter from a clinician who worked with you > title.</div>
+                        <div class="pd-detail">Generic superlatives signal the writer doesn’t know you. Seek meaningful mentorship.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="tag">#4 Interview presence</div>
+                        <div class="pd-quote">It’s not about your answers — it’s about professionalism, eye contact, listening, and grace.</div>
+                        <div class="pd-detail">30-min audition for a 3-year relationship. Are you gracious to coordinators & residents? Do you build conversation?</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="tag">#5 Program research</div>
+                        <div class="pd-quote">Did you care enough to learn about us before walking in?</div>
+                        <div class="pd-detail">Read curriculum, social media, unique features. Asking questions answered on page 1 signals lack of effort.</div>
+                    </div>
+                    <div class="badge-pd">
+                        <i class="fas fa-chalkboard-user"></i> <strong>Pro tip from the PD:</strong> “Your 'why this program' must be specific — built from real homework. Show that you belong here before you even arrive.”
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional LOR & research nuance -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <h2>✉️ Letters & research years</h2>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-check-circle" style="color:#1e6f5c;"></i> <strong>Letters:</strong> A detailed letter from an attending who worked with you for 4 weeks beats a generic chair letter. PDs notice specific stories — not just “great team player”.</p>
+                    <hr>
+                    <p><i class="fas fa-flask"></i> <strong>Research years:</strong> Non-clinical (basic science/wet lab) can still be valued if productive (posters, manuscripts, first-author indexed papers matter). Show intellectual curiosity & discipline.</p>
+                    <p class="pd-detail" style="margin-top: 0.5rem;">🔍 Many PDs appreciate meaningful contributions regardless of setting — but communicate how research shaped your clinical thinking.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Interactive tools for IMG prep (self-awareness & checklist) -->
+        <div>
+            <!-- Quiz: Interview presence & mindset -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h2>🎯 PD Mirror: “Would I rank you?”</h2>
+                </div>
+                <div class="card-body">
+                    <p style="margin-bottom: 1rem;">Test yourself on real PD priorities. Select the <strong>best response</strong> according to the PD’s perspective above.</p>
+                    <div id="quizArea">
+                        <!-- dynamic quiz question 1 -->
+                        <div class="quiz-question" data-qid="1">
+                            <p>1️⃣ During interview, the PD asks: “Why our program?” What impresses them most?</p>
+                            <div class="option"><input type="radio" name="q1" value="A"> A) “Your program is highly ranked and will boost my career.”</div>
+                            <div class="option"><input type="radio" name="q1" value="B"> B) “I read your resident advocacy curriculum and saw your GME newsletter about the new community clinic — I’d love to contribute.”</div>
+                            <div class="option"><input type="radio" name="q1" value="C"> C) “I need a visa and you sponsor H1B, so I can stay in the US.”</div>
+                            <div class="feedback" id="fb1"></div>
+                        </div>
+                        <div class="quiz-question" data-qid="2">
+                            <p>2️⃣ What matters MOST after the interview invite?</p>
+                            <div class="option"><input type="radio" name="q2" value="A"> A) Your USMLE step 2 CK score above 260</div>
+                            <div class="option"><input type="radio" name="q2" value="B"> B) Professional presence, listening skills, and how you treat every staff member</div>
+                            <div class="option"><input type="radio" name="q2" value="C"> C) Number of publications in high-impact journals</div>
+                            <div class="feedback" id="fb2"></div>
+                        </div>
+                        <div class="quiz-question" data-qid="3">
+                            <p>3️⃣ Personal statement red flag according to PD:</p>
+                            <div class="option"><input type="radio" name="q3" value="A"> A) Using generic AI-generated language without real personal reflection</div>
+                            <div class="option"><input type="radio" name="q3" value="B"> B) Being too short, only 300 words</div>
+                            <div class="option"><input type="radio" name="q3" value="C"> C) Mentioning difficult patient encounter</div>
+                            <div class="feedback" id="fb3"></div>
+                        </div>
+                    </div>
+                    <button class="btn" id="submitQuizBtn"><i class="fas fa-clipboard-check"></i> Submit & see PD feedback</button>
+                    <div id="quizResult" style="margin-top: 1rem; font-weight: 500;"></div>
+                </div>
+            </div>
+
+            <!-- Research the program checklist (interactive to-do) -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-search-location"></i>
+                    <h2>📚 “Do your homework” – research tracker</h2>
+                </div>
+                <div class="card-body">
+                    <p>Before any interview, <strong>complete at least 5 items</strong> from this list. Impress PDs with genuine knowledge.</p>
+                    <div class="research-checklist" id="checklist">
+                        <div class="check-item"><i class="far fa-square" data-checked="false"></i> <span>Read program’s curriculum & rotation structure</span></div>
+                        <div class="check-item"><i class="far fa-square" data-checked="false"></i> <span>Review recent faculty publications / social media posts</span></div>
+                        <div class="check-item"><i class="far fa-square" data-checked="false"></i> <span>Learn about the city & community partnerships</span></div>
+                        <div class="check-item"><i class="far fa-square" data-checked="false"></i> <span>Identify 2-3 unique program features (fellowship match, scholarly tracks)</span></div>
+                        <div class="check-item"><i class="far fa-square" data-checked="false"></i> <span>Prepare 2 specific questions based on reading (not generic)</span></div>
+                        <div class="check-item"><i class="far fa-square" data-checked="false"></i> <span>Watch program’s virtual tour / resident testimonials</span></div>
+                    </div>
+                    <button class="btn btn-outline" id="resetChecklist" style="margin-top: 0.5rem;"><i class="fas fa-undo-alt"></i> Reset checklist</button>
+                    <div id="checklistFeedback" class="feedback" style="margin-top: 0.8rem;"></div>
+                </div>
+            </div>
+
+            <!-- Personal statement authentic self check -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-feather-alt"></i>
+                    <h2>✍️ PS authenticity scan</h2>
+                </div>
+                <div class="card-body">
+                    <p>Does your statement sound like a real person? Use the PD's 90-second scan:</p>
+                    <ul style="margin-left: 1.2rem; margin-bottom: 1rem;">
+                        <li>✅ Demonstrates self-awareness & growth</li>
+                        <li>✅ Explains <strong>why</strong> internal medicine (or your specialty) specifically</li>
+                        <li>✅ Avoids clichés and robotic language</li>
+                    </ul>
+                    <div class="personal-statement-tips">
+                        <i class="fas fa-brain"></i> <strong>Insider tip:</strong> "If your PS reads like ChatGPT wrote it, I notice. If it reads like a real person who has thought about why they want this — you stand out."
+                    </div>
+                    <button id="psTipBtn" class="btn btn-outline" style="margin-top: 1rem;"><i class="fas fa-quote-right"></i> Generate self-reflection prompt</button>
+                    <div id="psPrompt" style="margin-top: 0.8rem; font-size: 0.9rem; background: #f0f4f9; border-radius: 12px; padding: 0.8rem;"></div>
+                </div>
+            </div>
+
+            <!-- Thank you note & follow-up reminder -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-envelope"></i>
+                    <h2>💌 After the interview</h2>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-thumbs-up"></i> <strong>Send a personalized thank-you note (email works).</strong> Reiterate why you are a great fit and one specific detail from the conversation.</p>
+                    <p class="pd-detail">PDs notice gracious follow-ups and professionalism. Do it within 24 hours.</p>
+                    <div style="background:#eef3fa; border-radius: 12px; padding: 0.6rem; margin-top: 0.6rem;">
+                        <i class="fas fa-chalkboard"></i> "The interview is a 30-minute audition for a 3-year working relationship. I'm imagining you on rounds, in the workroom, at 2am."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-stethoscope"></i> Inspired by the Program Director’s LinkedIn post (Basma Tirelbar / Bravein Amalakuhan, FCCP).  
+        Build real presence, research deeply, and show you belong. <br>📌 <a href="#" class="link-pd" id="fakeLink">View original PD post reference</a> • For IMGs preparing for the Match
+    </footer>
+</div>
+
+<script>
+    // ---------- QUIZ LOGIC ----------
+    const correctAnswers = {
+        q1: "B",
+        q2: "B",
+        q3: "A"
+    };
+    
+    const feedbackMessages = {
+        q1: {
+            correct: "✅ Perfect! PDs want specific, researched answers — mentioning unique program details shows you cared enough to learn.",
+            incorrect: "❌ Not quite. PDs hate generic or self-serving answers. Show genuine research: 'I read your curriculum...'"
+        },
+        q2: {
+            correct: "✅ Exactly! Step scores got you the interview. After that, presence, listening, and professionalism dominate the rank list.",
+            incorrect: "❌ Scores matter far less post-interview. Focus on how you treat everyone and your teamwork presence."
+        },
+        q3: {
+            correct: "✅ Right. Generic AI / superficial language kills authenticity. PDs scan for real voice and self-awareness.",
+            incorrect: "❌ Actually, the red flag is artificial generic content. Be genuine, reflect on real experiences."
+        }
+    };
+    
+    function evaluateQuiz() {
+        let q1Val = document.querySelector('input[name="q1"]:checked')?.value;
+        let q2Val = document.querySelector('input[name="q2"]:checked')?.value;
+        let q3Val = document.querySelector('input[name="q3"]:checked')?.value;
+        
+        let fb1 = document.getElementById('fb1');
+        let fb2 = document.getElementById('fb2');
+        let fb3 = document.getElementById('fb3');
+        let resultDiv = document.getElementById('quizResult');
+        
+        // reset previous feedback classes
+        [fb1, fb2, fb3].forEach(fb => fb.innerHTML = '');
+        
+        let allCorrect = true;
+        
+        // question 1
+        if (q1Val === correctAnswers.q1) {
+            fb1.innerHTML = `<span style="color:#1e6f5c;">✔️ ${feedbackMessages.q1.correct}</span>`;
+        } else {
+            fb1.innerHTML = `<span style="color:#b13e3e;">❌ ${feedbackMessages.q1.incorrect}</span>`;
+            allCorrect = false;
+        }
+        
+        if (q2Val === correctAnswers.q2) {
+            fb2.innerHTML = `<span style="color:#1e6f5c;">✔️ ${feedbackMessages.q2.correct}</span>`;
+        } else {
+            fb2.innerHTML = `<span style="color:#b13e3e;">❌ ${feedbackMessages.q2.incorrect}</span>`;
+            allCorrect = false;
+        }
+        
+        if (q3Val === correctAnswers.q3) {
+            fb3.innerHTML = `<span style="color:#1e6f5c;">✔️ ${feedbackMessages.q3.correct}</span>`;
+        } else {
+            fb3.innerHTML = `<span style="color:#b13e3e;">❌ ${feedbackMessages.q3.incorrect}</span>`;
+            allCorrect = false;
+        }
+        
+        if (!q1Val || !q2Val || !q3Val) {
+            resultDiv.innerHTML = '<i class="fas fa-info-circle"></i> Please answer all three questions to see full PD insight.';
+            return;
+        }
+        
+        if (allCorrect) {
+            resultDiv.innerHTML = '<span style="background:#dff0e8; padding:0.5rem 1rem; border-radius:2rem;">🏆 Excellent PD mindset! You think like an insider. Keep refining your program-specific prep.</span>';
+        } else {
+            resultDiv.innerHTML = '<span style="background:#fff0db; padding:0.5rem 1rem; border-radius:2rem;">📘 Review the 5 insights again — shift focus from scores to presence/research. You will improve!</span>';
+        }
+    }
+    
+    document.getElementById('submitQuizBtn').addEventListener('click', evaluateQuiz);
+    
+    // ---------- RESEARCH CHECKLIST INTERACTIVE ----------
+    const checklistItems = document.querySelectorAll('#checklist .check-item');
+    function updateChecklistIcons() {
+        let completedCount = 0;
+        checklistItems.forEach(item => {
+            const icon = item.querySelector('i');
+            const isChecked = icon.getAttribute('data-checked') === 'true';
+            if (isChecked) {
+                icon.className = 'fas fa-check-square';
+                icon.style.color = '#1e6f5c';
+                completedCount++;
+            } else {
+                icon.className = 'far fa-square';
+                icon.style.color = '#8ba0ae';
+            }
+        });
+        const feedbackDiv = document.getElementById('checklistFeedback');
+        if (completedCount >= 5) {
+            feedbackDiv.innerHTML = '<i class="fas fa-trophy"></i> Great! You’ve shown deep program research. PDs will notice genuine interest.';
+            feedbackDiv.style.color = '#1e6f5c';
+        } else {
+            feedbackDiv.innerHTML = `<i class="fas fa-tasks"></i> ${completedCount}/6 tasks completed. Aim for at least 5 before the interview.`;
+            feedbackDiv.style.color = '#4f6f8f';
+        }
+    }
+    
+    checklistItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            // don't toggle if clicked on text? but fine
+            const icon = item.querySelector('i');
+            const current = icon.getAttribute('data-checked') === 'true';
+            icon.setAttribute('data-checked', (!current).toString());
+            updateChecklistIcons();
+        });
+    });
+    
+    document.getElementById('resetChecklist').addEventListener('click', () => {
+        checklistItems.forEach(item => {
+            const icon = item.querySelector('i');
+            icon.setAttribute('data-checked', 'false');
+        });
+        updateChecklistIcons();
+    });
+    
+    // initialize icons
+    updateChecklistIcons();
+    
+    // Personal statement prompt generator
+    const psPrompts = [
+        "🔍 Reflect: What moment in clinical rotations made you realize you can handle the 3am crunch? Write it authentically.",
+        "📝 Ask yourself: 'Why internal medicine (or my specialty) over any other?' Avoid generic phrases like 'helping people' – be specific.",
+        "💡 Self-awareness check: Describe a time you received constructive feedback and how you grew. PDs love growth mindset.",
+        "🎯 Strong WHY: Write down three concrete patient encounters that shaped your career path — then rewrite them without medical jargon."
+    ];
+    let promptIndex = 0;
+    document.getElementById('psTipBtn').addEventListener('click', () => {
+        const promptDiv = document.getElementById('psPrompt');
+        const newPrompt = psPrompts[promptIndex % psPrompts.length];
+        promptDiv.innerHTML = `<i class="fas fa-pen-fancy"></i> ${newPrompt}`;
+        promptIndex++;
+    });
+    // initial prompt
+    document.getElementById('psPrompt').innerHTML = `<i class="fas fa-lightbulb"></i> Click 'Generate self-reflection prompt' to start crafting a genuine personal statement that passes the 90-second scan.`;
+    
+    // Fake link just for original credit info (no actual navigation)
+    document.getElementById('fakeLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Original PD inspiration: LinkedIn post by Basma Tirelbar / Bravein Amalakuhan, FCCP — 'From the PD Desk'. The insights about Step scores, personal statement, presence and program research are summarized in this tool.");
+    });
+    
+    // Additional dynamic for the presence tip: console nothing else.
+</script>
+</body>
+</html>

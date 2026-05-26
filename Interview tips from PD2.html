@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PD Insider Pro | AI-Powered IMG Interview Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Open-source AI: Transformers.js for local sentiment/analysis (lightweight) -->
+    <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #eef2f8; color: #0a2a38; line-height: 1.5; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 1.5rem 2rem; }
+        .hero { background: linear-gradient(125deg, #0b2f3b 0%, #155f6b 100%); border-radius: 2rem; padding: 2rem 2.5rem; margin-bottom: 2rem; color: white; box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2); }
+        .hero h1 { font-size: 2.5rem; font-weight: 800; }
+        .hero h1 i { color: #ffcd7e; }
+        .stats-row { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+        .stat-pill { background: rgba(255,255,255,0.15); border-radius: 40px; padding: 0.3rem 1rem; font-size: 0.8rem; }
+        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .card { background: white; border-radius: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05); overflow: hidden; transition: transform 0.1s ease; height: fit-content; }
+        .card-header { padding: 1rem 1.5rem; border-bottom: 2px solid #eef2f8; display: flex; align-items: center; gap: 0.7rem; background: #ffffff; }
+        .card-header i { font-size: 1.6rem; color: #1f6e5c; }
+        .card-header h2 { font-size: 1.25rem; font-weight: 700; }
+        .card-body { padding: 1.3rem 1.5rem; }
+        .insight-box { background: #f0f7fa; border-radius: 1rem; padding: 0.8rem; margin: 1rem 0; border-left: 4px solid #ffae5a; }
+        button { background: #1f6e5c; border: none; color: white; padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 500; cursor: pointer; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; }
+        button.outline { background: transparent; border: 1px solid #1f6e5c; color: #1f6e5c; }
+        button.outline:hover { background: #e0f2ed; }
+        button:hover { background: #0d5545; transform: translateY(-1px); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        textarea, input { font-family: 'Inter', sans-serif; border-radius: 1rem; border: 1px solid #cbdbe6; padding: 0.7rem; width: 100%; margin-bottom: 0.5rem; }
+        .feedback-message { font-size: 0.8rem; margin-top: 0.5rem; padding: 0.5rem; border-radius: 0.8rem; background: #f3f6fc; }
+        .progress-bar { background: #e2e8f0; border-radius: 20px; height: 8px; width: 100%; margin: 0.5rem 0; }
+        .progress-fill { background: #1f6e5c; width: 0%; height: 8px; border-radius: 20px; }
+        .check-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0; border-bottom: 1px solid #edf2f6; cursor: pointer; }
+        .ai-badge { background: linear-gradient(135deg, #1a5c4c, #2a9d8f); color: white; font-size: 0.65rem; border-radius: 20px; padding: 0.2rem 0.6rem; margin-left: 0.5rem; }
+        @media (max-width: 1100px) { .dashboard { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 700px) { .dashboard { grid-template-columns: 1fr; } .container { padding: 1rem; } }
+        footer { margin-top: 2.5rem; text-align: center; font-size: 0.7rem; color: #5f7e8c; border-top: 1px solid #cbdbe0; padding-top: 1.5rem; }
+        .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; animation: spin 0.6s linear infinite; margin-right: 0.4rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1><i class="fas fa-microchip"></i> AI-Powered IMG Match Intelligence</h1>
+        <p style="margin: 0.5rem 0 1rem; max-width: 75%;">“5,000+ applications → 15 spots. <strong>Open-source AI now analyzes your PS authenticity, presence, and program fit.</strong>”</p>
+        <div class="stats-row">
+            <div class="stat-pill"><i class="fas fa-robot"></i> AI authenticity scanner</div>
+            <div class="stat-pill"><i class="fas fa-database"></i> 15+ self-awareness prompts</div>
+            <div class="stat-pill"><i class="fas fa-chart-line"></i> PD-mimic evaluation</div>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <!-- COLUMN 1: TIPS + PROGRAM TRACKER -->
+        <div>
+            <div class="card">
+                <div class="card-header"><i class="fas fa-lightbulb"></i><h2>⚡ PD's Secret Tips Vault</h2></div>
+                <div class="card-body">
+                    <div id="tipCarousel">
+                        <div class="insight-box" id="currentTipBox"><i class="fas fa-quote-left"></i> <strong>Tip #1:</strong> “Don't ask questions answered on page 1 of our site. That signals unpreparedness for the job.”</div>
+                        <button id="nextTipBtn" class="outline"><i class="fas fa-arrow-right"></i> Next tip</button>
+                    </div>
+                    <hr style="margin: 1rem 0;">
+                    <div><strong><i class="fas fa-list-check"></i> 10 Golden Rules for IMGs:</strong></div>
+                    <ul style="margin-left: 1.2rem; font-size: 0.8rem;">
+                        <li>✔️ Research program curriculum + social media before interview day.</li>
+                        <li>✔️ Send personalized thank-you email within 24h (mention a specific detail).</li>
+                        <li>✔️ “Why us?” must reference faculty pub or unique rotation.</li>
+                        <li>✔️ Practice active listening – never interrupt the PD.</li>
+                        <li>✔️ Dress professionally, neutral background for virtual interviews.</li>
+                        <li>✔️ Show grace to coordinators & residents – they give feedback to PD.</li>
+                        <li>✔️ LOR: ask attendings who saw you manage real patient scenarios.</li>
+                        <li>✔️ PS: avoid cliché “since childhood” – start with a vivid moment.</li>
+                        <li>✔️ Research years: highlight productivity (posters, first-author papers).</li>
+                        <li>✔️ Be humble but confident: “I bring curiosity and a strong work ethic.”</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><i class="fas fa-table"></i><h2>📊 Program Research Tracker</h2></div>
+                <div class="card-body">
+                    <p>Generate Google Sheets template + save custom notes per program.</p>
+                    <button id="generateSheetBtn"><i class="fas fa-file-excel"></i> Get CSV template</button>
+                    <div id="sheetTemplateOutput" style="margin-top: 0.8rem; font-size: 0.75rem; background: #f3f7fc; padding: 0.6rem; border-radius: 0.8rem; display: none;"></div>
+                    <textarea id="programNotes" rows="2" placeholder="e.g., Mayo Clinic: ask about research mentorship, noticed wellness podcast..."></textarea>
+                    <button id="saveProgramNoteBtn" class="outline"><i class="fas fa-save"></i> Save note (local)</button>
+                    <div id="savedNoteDisplay" style="font-size: 0.7rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMN 2: AI PS AUTHENTICITY LAB + 15 PROMPTS -->
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-robot"></i>
+                    <h2>🧠 AI PS Authenticity Lab <span class="ai-badge">Open-source AI</span></h2>
+                </div>
+                <div class="card-body">
+                    <p>Paste your personal statement paragraph. <strong>AI evaluates authenticity, clichés, and PD-appeal.</strong></p>
+                    <textarea id="psSample" rows="4" placeholder="Paste your personal statement paragraph here... e.g., 'Internal medicine allows me to combine my passion for diagnostic reasoning with longitudinal care. I remember Mrs. Chen, whose undiagnosed sarcoidosis taught me the power of listening...'"></textarea>
+                    <button id="scanPSBtn"><i class="fas fa-microchip"></i> Analyze with AI (local NLP)</button>
+                    <div id="psScanResult" class="feedback-message" style="min-height: 80px;"></div>
+                    <div class="insight-box" style="margin-top: 0.5rem;">
+                        <i class="fas fa-brain"></i> <strong>15 Self-Awareness Prompts (for authentic writing)</strong>
+                        <button id="psPromptBtn" class="outline" style="margin-top: 0.3rem;"><i class="fas fa-dice-d6"></i> Give me a random prompt</button>
+                        <div id="psPromptBox" style="margin-top: 0.6rem; font-size:0.85rem; background:#fff; padding: 0.6rem; border-radius: 1rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><i class="fas fa-comments"></i><h2>🎯 PD Interview Simulator</h2></div>
+                <div class="card-body">
+                    <div class="insight-box" style="background:#eef3fa;"><i class="fas fa-user-tie"></i> <strong>Scenario:</strong> “Tell me about a time you handled a difficult team conflict.”</div>
+                    <div id="mockAnswerOptions">
+                        <label style="display: block; margin: 6px 0;"><input type="radio" name="mockAnswer" value="defensive"> ❌ "I never had conflicts, everyone liked me."</label>
+                        <label style="display: block; margin: 6px 0;"><input type="radio" name="mockAnswer" value="rehearsed"> ⚠️ Robotic STAR method, no emotion.</label>
+                        <label style="display: block; margin: 6px 0;"><input type="radio" name="mockAnswer" value="authentic"> ✅ "I recall a disagreement about patient care – I listened, proposed a compromise, and we improved as a team."</label>
+                    </div>
+                    <button id="evaluateMockBtn">Evaluate & get PD feedback</button>
+                    <div id="mockFeedback" class="feedback-message"></div>
+                    <div class="progress-bar"><div class="progress-fill" id="presenceFillSim" style="width: 50%;"></div></div>
+                    <div><strong>Presence score: </strong><span id="presenceScoreSpan">50</span>/100</div>
+                    <button id="resetPresenceBtn" class="outline">Reset score</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMN 3: LOR + INTERVIEW CHECKLIST + THANK YOU -->
+        <div>
+            <div class="card">
+                <div class="card-header"><i class="fas fa-envelope"></i><h2>📌 LOR & Thank-You Lab</h2></div>
+                <div class="card-body">
+                    <strong>Letter quality checklist:</strong>
+                    <div class="check-item" data-lor="detail">📝 Contains specific clinical anecdotes</div>
+                    <div class="check-item" data-lor="weeks">🕒 Writer worked with you ≥4 weeks</div>
+                    <div class="check-item" data-lor="generic">🚫 Avoids empty superlatives (“best ever”)</div>
+                    <div class="check-item" data-lor="peer">👥 Compares you to peers positively</div>
+                    <button id="analyzeLORBtn">Analyze LOR strength</button>
+                    <div id="lorResult" class="feedback-message"></div>
+                    <hr>
+                    <strong><i class="fas fa-pen"></i> Thank-you note generator</strong>
+                    <button id="generateThankYouBtn" class="outline">Generate personalized template</button>
+                    <div id="thankYouTemplateBox" style="background:#f5f8fc; border-radius: 0.8rem; padding: 0.5rem; margin-top: 0.5rem; font-size:0.8rem;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><i class="fas fa-calendar-check"></i><h2>✅ Interview Day Mastery</h2></div>
+                <div class="card-body">
+                    <div id="dayChecklist">
+                        <div class="check-item" data-day="attire">👔 Professional attire + neutral background</div>
+                        <div class="check-item" data-day="tech">💻 Test camera/sound 1hr before</div>
+                        <div class="check-item" data-day="research">📖 Have 3 program-specific facts ready</div>
+                        <div class="check-item" data-day="questions">❓ Prepare 3 thoughtful questions</div>
+                        <div class="check-item" data-day="gracious">🤝 Thank coordinator + faculty notes</div>
+                        <div class="check-item" data-day="listening">👂 Practice active listening (pause 2 secs)</div>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="dayChecklistFill" style="width:0%"></div></div>
+                    <div id="checklistScoreMsg" class="feedback-message"></div>
+                    <button id="resetDayChecklist" class="outline">Reset checklist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer><i class="fas fa-stethoscope"></i> Open-source AI (Transformers.js) • PD insights from 5,000 apps • Match with authenticity.</footer>
+</div>
+
+<script>
+    // ---------- TIPS CAROUSEL (more tips) ----------
+    const tips = [
+        "Tip #2: A thank-you note after interview matters. Mention a specific moment: 'I enjoyed learning about your clinic's new AI tool.'",
+        "Tip #3: Your personal statement must answer: 'Why this specialty, why now, and what makes you self-aware?'",
+        "Tip #4: IMGs: Highlight adaptability and cross-cultural experience — PDs value global perspectives.",
+        "Tip #5: Don't cut off the interviewer. Listening is a superpower.",
+        "Tip #6: Research the program's fellowship match list – ask about mentorship for your specialty.",
+        "Tip #7: Eye contact > reading notes. Virtual? Look at the camera lens.",
+        "Tip #8: Show curiosity about the city – 'I read about the community health initiatives.'",
+        "Tip #9: Be gracious to everyone from coordinator to chief residents.",
+        "Tip #10: If you used AI to draft your PS, rewrite it in your own voice."
+    ];
+    let tipIdx = 0;
+    const tipBox = document.getElementById('currentTipBox');
+    document.getElementById('nextTipBtn').addEventListener('click', () => {
+        tipIdx = (tipIdx + 1) % tips.length;
+        tipBox.innerHTML = `<i class="fas fa-quote-left"></i> <strong>${tips[tipIdx]}</strong>`;
+    });
+
+    // ---------- PROGRAM TRACKER (Google Sheet template) ----------
+    document.getElementById('generateSheetBtn').addEventListener('click', () => {
+        const headers = ["Program Name", "Curriculum highlights", "Faculty to mention", "City/Living", "Specific Questions", "Social Media Notes", "Interview Date"];
+        const example = ["Example: Emory IM", "Ultrasound track", "Dr. Martinez (Cards)", "Atlanta", "How do residents engage in advocacy?", "Twitter: new clinic launch", "MM/DD"];
+        let csv = headers.join(",") + "\n" + example.join(",") + "\n,,,,,,,";
+        const outputDiv = document.getElementById('sheetTemplateOutput');
+        outputDiv.style.display = "block";
+        outputDiv.innerHTML = `<i class="fas fa-copy"></i> Copy CSV for Google Sheets:<br><textarea rows="3" readonly>${csv}</textarea><button id="copyCsvBtn" class="outline">Copy CSV</button>`;
+        document.getElementById('copyCsvBtn')?.addEventListener('click', () => { navigator.clipboard.writeText(csv); alert("Copied! Paste into Google Sheets → File → Import."); });
+    });
+    // Save program note localStorage
+    const noteArea = document.getElementById('programNotes');
+    const savedDisplay = document.getElementById('savedNoteDisplay');
+    if(localStorage.getItem("imgProgramNote")) savedDisplay.innerText = "📌 Saved: " + localStorage.getItem("imgProgramNote").substring(0, 80);
+    document.getElementById('saveProgramNoteBtn').addEventListener('click', () => {
+        localStorage.setItem("imgProgramNote", noteArea.value);
+        savedDisplay.innerText = "✅ Saved: " + noteArea.value.substring(0, 100);
+    });
+
+    // ---------- AI PERSONAL STATEMENT ANALYZER (Open-source: Transformers.js sentiment + custom logic) ----------
+    let classifier = null;
+    // Load zero-shot or sentiment pipeline as lightweight analysis
+    async function loadAIModel() {
+        const statusDiv = document.getElementById('psScanResult');
+        statusDiv.innerHTML = "<i class='fas fa-spinner fa-pulse'></i> Loading AI model (one-time, local)... this enhances analysis.";
+        try {
+            const pipeline = window.transformers.pipeline;
+            classifier = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english');
+            statusDiv.innerHTML = "✅ AI model ready. Paste your PS for authenticity scan.";
+        } catch(e) {
+            console.warn(e);
+            statusDiv.innerHTML = "⚠️ AI using fallback mode (advanced keyword analysis).";
+            classifier = null;
+        }
+    }
+    loadAIModel();
+
+    async function analyzePSWithAI(text) {
+        if (!text.trim()) return "⚠️ Please paste your personal statement paragraph.";
+        const lower = text.toLowerCase();
+        let score = 0;
+        let reasons = [];
+        // Rule-based features (PD criteria)
+        const hasCliché = (lower.includes("passion for medicine") && lower.includes("help others")) || lower.includes("since i was a child") || lower.includes("dream come true") || (lower.split(" ").length < 50 && lower.includes("i love"));
+        const hasSpecificPatient = /patient|mr\.|ms\.|mrs\.|diagnosis|rounds|clinical|bedside|clerk/i.test(text);
+        const hasSelfAwareness = /learned|reflection|feedback|mistake|improved|grew|realized|understood/i.test(text);
+        const hasStrongWhy = /why internal medicine|why this specialty|career|physician|doctor|heal|advocate/i.test(text);
+        const wordCount = text.split(/\s+/).length;
+        
+        if (!hasSpecificPatient) reasons.push("❌ No specific patient story or clinical moment. PDs crave concrete examples.");
+        else reasons.push("✅ Includes clinical specificity.");
+        if (hasCliché) reasons.push("⚠️ Detected generic/cliché phrases ('passion', 'since childhood') — sounds like ChatGPT.");
+        else reasons.push("✅ Avoids common clichés.");
+        if (hasSelfAwareness) reasons.push("✅ Shows reflection/self-awareness (learned/growth).");
+        else reasons.push("⚠️ Add a sentence about what you learned from an experience.");
+        if (wordCount < 80) reasons.push("📝 Paragraph is short; expand with unique insight.");
+        if (hasStrongWhy) reasons.push("✅ Clear 'why this specialty'.");
+        
+        let sentimentBoost = 0;
+        if (classifier) {
+            try {
+                const result = await classifier(text.slice(0, 512));
+                if (result && result[0]?.label === 'POSITIVE') sentimentBoost = 15;
+                else sentimentBoost = -5;
+            } catch(e) {}
+        }
+        let overall = (hasSpecificPatient ? 25 : 0) + (hasSelfAwareness ? 30 : 0) + (hasStrongWhy ? 20 : 0) + (hasCliché ? -20 : 20) + sentimentBoost;
+        overall = Math.min(100, Math.max(0, overall + 30));
+        let verdict = overall >= 70 ? "✅ PD would likely rank you higher! Authentic and self-aware." : (overall>=45 ? "📌 Moderate – improve specificity and ditch clichés." : "⚠️ High risk: rewrite with genuine voice and concrete patient story.");
+        return `<strong>AI Authenticity Score: ${overall}%</strong><br>${verdict}<br>🔍 ${reasons.join(" • ")}`;
+    }
+
+    document.getElementById('scanPSBtn').addEventListener('click', async () => {
+        const psText = document.getElementById('psSample').value;
+        const resultDiv = document.getElementById('psScanResult');
+        resultDiv.innerHTML = "<div class='loading-spinner'></div> AI analyzing...";
+        const analysis = await analyzePSWithAI(psText);
+        resultDiv.innerHTML = analysis;
+    });
+
+    // ---------- 15 SELF-AWARENESS PROMPTS ----------
+    const promptsList = [
+        "1. Describe a moment you received critical feedback from a senior. How did you respond and what changed afterward?",
+        "2. Recall a patient encounter that challenged your implicit bias. What did you learn about yourself?",
+        "3. What is the hardest medical decision you’ve witnessed, and how did it shape your view of teamwork?",
+        "4. Write about a time you felt like an imposter. How did you overcome that feeling in clinical settings?",
+        "5. Tell a story about a near-miss or medical error you were part of. What would you do differently now?",
+        "6. What motivates you intrinsically beyond external validation (scores, titles)?",
+        "7. Describe a non-medical experience that built your resilience and how it applies to residency.",
+        "8. How do you handle disagreement with a colleague’s clinical plan? Use a concrete example.",
+        "9. What personal value will you never compromise, and how does it show in patient care?",
+        "10. Think of a patient who ‘stayed with you’. What did that experience reveal about your emotional intelligence?",
+        "11. How do you recharge after a high-stress shift? (Shows self-care awareness)",
+        "12. What’s the one leadership quality you lack, and how are you working on it?",
+        "13. Recall a time you advocated for a patient despite institutional barriers. What did you feel?",
+        "14. Write about a cultural misunderstanding you navigated during a rotation – what did you learn about communication?",
+        "15. What does 'professionalism' mean to you in the context of a 3am page?"
+    ];
+    let promptIndex = 0;
+    const promptBtn = document.getElementById('psPromptBtn');
+    const promptBox = document.getElementById('psPromptBox');
+    promptBtn.addEventListener('click', () => {
+        promptBox.innerHTML = `<i class="fas fa-pen-fancy"></i> ${promptsList[promptIndex % promptsList.length]}<br><small style="color:#1f6e5c;">Use this to craft an authentic PS paragraph.</small>`;
+        promptIndex++;
+    });
+    promptBox.innerHTML = `<i class="fas fa-lightbulb"></i> Click "Give me a random prompt" to start.`;
+
+    // ---------- INTERVIEW SIMULATOR (Presence meter) ----------
+    let currentPresence = 50;
+    const fillSim = document.getElementById('presenceFillSim');
+    const presenceSpan = document.getElementById('presenceScoreSpan');
+    function updatePresenceUI() {
+        fillSim.style.width = currentPresence + "%";
+        presenceSpan.innerText = currentPresence;
+    }
+    document.getElementById('evaluateMockBtn').addEventListener('click', () => {
+        const selected = document.querySelector('input[name="mockAnswer"]:checked');
+        const feedbackDiv = document.getElementById('mockFeedback');
+        if(!selected) { feedbackDiv.innerHTML = "⚠️ Select an answer to simulate PD reaction."; return; }
+        const val = selected.value;
+        if(val === "authentic") {
+            currentPresence = Math.min(100, currentPresence + 18);
+            feedbackDiv.innerHTML = "✅ Excellent! PD thinks: 'I'd want this person at 3am.' +18 presence.";
+        } else if(val === "rehearsed") {
+            currentPresence = Math.max(0, currentPresence - 12);
+            feedbackDiv.innerHTML = "⚠️ Too robotic. PDs sense canned answers. -12 presence.";
+        } else {
+            currentPresence = Math.max(0, currentPresence - 20);
+            feedbackDiv.innerHTML = "❌ Defensive response shows low self-awareness. -20 presence.";
+        }
+        updatePresenceUI();
+    });
+    document.getElementById('resetPresenceBtn').addEventListener('click', () => { currentPresence = 50; updatePresenceUI(); document.getElementById('mockFeedback').innerHTML = "Presence reset."; });
+    updatePresenceUI();
+
+    // ---------- LOR interactive checklist ----------
+    document.getElementById('analyzeLORBtn').addEventListener('click', () => {
+        let score = 0;
+        document.querySelectorAll('[data-lor]').forEach(el => { if(el.classList.contains('selected-for-lor')) score += 25; });
+        let msg = score >= 75 ? "🎉 Strong LOR! PDs trust this letter." : (score>=50 ? "📌 Moderate: aim for more specific anecdotes." : "⚠️ Generic letter risk. Request detailed reference.");
+        document.getElementById('lorResult').innerHTML = `LOR Score: ${score}% - ${msg}`;
+    });
+    document.querySelectorAll('[data-lor]').forEach(el => { el.addEventListener('click', () => { el.classList.toggle('selected-for-lor'); }); });
+
+    // ---------- Thank you note generator ----------
+    const thanksList = [
+        "Dear Dr. [Name], Thank you for discussing [specific curriculum]. I was inspired by your program's [unique feature]. I look forward to contributing.",
+        "Thank you for the interview! I particularly enjoyed hearing about the [city's community health] initiative. I hope to bring my [skill] to your team."
+    ];
+    let thankIdx=0;
+    document.getElementById('generateThankYouBtn').addEventListener('click', () => {
+        document.getElementById('thankYouTemplateBox').innerHTML = `<i class="fas fa-envelope-open-text"></i> ${thanksList[thankIdx % thanksList.length]}<br><small>Personalize with a fact from interview day.</small>`;
+        thankIdx++;
+    });
+
+    // ---------- Interview Day Checklist ----------
+    const dayItems = document.querySelectorAll('#dayChecklist .check-item');
+    function updateDayChecklist() {
+        let completed = 0;
+        dayItems.forEach(item => {
+            const icon = item.querySelector('i');
+            if(!icon) { const ic = document.createElement('i'); ic.className = "far fa-square"; ic.style.marginRight = "8px"; item.prepend(ic); }
+            const iElem = item.querySelector('i');
+            if(item.classList.contains('checked')) { iElem.className = "fas fa-check-square"; iElem.style.color = "#1f6e5c"; completed++; }
+            else { iElem.className = "far fa-square"; iElem.style.color = "#8ba0ae"; }
+        });
+        const percent = (completed / dayItems.length) * 100;
+        document.getElementById('dayChecklistFill').style.width = percent + "%";
+        document.getElementById('checklistScoreMsg').innerHTML = `✅ ${completed}/${dayItems.length} done. ${percent===100 ? "Perfect! Top 10% prepared." : "Complete all for max PD impression."}`;
+    }
+    dayItems.forEach(item => { item.addEventListener('click', () => { item.classList.toggle('checked'); updateDayChecklist(); }); });
+    document.getElementById('resetDayChecklist').addEventListener('click', () => { dayItems.forEach(i => i.classList.remove('checked')); updateDayChecklist(); });
+    updateDayChecklist();
+</script>
+</body>
+</html>
